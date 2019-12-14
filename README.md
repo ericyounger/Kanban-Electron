@@ -1,5 +1,8 @@
 Still working on this, not complete at all.
 
+<img width="1792" alt="Skjermbilde 2019-12-14 kl  22 54 43" src="https://user-images.githubusercontent.com/44582953/70855081-13ee5b00-1ec5-11ea-8897-66f926ab5f23.png">
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
