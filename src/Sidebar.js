@@ -10,7 +10,7 @@ export class Menu extends Component{
 			<div className="sidebar">
 				<div className="logo"></div>
 
-				<ul class="collection grey darken-1">
+				<ul className="collection grey darken-1">
 					<NavLink to="/add" activeStyle={{ color: "orange" }}>
 						<li className="collection-item cyan darken-3">
 							<div className="add">
@@ -20,8 +20,8 @@ export class Menu extends Component{
 						</li>
 					</NavLink>
 					<NavLink to="/dashboard" activeStyle={{ color: "orange" }}>
-						<li class="collection-item grey darken-2">
-							<i class="material-icons">build</i>Dashboard
+						<li className="collection-item grey darken-2">
+							<i className="material-icons">build</i>Dashboard
 						</li>
 					</NavLink>
 					<NavLink
@@ -30,19 +30,19 @@ export class Menu extends Component{
 							color: "orange"
 						}}
 					>
-						<li class="collection-item grey darken-2">
-							<i class="material-icons">assignment</i>Pending
+						<li className="collection-item grey darken-2">
+							<i className="material-icons">assignment</i>Pending
 						</li>
 					</NavLink>
 					<NavLink to="/due" activeStyle={{ color: "orange" }}>
-						<li class="collection-item grey darken-2">
-							<i class="material-icons">assignment_late</i>
+						<li className="collection-item grey darken-2">
+							<i className="material-icons">assignment_late</i>
 							Due
 						</li>
 					</NavLink>
 					<NavLink to="/finished" activeStyle={{ color: "orange" }}>
-						<li class="collection-item grey darken-2">
-							<i class="material-icons">assignment_turned_in</i>
+						<li className="collection-item grey darken-2">
+							<i className="material-icons">assignment_turned_in</i>
 							Finished
 						</li>
 					</NavLink>

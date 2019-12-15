@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, NavLink } from "react-router-dom";
-import {Menu} from './Sidebar.js'
+
 
 
 
@@ -9,7 +8,7 @@ import "./css/style.css";
 
 export class Card extends Component{
   render(){
-      if(this.props.type == "simple"){
+      if(this.props.type === "simple"){
           return (
           	<div>
 				<div className="card">
@@ -32,7 +31,7 @@ export class Card extends Component{
 				</div>
 				<div className="card-action">
 					<a href="#">
-						Delete<i className="material-icons">delete</i>
+						Stash<i className="material-icons">delete</i>
 					</a>
 					<a href="#">
 						Finish task <i className="material-icons">check_circle</i>
@@ -48,11 +47,11 @@ export class Label extends Component{
   category = "blue-grey";
   constructor(props){
     super(props);
-    if(this.props.type == "Due"){
+    if(this.props.type === "Due"){
       this.category = "red";
-    } else if(this.props.type == "Pending"){
+    } else if(this.props.type === "Pending"){
       this.category = "yellow darken-2";
-    } else if(this.props.type == "Finished"){
+    } else if(this.props.type === "Finished"){
       this.category = "green"
     } else{
       this.category = "blue-grey"

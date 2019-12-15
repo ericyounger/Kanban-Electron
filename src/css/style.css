@@ -32,6 +32,7 @@ body{
 
 .content{
     padding-left: 25px;
+    padding-right: 15px;
     padding-top: 10px;
 
     height: 100vh;
@@ -132,8 +133,12 @@ body{
     margin-top: 15px;
 }
 
+.addForm select{
+    margin-bottom: 15px;
+}
+
 .addForm textarea:focus{
-    border:2px solid teal;
+    outline:2px solid teal;
 }
 
 .width-70{

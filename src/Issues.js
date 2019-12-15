@@ -1,47 +1,47 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, NavLink } from "react-router-dom";
-import {Menu} from './Sidebar.js';
-import {Label, Card} from './Widgets.js';
-import {issueService} from "./issueService";
+import {Card} from './Widgets.js';
 
 
 export class Add extends Component{
     render(){
         return (
-            <div>
+            <div className="row">
+                <div className="col l8 m12">
                 <Card title="Add" type="simple">
                     <div className="addForm">
                         <div className="row">
-                            <div className="col l12">
+                            <div className="col l12 m12">
+                                <label>Title</label>
                                 <input
                                     type="text"
-                                    placeholder="Title"
                                     className="active" id="issueTitle"
                                 ></input>
                             </div>
                         </div>
 
                         <div className="row">
-                            <div className="col l12">
+                            <div className="col l12 m12">
+                                <label>Description</label>
 								<textarea
-                                    placeholder="Description"
                                     id="textArea1"
-                                    class="materialize-textarea"
+                                    className="materialize-textarea"
                                 ></textarea>
                             </div>
                         </div>
 
                         <div className="row">
-                            <div className="col l6">
+                            <div className="col l6 m12">
+                                <label>Due date:</label>
                                 <input type="date" className="date" id="date" />
                             </div>
                         </div>
-
                         <div className="row">
                             <div className="col l6">
-                                <select>
-                                    <option>2</option>
-                                    <option>3</option>
+                                <label>Category:</label>
+                                <select className="browser-default" id="selectIssue">
+                                    <option>Pending</option>
+                                    <option>Finished</option>
+                                    <option>Stashed</option>
                                 </select>
                             </div>
                         </div>
@@ -51,19 +51,8 @@ export class Add extends Component{
                         </div>
                     </div>
                 </Card>
+                </div>
             </div>
         );
-    }
-    addIssue(){
-        let title = document.querySelector('#issueTitle').value;
-        let description = document.querySelector("#textArea1").value;
-        let dueDate = document.querySelector("#date").value;
-        let issue = {
-            "title":title,
-            "description": description,
-            "dueDate":dueDate,
-            "tag": "Pending"
-        };
-
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, NavLink } from "react-router-dom";
+import { HashRouter, Route} from "react-router-dom";
 import {Menu} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
 import {Add} from "./Issues";
@@ -7,7 +7,6 @@ import {Add} from "./Issues";
 
 import "./css/materialize.min.css";
 import "./css/style.css";
-import {issueService} from "./issueService";
 
 
 
@@ -16,10 +15,10 @@ function App() {
 			<HashRouter>
 					<div className="row">
 						<div className="wrapper">
-							<div className="col s12 m4 l2">
+							<div className="col s12 m2 l2">
 								<Menu />
 							</div>
-							<div className="col s12 m8 l10">
+							<div className="col s12 m10 l10">
 								<Route
 									exact
 									path="/dashboard"
@@ -51,21 +50,24 @@ function App() {
 
 
 class Content extends Component{
-  array = [];
 
-  render(){
-      if(this.props.category === "Dashboard"){
+	state = {
+		array : []
+	};
+
+	render(){
+		if(this.props.category === "Dashboard"){
+			return (
+				<div className="content">
+					<Dashboard/>
+				</div>
+			);
+		}
+
+      else if(this.props.category === "Add"){
         return (
         	<div className="content">
-				<Dashboard/>
-        	</div>
-		);
-      }
-
-      else if(this.props.category == "Add"){
-        return (
-        	<div className="content width-50">
-				<Add handler={e => this.addIssue()}/>
+				<Add handler={this.addToArray}/>
         	</div>
 		);
       }
@@ -73,14 +75,37 @@ class Content extends Component{
       	return (
       		<div className="content">
 				<Label type={this.props.category}/>
-				{this.array.map(e =>
-				<Card title={e.title}>
-					{e.description}
-				</Card>
-				)}
+				<div className="row">
+					{this.state.array.map(issue =>
+						<div className="col l3">
+							<Card title={issue.title}>
+								{issue.description}
+							</Card>
+						</div>
+					)}
+				</div>
       		</div>
 		);
     }
+  }
+
+
+	addToArray = () => {
+	  let title = document.querySelector('#issueTitle').value;
+	  let description = document.querySelector("#textArea1").value;
+	  let dueDate = document.querySelector("#date").value;
+	  let category = document.querySelector('#selectIssue').value;
+	  let issue = {
+		  "title":title,
+		  "description": description,
+		  "dueDate":dueDate,
+		  "tag": category
+	  };
+	  let newArray = this.state.array;
+	  newArray.push(issue);
+	  this.setState({array :newArray});
+	  console.log(issue);
+
   }
 }
 
@@ -119,7 +144,6 @@ class Dashboard extends Component{
       );
 
     }
-
  */
 
 
