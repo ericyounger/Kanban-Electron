@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter, Route, NavLink } from "react-router-dom";
 import {Menu} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
+import {issueService} from "./issueService";
 
 
 export class Add extends Component{
@@ -46,14 +47,13 @@ export class Add extends Component{
                         </div>
 
                         <div className="row">
-                            <button className="btn" onClick={this.addIssue}>Add issue</button>
+                            <button className="btn" onClick={this.props.handler}>Add issue</button>
                         </div>
                     </div>
                 </Card>
             </div>
         );
     }
-
     addIssue(){
         let title = document.querySelector('#issueTitle').value;
         let description = document.querySelector("#textArea1").value;
@@ -65,8 +65,5 @@ export class Add extends Component{
             "tag": "Pending"
         };
 
-
-
     }
-
 }

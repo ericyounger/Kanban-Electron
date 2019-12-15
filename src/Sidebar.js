@@ -11,6 +11,14 @@ export class Menu extends Component{
 				<div className="logo"></div>
 
 				<ul class="collection grey darken-1">
+					<NavLink to="/add" activeStyle={{ color: "orange" }}>
+						<li className="collection-item cyan darken-3">
+							<div className="add">
+								<i className="material-icons">add_circle_outline</i>
+								New issue
+							</div>
+						</li>
+					</NavLink>
 					<NavLink to="/dashboard" activeStyle={{ color: "orange" }}>
 						<li class="collection-item grey darken-2">
 							<i class="material-icons">build</i>Dashboard
@@ -36,14 +44,6 @@ export class Menu extends Component{
 						<li class="collection-item grey darken-2">
 							<i class="material-icons">assignment_turned_in</i>
 							Finished
-						</li>
-					</NavLink>
-					<NavLink to="/add" activeStyle={{ color: "orange" }}>
-						<li className="collection-item cyan darken-3">
-							<div className="add">
-								<i className="material-icons">add_circle_outline</i>
-								New issue
-							</div>
 						</li>
 					</NavLink>
 				</ul>

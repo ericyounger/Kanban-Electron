@@ -54,18 +54,6 @@ class Content extends Component{
   array = [];
 
   render(){
-    if(this.array.length == 1){
-      return (
-        <div class="center-progress center">
-			Building skynet
-			<div class="progress">
-				<div class="indeterminate"></div>
-			</div>
-        </div>
-      );
-
-    } else{
-
       if(this.props.category === "Dashboard"){
         return (
         	<div className="content">
@@ -77,7 +65,7 @@ class Content extends Component{
       else if(this.props.category == "Add"){
         return (
         	<div className="content width-50">
-				<Add />
+				<Add handler={e => this.addIssue()}/>
         	</div>
 		);
       }
@@ -93,21 +81,10 @@ class Content extends Component{
       		</div>
 		);
     }
-   
   }
-}
 }
 
 class Dashboard extends Component{
-
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			issues: [],
-		};
-	}
-
 	render(){
     return (
     	<div>
@@ -117,6 +94,7 @@ class Dashboard extends Component{
 				</div>
 				<div className="col l3">
 					<Label type="Due" />
+					<Card title="Add button"/>
 				</div>
 				<div className="col l3">
 					<Label type="Finished"/>
@@ -125,23 +103,24 @@ class Dashboard extends Component{
 					<Label type="Stashed" />
 				</div>
 			</div>
-
-			<div className="row">
-				<div className="col s12 m8 l3">
-					{this.state.issues.map(e =>
-							<Card title={e.title}/>
-							)}
-				</div>
-				<div className="col s12 m8 l3">
-					<Card title="Add button"/>
-				</div>
-			</div>
     	</div>
 		);
   }
-
 }
 
+/* if(this.array.length == 1){
+      return (
+        <div class="center-progress center">
+			Building skynet
+			<div class="progress">
+				<div class="indeterminate"></div>
+			</div>
+        </div>
+      );
+
+    }
+
+ */
 
 
 export default App;
