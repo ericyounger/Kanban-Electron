@@ -25,9 +25,7 @@ export class Card extends Component{
       		<div className="card blue-grey darken-1 hoverable">
 				<div className="card-content white-text">
 					<span className="card-title">{this.props.title}</span>
-					<p>I am a very simple card. I am good at containing small
-						bits of information. I am convenient because I require
-						little markup to use effectively.</p>
+					<p>{this.props.children}</p>
 				</div>
 				<div className="card-action">
 					<a href="#" onClick={e => this.props.stashHandler(this.props.title)}>
