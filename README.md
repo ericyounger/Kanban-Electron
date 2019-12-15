@@ -1,6 +1,9 @@
 Still working on this, not complete at all.
 
-<img width="1792" alt="Skjermbilde 2019-12-14 kl  22 54 43" src="https://user-images.githubusercontent.com/44582953/70855081-13ee5b00-1ec5-11ea-8897-66f926ab5f23.png">
+<img width="1792" alt="Skjermbilde 2019-12-15 kl  23 11 52" src="https://user-images.githubusercontent.com/44582953/70870186-6779ab00-1f90-11ea-932c-708b61106df3.png">
+
+<img width="1792" alt="Skjermbilde 2019-12-15 kl  23 12 04" src="https://user-images.githubusercontent.com/44582953/70870193-71031300-1f90-11ea-81d2-779d74eed85b.png">
+
 
 ---
 
