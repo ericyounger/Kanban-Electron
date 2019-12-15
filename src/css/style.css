@@ -34,9 +34,21 @@ body{
     padding-left: 25px;
     padding-right: 15px;
     padding-top: 10px;
-
     height: 100vh;
     overflow-y:scroll;
+}
+
+.flex{
+    display: flex;
+}
+
+.content .row{
+    padding-top: 0px;
+    margin-top: -10px;
+}
+
+.content .fixer{
+    margin-top:-10px;
 }
 
 

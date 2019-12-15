@@ -30,10 +30,10 @@ export class Card extends Component{
 						little markup to use effectively.</p>
 				</div>
 				<div className="card-action">
-					<a href="#">
-						Stash<i className="material-icons">delete</i>
+					<a href="#" onClick={e => this.props.stashHandler(this.props.title)}>
+						Stash<i className="material-icons">pause_circle_filled</i>
 					</a>
-					<a href="#">
+					<a href="#" onClick={e => this.props.completeHandler(this.props.title)}>
 						Finish task <i className="material-icons">check_circle</i>
 					</a>
 				</div>

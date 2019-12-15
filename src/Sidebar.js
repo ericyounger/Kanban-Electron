@@ -46,6 +46,12 @@ export class Menu extends Component{
 							Finished
 						</li>
 					</NavLink>
+					<NavLink to="/stashed" activeStyle={{ color: "orange" }}>
+						<li className="collection-item grey darken-2">
+							<i className="material-icons">pause_circle_filled</i>
+							Stashed
+						</li>
+					</NavLink>
 				</ul>
 			</div>
 		);
