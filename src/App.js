@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { HashRouter, Route} from "react-router-dom";
 import {Menu} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
 import {Add} from "./Issues";
-
+import {Component} from 'react-simplified';
 
 import "./css/materialize.min.css";
 import "./css/style.css";
@@ -11,6 +11,8 @@ import {issueService} from "./issueService";
 
 
 class App extends Component{
+	array = [];
+
 	render(){
 		return (
 			<HashRouter>
@@ -23,7 +25,7 @@ class App extends Component{
 							<Route
 								exact
 								path="/dashboard"
-								component={() => <Content category="Dashboard" />}
+								component={() => <Dashboard />}
 							/>
 							<Route
 								exact path="/pending"
@@ -43,7 +45,7 @@ class App extends Component{
 							/>
 							<Route
 								exact path="/add"
-								component={()=> <Content category="Add"/>}
+								component={()=> <Add addHandler={this.addHandler}/>}
 							/>
 						</div>
 					</div>
@@ -51,45 +53,36 @@ class App extends Component{
 			</HashRouter>
 		);
 	}
+
+	addHandler = () => {
+			let title = document.querySelector('#issueTitle').value;
+			let description = document.querySelector("#textArea1").value;
+			let dueDate = document.querySelector("#date").value;
+			let category = document.querySelector('#selectIssue').value;
+			let issue = {
+				"title":title,
+				"description": description,
+				"dueDate":dueDate,
+				"tag": category
+			};
+
+			issueService.issues.push(issue);
+			alert("Added issue");
+		}
+
+
 }
 
 
 class Content extends Component{
-	constructor(props){
-		super(props);
-
-		//issueService.getAllIssues().then(res => console.log(res.data[0].title));
-		this.state = {
-			array : [{title: "lol", description: "någe", category:"Due"}, {title:"map this", description: "ahaaah", category: "Pending"}, {title:"Something", description: "Something other", category:"Pending"}]
-		};
-
-	}
-
-
-
+	array = [];
 	render(){
-		if(this.props.category === "Dashboard"){
-			return (
-				<div className="content">
-					<Dashboard array={this.state.array}/>
-				</div>
-			);
-		}
-
-      else if(this.props.category === "Add"){
-        return (
-        	<div className="content">
-				<Add handler={this.addToArray}/>
-        	</div>
-		);
-      }
-      else{
       	return (
       		<div className="content">
 				<div className="row">
 				<Label type={this.props.category}/>
 				<div className="fixer">
-					{this.state.array.filter(e => e.category === this.props.category).map(issue =>
+					{this.array.filter(e => e.tag === this.props.category).map(issue =>
 						<div className="col l3">
 							<Card title={issue.title}>
 								{issue.description}
@@ -100,37 +93,25 @@ class Content extends Component{
 				</div>
       		</div>
 		);
-    }
   }
 
-
-	addToArray = () => {
-	  let title = document.querySelector('#issueTitle').value;
-	  let description = document.querySelector("#textArea1").value;
-	  let dueDate = document.querySelector("#date").value;
-	  let category = document.querySelector('#selectIssue').value;
-	  let issue = {
-		  "title":title,
-		  "description": description,
-		  "dueDate":dueDate,
-		  "tag": category
-	  };
-	  let newArray = this.state.array;
-	  newArray.push(issue);
-	  this.setState({array: newArray});
-	  console.log(this.state.array);
-
+  mounted() {
+		this.array = issueService.issues;
+		console.log(issueService.issues);
   }
+
 }
 
 class Dashboard extends Component{
+	array = [];
+
 	render(){
     return (
-    	<div>
+    	<div className="content">
 			<div className="row">
 				<div className="col l3">
 					<Label type="Pending" />
-					{this.props.array.filter(e => e.category === "Pending").map(pending =>
+					{this.array.filter(e => e.tag === "Pending").map(pending =>
 						<Card title={pending.title} stashHandler={this.stashHandler} completeHandler={this.completeHandler}>
 							{pending.description}
 						</Card>
@@ -138,7 +119,7 @@ class Dashboard extends Component{
 				</div>
 				<div className="col l3">
 					<Label type="Due" />
-					{this.props.array.filter(e => e.category === "Due").map(due =>
+					{this.array.filter(e => e.tag=== "Due").map(due =>
 						<Card title={due.title} stashHandler={this.stashHandler} completeHandler={this.completeHandler}>
 							{due.description}
 						</Card>
@@ -146,7 +127,7 @@ class Dashboard extends Component{
 				</div>
 				<div className="col l3">
 					<Label type="Finished"/>
-					{this.props.array.filter(e => e.category === "Finished").map(finished =>
+					{this.array.filter(e => e.tag === "Finished").map(finished =>
 						<Card title={finished.title} stashHandler={this.stashHandler} completeHandler={this.completeHandler}>
 							{finished.description}
 						</Card>
@@ -154,7 +135,7 @@ class Dashboard extends Component{
 				</div>
 				<div className="col l3">
 					<Label type="Stashed" />
-					{this.props.array.filter(e => e.category === "Stashed").map(stashed =>
+					{this.array.filter(e => e.tag === "Stashed").map(stashed =>
 						<Card title={stashed.title} stashHandler={this.stashHandler} completeHandler={this.completeHandler}>
 							{stashed.description}
 						</Card>
@@ -164,17 +145,10 @@ class Dashboard extends Component{
     	</div>
 		);
   }
-
-  stashHandler(title){
-		//let issue = this.state.array.find((e,i) => e.title === title);
-		//console.log(issue);
-	  alert(title);
+  mounted() {
+		this.array = issueService.issues;
   }
 
-  completeHandler(title){
-		console.log(title);
-
-  }
 }
 
 /* if(this.array.length == 1){

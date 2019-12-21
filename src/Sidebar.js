@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { HashRouter, Route, NavLink } from "react-router-dom";
+import { Component } from 'react-simplified';
+
 
 import "./css/materialize.min.css";
 import "./css/style.css";
@@ -57,5 +59,4 @@ export class Menu extends Component{
 		);
   }
 
-  componentDidMount(){}
 }

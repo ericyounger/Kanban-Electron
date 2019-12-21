@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import {Card} from './Widgets.js';
+import { Component } from 'react-simplified';
 
 
 export class Add extends Component{
     render(){
         return (
+            <div className="content">
             <div className="row">
                 <div className="col l8 m12">
                 <Card title="Add" type="simple">
@@ -47,12 +49,15 @@ export class Add extends Component{
                         </div>
 
                         <div className="row">
-                            <button className="btn" onClick={this.props.handler}>Add issue</button>
+                            <button className="btn" onClick={this.props.addHandler}>Add issue</button>
                         </div>
                     </div>
                 </Card>
                 </div>
             </div>
+            </div>
         );
     }
+
+
 }

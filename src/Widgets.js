@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
+import { Component } from 'react-simplified';
 
 
 
 import "./css/materialize.min.css";
 import "./css/style.css";
+import {issueService} from "./issueService";
+import {NavLink} from "react-router-dom";
 
 export class Card extends Component{
   render(){
@@ -23,21 +26,34 @@ export class Card extends Component{
       else {
       	return (
       		<div className="card blue-grey darken-1 hoverable">
+				<NavLink to={"/"+this.props.title}>
 				<div className="card-content white-text">
 					<span className="card-title">{this.props.title}</span>
 					<p>{this.props.children}</p>
 				</div>
+				</NavLink>
 				<div className="card-action">
-					<a href="#" onClick={e => this.props.stashHandler(this.props.title)}>
+					<a onClick={e => this.stashHandler(this.props.title)}>
 						Stash<i className="material-icons">pause_circle_filled</i>
 					</a>
-					<a href="#" onClick={e => this.props.completeHandler(this.props.title)}>
+					<a onClick={e => this.completeHandler(this.props.title)}>
 						Finish task <i className="material-icons">check_circle</i>
 					</a>
 				</div>
       		</div>
 		);
       }
+  }
+  stashHandler(){
+  	let idTitle = this.props.title;
+  	let issue = issueService.issues.find(e => e.title === idTitle);
+  	issue.tag = "Stashed";
+  }
+
+  completeHandler(){
+	  let idTitle = this.props.title;
+	  let issue = issueService.issues.find(e => e.title === idTitle);
+	  issue.tag = "Finished";
   }
 }
 
