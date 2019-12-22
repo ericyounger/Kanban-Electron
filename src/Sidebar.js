@@ -5,8 +5,11 @@ import { Component } from 'react-simplified';
 
 import "./css/materialize.min.css";
 import "./css/style.css";
+import {issueService} from "./issueService";
 
 export class Menu extends Component{
+	labels = [];
+
   render(){
     return (
 			<div className="sidebar">
@@ -26,37 +29,30 @@ export class Menu extends Component{
 							<i className="material-icons">build</i>Dashboard
 						</li>
 					</NavLink>
+
+
+					{this.labels.map(e =>
+
 					<NavLink
-						to="/pending"
+						to={"/"+e.id}
 						activeStyle={{
 							color: "orange"
 						}}
 					>
+
 						<li className="collection-item grey darken-2">
-							<i className="material-icons">assignment</i>Pending
+							{e.name}
 						</li>
 					</NavLink>
-					<NavLink to="/due" activeStyle={{ color: "orange" }}>
-						<li className="collection-item grey darken-2">
-							<i className="material-icons">assignment_late</i>
-							Due
-						</li>
-					</NavLink>
-					<NavLink to="/finished" activeStyle={{ color: "orange" }}>
-						<li className="collection-item grey darken-2">
-							<i className="material-icons">assignment_turned_in</i>
-							Finished
-						</li>
-					</NavLink>
-					<NavLink to="/stashed" activeStyle={{ color: "orange" }}>
-						<li className="collection-item grey darken-2">
-							<i className="material-icons">pause_circle_filled</i>
-							Stashed
-						</li>
-					</NavLink>
+
+					)}
 				</ul>
 			</div>
 		);
+  }
+
+  mounted() {
+  	issueService.getAllLabels().then(res => this.labels = res.data);
   }
 
 }

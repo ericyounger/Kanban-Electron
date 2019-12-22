@@ -26,7 +26,7 @@ export class Card extends Component{
       else {
       	return (
       		<div className="card blue-grey darken-1 hoverable">
-				<NavLink to={"/"+this.props.title}>
+				<NavLink to={"/"+this.props.id}>
 				<div className="card-content white-text">
 					<span className="card-title">{this.props.title}</span>
 					<p>{this.props.children}</p>
@@ -59,18 +59,6 @@ export class Card extends Component{
 
 export class Label extends Component{
   category = "blue-grey";
-  constructor(props){
-    super(props);
-    if(this.props.type === "Due"){
-      this.category = "red";
-    } else if(this.props.type === "Pending"){
-      this.category = "yellow darken-2";
-    } else if(this.props.type === "Finished"){
-      this.category = "green"
-    } else{
-      this.category = "blue-grey"
-    }
-  }
   
   render(){
     return (
@@ -78,5 +66,9 @@ export class Label extends Component{
 			<div className="card-title center-align">{this.props.type}</div>
     	</div>
 		);
+  }
+
+  mounted() {
+  	let labelColor = this.props.color;
   }
 }

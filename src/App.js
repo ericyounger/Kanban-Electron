@@ -12,6 +12,7 @@ import {issueService} from "./issueService";
 
 class App extends Component{
 	array = [];
+	labels = [];
 
 	render(){
 		return (
@@ -27,26 +28,19 @@ class App extends Component{
 								path="/dashboard"
 								component={() => <Dashboard />}
 							/>
-							<Route
-								exact path="/pending"
-								component={() => <Content category="Pending" />}
-							/>
-							<Route
-								exact path="/due"
-								component={() => <Content category="Due" />}
-							/>
-							<Route
-								exact path="/finished"
-								component={() => <Content category="Finished" />}
-							/>
-							<Route
-								exact path="/stashed"
-								component={() => <Content category="Stashed" />}
-							/>
+
 							<Route
 								exact path="/add"
 								component={()=> <Add addHandler={this.addHandler}/>}
 							/>
+
+							{this.labels.map(e =>
+							<Route
+								exact path={"/"+e.id}
+								component={() => <Content category={e.name} />}
+							/>
+
+							)}
 						</div>
 					</div>
 				</div>
@@ -70,6 +64,10 @@ class App extends Component{
 			alert("Added issue");
 		}
 
+		mounted() {
+		issueService.getAllLabels().then(res => this.labels = res.data);
+		}
+
 
 }
 
@@ -82,10 +80,10 @@ class Content extends Component{
 				<div className="row">
 				<Label type={this.props.category}/>
 				<div className="fixer">
-					{this.array.filter(e => e.tag === this.props.category).map(issue =>
+					{this.array.map(issue =>
 						<div className="col l3">
-							<Card title={issue.title}>
-								{issue.description}
+							<Card title={issue.title} id={issue.id}>
+								{issue.body}
 							</Card>
 						</div>
 					)}
@@ -96,15 +94,39 @@ class Content extends Component{
   }
 
   mounted() {
-		this.array = issueService.issues;
-		console.log(issueService.issues);
+		issueService.getAllIssues().then(res => {
+			this.array = res.data.filter(e => e.labels[0].name === this.props.category);
+
+		});
+
   }
 
 }
 
 class Dashboard extends Component{
 	array = [];
+	labels = [];
 
+	render(){
+		return(
+			<div className="content">
+				<div className="row">
+				{this.labels.map(e =>
+					<div className="col l3">
+					<Label type={e.name} color={e.color}/>
+						{this.array.filter(label => label.labels[0].name === e.name).map(issue =>
+						<Card title={issue.title}>
+							{issue.body}
+						</Card>
+
+						)}
+					</div>
+				)}
+				</div>
+			</div>
+		)
+	}
+/*
 	render(){
     return (
     	<div className="content">
@@ -145,8 +167,14 @@ class Dashboard extends Component{
     	</div>
 		);
   }
+
+ */
   mounted() {
-		this.array = issueService.issues;
+		issueService.getAllLabels().then(res => {
+			this.labels = res.data
+			console.log(res.data);
+		});
+		issueService.getAllIssues().then(res => this.array = res.data);
   }
 
 }
