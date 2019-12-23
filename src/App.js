@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HashRouter, Route} from "react-router-dom";
+import {HashRouter, NavLink, Route} from "react-router-dom";
 import {Menu} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
 import {Add, IssueView} from "./Issues";
@@ -15,45 +15,62 @@ class App extends Component{
 	labels = [];
 
 	render(){
-		return (
-			<HashRouter>
-				<div className="row">
-					<div className="wrapper">
-						<div className="col s12 m2 l2">
-							<Menu />
-						</div>
-						<div className="col s12 m10 l10">
-							<Route
-								exact
-								path="/dashboard"
-								component={() => <Dashboard />}
-							/>
+		if(issueService.loggedIn){
+			return (
+				<HashRouter>
+					<div className="row">
+						<div className="wrapper">
+							<div className="col s12 m2 l2">
+								<Menu />
+							</div>
+							<div className="col s12 m10 l10">
+								<Route
+									exact
+									path="/dashboard"
+									component={() => <Dashboard />}
+								/>
 
-							<Route
-								exact path="/add"
-								component={()=> <Add addHandler={this.addHandler}/>}
-							/>
+								<Route
+									exact path="/add"
+									component={()=> <Add addHandler={this.addHandler} title={"Post new issue"}/>}
+								/>
 
-							{this.labels.map(e =>
-							<Route
-								exact path={"/"+e.id}
-								component={() => <Content category={e.name} color={e.color} />}
-							/>
-							)}
+								{this.labels.map(e =>
+									<Route
+										exact path={"/"+e.id}
+										component={() => <Content category={e.name} color={e.color} />}
+									/>
+								)}
 
-							{this.array.map(issue =>
-							<Route
-								exact path={"/"+issue.id}
-								component={() => <IssueView title={issue.title} body={issue.body} />}
-							/>
-							)}
+								{this.array.map(issue =>
+									<Route
+										exact path={"/"+issue.id}
+										component={() => <IssueView title={issue.title} body={issue.body} />}
+									/>
+								)}
 
 
+							</div>
 						</div>
 					</div>
-				</div>
-			</HashRouter>
-		);
+				</HashRouter>
+			);
+		} else{
+			return (
+				<HashRouter>
+				<Route
+					exact path="/"
+					component={() => <UserInput />}
+				/>
+
+					<Route
+						exact
+						path="/repos"
+						component={() => <RepoList/>}
+					/>
+				</HashRouter>
+			)
+		}
 	}
 
 	addHandler = () => {
@@ -134,7 +151,7 @@ class Dashboard extends Component{
 							<div className="col l3">
 								<Label type={e.name} color={e.color}/>
 								{this.array.filter(label => label.labels[0].name === e.name).map(issue =>
-									<Card title={issue.title} id={issue.id} >
+									<Card title={issue.title} id={issue.id} assign={issue.assignee} >
 										{issue.body}
 									</Card>
 
@@ -157,7 +174,65 @@ class Dashboard extends Component{
 
 }
 
+export class UserInput extends Component{
+	render(){
+		return(
+			<div>
+				<div className="card width-30 login-form">
+						<div className="card-content">
+							<div className="card-title">Login</div>
+							<label>GitHub User-name</label>
+							<input type="text" className="input-field" id="usernameInput"/>
+							<NavLink to="/repos">
+							<button className="btn" onClick={this.userInputHandler}>Next</button>
+							</NavLink>
+						</div>
+				</div>
+			</div>
+		)
+	}
 
+	userInputHandler = () => {
+		let userInput = document.querySelector("#usernameInput").value;
+		issueService.user = userInput;
+	}
+
+}
+
+export class RepoList extends Component{
+	repos = [];
+
+	render(){
+		return(
+			<div>
+				<div className="card width-30 login-form">
+					<div className="card-content">
+						<div className="card-title">Choose repo</div>
+						{this.repos.map(repos =>
+							<p>
+							<label>
+								<input name="group1" type="radio"/>
+								<span>{repos.name}</span>
+							</label>
+							</p>
+						)}
+							<button className="btn" onClick={this.loginHandler}>Next</button>
+					</div>
+				</div>
+			</div>
+		)
+
+	}
+	mounted() {
+		issueService.getAllRepos().then(res => this.repos = res.data);
+	}
+
+	loginHandler = () => {
+		//issueService.repo
+		issueService.loggedIn = true;
+	}
+
+}
 
 
 export default App;

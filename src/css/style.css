@@ -161,3 +161,11 @@ a {
 .width-50{
     width: 70%;
 }
+
+.width-30{
+    width: 30%;
+}
+
+.login-form{
+    margin: 30vh auto;
+}

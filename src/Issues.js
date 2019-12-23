@@ -11,7 +11,7 @@ export class Add extends Component{
             <div className="content">
             <div className="row">
                 <div className="col l8 m12">
-                <Card title="Add" type="simple">
+                <Card title={this.props.title} type="simple">
                     <div className="addForm">
                         <div className="row">
                             <div className="col l12 m12">
@@ -62,9 +62,21 @@ export class Add extends Component{
 export class IssueView extends Component{
     render(){
         return(
-            <Card title={this.props.title}>
-                {this.props.body}
-            </Card>
+            <div className="content">
+                <div className="col l8">
+                    <div className="row">
+                        <Card title={this.props.title} type="simple">
+                            {this.props.body}
+                            <hr className="divider"></hr>
+                            Assignees
+                            <hr className="divider"></hr>
+                            <button onClick={""} className="btn green">Complete</button>
+                            <button onClick={""} className="btn orange">Edit</button>
+                            <button onClick={""} className="btn">Assign me</button>
+                        </Card>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

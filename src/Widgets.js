@@ -16,7 +16,7 @@ export class Card extends Component{
           	<div>
 				<div className="card">
 					<div className="card-content">
-						<div className="card-title">Post new issue</div>
+						<div className="card-title">{this.props.title}</div>
 						{this.props.children}
 					</div>
 				</div>
@@ -27,14 +27,14 @@ export class Card extends Component{
       	return (
       		<div className="card blue-grey darken-1 hoverable">
 				<NavLink to={"/"+this.props.id}>
-				<div className="card-content white-text">
-					<span className="card-title">{this.props.title}</span>
-					<p>{this.props.children}</p>
-				</div>
+                    <div className="card-content white-text">
+                        <span className="card-title">{this.props.title}</span>
+                        <p>{this.props.children}</p>
+                    </div>
 				</NavLink>
-				<div className="card-action orange-text">
-					Assignees
-				</div>
+                    <div className="card-action orange-text">
+                        Assignees
+                    </div>
       		</div>
 		);
       }
