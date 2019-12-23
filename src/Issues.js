@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {Card} from './Widgets.js';
 import { Component } from 'react-simplified';
+import {issueService} from "./issueService";
 
 
 export class Add extends Component{
+    labels = [];
     render(){
         return (
             <div className="content">
@@ -30,20 +32,13 @@ export class Add extends Component{
                                 ></textarea>
                             </div>
                         </div>
-
-                        <div className="row">
-                            <div className="col l6 m12">
-                                <label>Due date:</label>
-                                <input type="date" className="date" id="date" />
-                            </div>
-                        </div>
                         <div className="row">
                             <div className="col l6">
                                 <label>Category:</label>
                                 <select className="browser-default" id="selectIssue">
-                                    <option>Pending</option>
-                                    <option>Finished</option>
-                                    <option>Stashed</option>
+                                    {this.labels.map(label =>
+                                    <option>{label.name}</option>
+                                    )}
                                 </select>
                             </div>
                         </div>
@@ -58,6 +53,18 @@ export class Add extends Component{
             </div>
         );
     }
+    mounted() {
+        issueService.getAllLabels().then(res => this.labels = res.data);
+    }
 
+}
 
+export class IssueView extends Component{
+    render(){
+        return(
+            <Card title={this.props.title}>
+                {this.props.body}
+            </Card>
+        )
+    }
 }

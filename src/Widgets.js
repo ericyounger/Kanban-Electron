@@ -32,13 +32,8 @@ export class Card extends Component{
 					<p>{this.props.children}</p>
 				</div>
 				</NavLink>
-				<div className="card-action">
-					<a onClick={e => this.stashHandler(this.props.title)}>
-						Stash<i className="material-icons">pause_circle_filled</i>
-					</a>
-					<a onClick={e => this.completeHandler(this.props.title)}>
-						Finish task <i className="material-icons">check_circle</i>
-					</a>
+				<div className="card-action orange-text">
+					Assignees
 				</div>
       		</div>
 		);

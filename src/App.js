@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HashRouter, Route} from "react-router-dom";
 import {Menu} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
-import {Add} from "./Issues";
+import {Add, IssueView} from "./Issues";
 import {Component} from 'react-simplified';
 
 import "./css/materialize.min.css";
@@ -39,8 +39,16 @@ class App extends Component{
 								exact path={"/"+e.id}
 								component={() => <Content category={e.name} color={e.color} />}
 							/>
-
 							)}
+
+							{this.array.map(issue =>
+							<Route
+								exact path={"/"+issue.id}
+								component={() => <IssueView title={issue.title} body={issue.body} />}
+							/>
+							)}
+
+
 						</div>
 					</div>
 				</div>
@@ -65,6 +73,7 @@ class App extends Component{
 		}
 
 		mounted() {
+		issueService.getAllIssues().then(res => this.array = res.data);
 		issueService.getAllLabels().then(res => this.labels = res.data);
 		}
 
@@ -106,69 +115,38 @@ class Content extends Component{
 class Dashboard extends Component{
 	array = [];
 	labels = [];
-
 	render(){
-		return(
-			<div className="content">
-				<div className="row">
-				{this.labels.map(e =>
-					<div className="col l3">
-					<Label type={e.name} color={e.color}/>
-						{this.array.filter(label => label.labels[0].name === e.name).map(issue =>
-						<Card title={issue.title}>
-							{issue.body}
-						</Card>
+		if(this.array.length == 0){
+			return (
+				<div class="center-progress center">
+					Building skynet
+					<div class="progress">
+						<div class="indeterminate"></div>
+					</div>
+				</div>
+			);
 
+		} else{
+			return(
+				<div className="content">
+					<div className="row">
+						{this.labels.map(e =>
+							<div className="col l3">
+								<Label type={e.name} color={e.color}/>
+								{this.array.filter(label => label.labels[0].name === e.name).map(issue =>
+									<Card title={issue.title} id={issue.id} >
+										{issue.body}
+									</Card>
+
+								)}
+							</div>
 						)}
 					</div>
-				)}
 				</div>
-			</div>
-		)
+			)
+		}
 	}
-/*
-	render(){
-    return (
-    	<div className="content">
-			<div className="row">
-				<div className="col l3">
-					<Label type="Pending" />
-					{this.array.filter(e => e.tag === "Pending").map(pending =>
-						<Card title={pending.title} stashHandler={this.stashHandler} completeHandler={this.completeHandler}>
-							{pending.description}
-						</Card>
-					)}
-				</div>
-				<div className="col l3">
-					<Label type="Due" />
-					{this.array.filter(e => e.tag=== "Due").map(due =>
-						<Card title={due.title} stashHandler={this.stashHandler} completeHandler={this.completeHandler}>
-							{due.description}
-						</Card>
-					)}
-				</div>
-				<div className="col l3">
-					<Label type="Finished"/>
-					{this.array.filter(e => e.tag === "Finished").map(finished =>
-						<Card title={finished.title} stashHandler={this.stashHandler} completeHandler={this.completeHandler}>
-							{finished.description}
-						</Card>
-					)}
-				</div>
-				<div className="col l3">
-					<Label type="Stashed" />
-					{this.array.filter(e => e.tag === "Stashed").map(stashed =>
-						<Card title={stashed.title} stashHandler={this.stashHandler} completeHandler={this.completeHandler}>
-							{stashed.description}
-						</Card>
-					)}
-				</div>
-			</div>
-    	</div>
-		);
-  }
 
- */
   mounted() {
 		issueService.getAllLabels().then(res => {
 			this.labels = res.data
@@ -179,18 +157,7 @@ class Dashboard extends Component{
 
 }
 
-/* if(this.array.length == 1){
-      return (
-        <div class="center-progress center">
-			Building skynet
-			<div class="progress">
-				<div class="indeterminate"></div>
-			</div>
-        </div>
-      );
 
-    }
- */
 
 
 export default App;
