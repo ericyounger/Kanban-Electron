@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HashRouter, Route, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Component } from 'react-simplified';
 
 
@@ -31,7 +31,7 @@ export class Menu extends Component{
 					</NavLink>
 
 
-					{this.labels.map(e =>
+					{this.labels.map((e,index) =>
 
 					<NavLink
 						to={"/"+e.id}
@@ -40,7 +40,7 @@ export class Menu extends Component{
 						}}
 					>
 
-						<li className="collection-item grey darken-2">
+						<li key={e.name+index}className="collection-item grey darken-2">
 							{e.name}
 						</li>
 					</NavLink>

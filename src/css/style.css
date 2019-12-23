@@ -166,6 +166,10 @@ a {
     width: 30%;
 }
 
+.btn{
+    margin-top:10px;
+}
+
 .login-form{
-    margin: 30vh auto;
+    margin: 25vh auto;
 }

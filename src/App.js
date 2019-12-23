@@ -133,7 +133,7 @@ class Dashboard extends Component{
 	array = [];
 	labels = [];
 	render(){
-		if(this.array.length == 0){
+		if(this.array.length === -1){
 			return (
 				<div class="center-progress center">
 					Building skynet
@@ -201,6 +201,7 @@ export class UserInput extends Component{
 
 export class RepoList extends Component{
 	repos = [];
+	radios = [];
 
 	render(){
 		return(
@@ -208,10 +209,10 @@ export class RepoList extends Component{
 				<div className="card width-30 login-form">
 					<div className="card-content">
 						<div className="card-title">Choose repo</div>
-						{this.repos.map(repos =>
+						{this.repos.map((repos, index) =>
 							<p>
 							<label>
-								<input name="group1" type="radio"/>
+								<input name="group1" type="radio" id="radioRepo" value={repos.name}/>
 								<span>{repos.name}</span>
 							</label>
 							</p>
@@ -228,7 +229,9 @@ export class RepoList extends Component{
 	}
 
 	loginHandler = () => {
-		//issueService.repo
+
+		let selectedRepo = document.querySelector("input[name = group1]:checked").value;
+		issueService.repo = selectedRepo;
 		issueService.loggedIn = true;
 	}
 
