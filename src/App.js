@@ -37,7 +37,7 @@ class App extends Component{
 							{this.labels.map(e =>
 							<Route
 								exact path={"/"+e.id}
-								component={() => <Content category={e.name} />}
+								component={() => <Content category={e.name} color={e.color} />}
 							/>
 
 							)}
@@ -78,7 +78,7 @@ class Content extends Component{
       	return (
       		<div className="content">
 				<div className="row">
-				<Label type={this.props.category}/>
+				<Label type={this.props.category} color={this.props.color}/>
 				<div className="fixer">
 					{this.array.map(issue =>
 						<div className="col l3">

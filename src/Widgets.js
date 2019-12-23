@@ -58,11 +58,11 @@ export class Card extends Component{
 }
 
 export class Label extends Component{
-  category = "blue-grey";
+
   
   render(){
     return (
-    	<div className={`card ${this.category} darken-1 white-text`}>
+    	<div className={`card ${this.category} darken-1`} id={this.props.type.replace(/ /g,'')}>
 			<div className="card-title center-align">{this.props.type}</div>
     	</div>
 		);
@@ -70,5 +70,9 @@ export class Label extends Component{
 
   mounted() {
   	let labelColor = this.props.color;
+  	let label = document.querySelector("#" + this.props.type.replace(/ /g,''));
+  	if(label != null){
+  		label.style.backgroundColor = `#${labelColor}`;
+	}
   }
 }
