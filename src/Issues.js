@@ -67,9 +67,15 @@ export class IssueView extends Component{
                     <div className="row">
                         <Card title={this.props.title} type="simple">
                             {this.props.body}
-                            <hr className="divider"></hr>
-                            Assignees
-                            <hr className="divider"></hr>
+
+                            <div className="divider"></div>
+                            <div className="orange-text">
+                                {this.props.assign.map(item =>
+                                    <div className="chip grey lighten-2">{item.login} <i className="close material-icons">close</i></div>
+                                )}
+                            </div>
+                            <div className="divider"></div>
+
                             <button onClick={""} className="btn green">Complete</button>
                             <button onClick={""} className="btn orange">Edit</button>
                             <button onClick={""} className="btn">Assign me</button>

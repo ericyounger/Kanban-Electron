@@ -28,12 +28,14 @@ export class Card extends Component{
       		<div className="card blue-grey darken-1 hoverable">
 				<NavLink to={"/"+this.props.id}>
                     <div className="card-content white-text">
-                        <span className="card-title">{this.props.title}</span>
+                        <span className="card-title orange-text">{this.props.title}</span>
                         <p>{this.props.children}</p>
                     </div>
 				</NavLink>
                     <div className="card-action orange-text">
-                        Assignees
+                        {this.props.assign.map(item =>
+                            <div className="chip grey lighten-2">{item.login} <i className="close material-icons">close</i></div>
+                        )}
                     </div>
       		</div>
 		);

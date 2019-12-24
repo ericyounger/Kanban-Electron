@@ -45,7 +45,7 @@ class App extends Component{
 								{this.array.map(issue =>
 									<Route
 										exact path={"/"+issue.id}
-										component={() => <IssueView title={issue.title} body={issue.body} />}
+										component={() => <IssueView title={issue.title} body={issue.body} assign={issue.assignees}/>}
 									/>
 								)}
 
@@ -108,7 +108,7 @@ class Content extends Component{
 				<div className="fixer">
 					{this.array.map(issue =>
 						<div className="col l3">
-							<Card title={issue.title} id={issue.id}>
+							<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 								{issue.body}
 							</Card>
 						</div>
@@ -151,7 +151,7 @@ class Dashboard extends Component{
 							<div className="col l3">
 								<Label type={e.name} color={e.color}/>
 								{this.array.filter(label => label.labels[0].name === e.name).map(issue =>
-									<Card title={issue.title} id={issue.id} assign={issue.assignee} >
+									<Card title={issue.title} id={issue.id} assign={issue.assignees} >
 										{issue.body}
 									</Card>
 
