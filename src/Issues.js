@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Card} from './Widgets.js';
+import {Label, Card} from './Widgets.js';
 import { Component } from 'react-simplified';
 import {issueService} from "./issueService";
 
@@ -8,7 +8,7 @@ export class Add extends Component{
     labels = [];
     render(){
         return (
-            <div className="content">
+            <div>
             <div className="row">
                 <div className="col l8 m12">
                 <Card title={this.props.title} type="simple">
@@ -62,26 +62,47 @@ export class Add extends Component{
 export class IssueView extends Component{
     render(){
         return(
-            <div className="content">
-                <div className="col l8">
-                    <div className="row">
-                        <Card title={this.props.title} type="simple">
+            <div className="row">
+            <div className="issueview col l8">
+                    <Card title={this.props.title} type="simple">
+                        <div className="row">
+                            <div className="col l8">
+                                <div className="divider"></div>
+
                             {this.props.body}
 
-                            <div className="divider"></div>
-                            <div className="orange-text">
-                                {this.props.assign.map(item =>
-                                    <div className="chip grey lighten-2">{item.login} <i className="close material-icons">close</i></div>
-                                )}
-                            </div>
-                            <div className="divider"></div>
 
-                            <button onClick={""} className="btn green">Complete</button>
-                            <button onClick={""} className="btn orange">Edit</button>
-                            <button onClick={""} className="btn">Assign me</button>
-                        </Card>
-                    </div>
-                </div>
+                            </div>
+                            <div className="col l4">
+                                <div className="card-panel teal lighten-5 ">
+                                    <span className="bold">Labels:</span>
+                                    {this.props.label.map(label =>
+                                        <Label type={label.name} color={label.color}/>
+                                    )}
+
+                                    <span className="bold">Assigned</span>
+                                    <div className="row">
+                                    {this.props.assign.map(assignee =>
+                                        <div className="chip grey lighten-2">{assignee.login} <i className="close material-icons">close</i></div>
+                                    )}
+                                    </div>
+
+                                    <input type="button" className="btn" value="Assign me"/>
+                                    <input type="button" className="btn" value="Complete"/>
+                                    <input type="button" className="btn" value="Edit"/>
+                                    <input type="button" className="btn" value="Assign someone"/>
+                                    <input type="button" className="btn" value="Add label"/>
+
+
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </Card>
+            </div>
             </div>
         )
     }

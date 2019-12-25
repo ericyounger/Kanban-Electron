@@ -8,7 +8,6 @@ body, html {
 .col{
     padding:0px !important;
     margin: 0px !important;
-   
 }
 
 .row{
@@ -136,7 +135,7 @@ a {
 }
 
 .addForm{
-    padding:15px;
+    padding:10px;
 }
 
 .addForm textarea{
@@ -150,6 +149,9 @@ a {
     margin-bottom: 15px;
 }
 
+margin-15{
+    margin:15px;
+}
 .addForm textarea:focus{
     outline:2px solid teal;
 }
@@ -172,4 +174,18 @@ a {
 
 .login-form{
     margin: 25vh auto;
+}
+
+.issueview .col{
+    padding:10px !important;
+    margin-right: 10px;
+}
+
+.issueview .divider{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.bold {
+    font-weight: bold;
 }

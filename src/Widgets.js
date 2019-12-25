@@ -13,10 +13,10 @@ export class Card extends Component{
   render(){
       if(this.props.type === "simple"){
           return (
-          	<div>
+          	<div className="content">
 				<div className="card">
 					<div className="card-content">
-						<div className="card-title">{this.props.title}</div>
+						<div className="card-title orange-text text-darken-2">{this.props.title}</div>
 						{this.props.children}
 					</div>
 				</div>
