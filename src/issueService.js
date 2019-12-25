@@ -19,6 +19,10 @@ class IssueService{
     getAllRepos(){
         return Axios.get(`https://api.github.com/users/${this.user}/repos`);
     }
+
+    getAllCommentsPerIssue(issueId){
+        return Axios.get(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueId}/comments`);
+    }
 }
 
 export let issueService = sharedComponentData(new IssueService());
