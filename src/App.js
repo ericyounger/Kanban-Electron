@@ -45,7 +45,7 @@ class App extends Component{
 								{this.array.map(issue =>
 									<Route
 										exact path={"/"+issue.id}
-										component={() => <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels}/>}
+										component={() => <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue}/>}
 									/>
 								)}
 

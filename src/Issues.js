@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Label, Card} from './Widgets.js';
 import { Component } from 'react-simplified';
 import {issueService} from "./issueService";
+import {Chip} from "./Widgets";
 
 
 export class Add extends Component{
@@ -57,9 +58,11 @@ export class Add extends Component{
         issueService.getAllLabels().then(res => this.labels = res.data);
     }
 
+
 }
 
 export class IssueView extends Component{
+    issue = {};
     render(){
         return(
             <div className="row">
@@ -70,40 +73,107 @@ export class IssueView extends Component{
                                 <div className="divider"></div>
 
                             {this.props.body}
-
-
+                            <br/>
                             </div>
                             <div className="col l4">
                                 <div className="card-panel teal lighten-5 ">
                                     <span className="bold">Labels:</span>
+                                    <p>
                                     {this.props.label.map(label =>
-                                        <Label type={label.name} color={label.color}/>
-                                    )}
-
+                                        <Label type={label.name} color={label.color} close={true}/>
+                                        )}
+                                    </p>
                                     <span className="bold">Assigned</span>
                                     <div className="row">
-                                    {this.props.assign.map(assignee =>
-                                        <div className="chip grey lighten-2">{assignee.login} <i className="close material-icons">close</i></div>
-                                    )}
+                                    {this.props.assign.length>0?this.props.assign.map(assignee =>
+                                        <div className="addForm">
+                                        <Chip type={assignee.login} image={"https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"}/>
+                                        </div>
+
+                                        ):<div className="addForm">{"No one assigned"}</div>}
                                     </div>
 
-                                    <input type="button" className="btn" value="Assign me"/>
-                                    <input type="button" className="btn" value="Complete"/>
-                                    <input type="button" className="btn" value="Edit"/>
-                                    <input type="button" className="btn" value="Assign someone"/>
-                                    <input type="button" className="btn" value="Add label"/>
-
-
-
-
+                                    <p><b>Date created:</b><br/>
+                                    bla bla
+                                    </p><br/>
+                                    <p><b>Last updated:</b><br/>
+                                    bla bla
+                                    </p>
 
                                 </div>
-
                             </div>
                         </div>
+                        <div className="row">
+                            <input type="button" className="btn btn-small" value="Assign me"/>
+                            <input type="button" className="btn btn-small" value="Close issue"/>
+                            <input type="button" className="btn btn-small" value="Edit"/>
+                            <input type="button" className="btn btn-small" value="Assign someone"/>
+                            <input type="button" className="btn btn-small" value="Add label"/>
+                        </div>
+                        <div className="divider"></div>
+                        <div className="row">
+                            <CommentField />
+                        </div>
                     </Card>
+
             </div>
+
             </div>
         )
+    }
+
+    mounted() {
+        this.issue = this.props.issue;
+        console.log(this.issue);
+    }
+}
+
+export class CommentField extends Component{
+    comments = [];
+    render(){
+        return(
+                    <div className="addForm">
+                        {this.comments.map(comment =>
+                            <Comment user={comment.name} date_comment={comment.date} comment={comment.body} avatar={comment.avatar_url}/>
+                        )}
+
+                        <textarea id="textArea1"
+                                  className="materialize-textarea white" placeholder="Leave a comment">
+                        </textarea>
+                        <button className="btn teal">Comment</button>
+                    </div>
+
+        )
+    }
+}
+
+export class Comment extends Component{
+    comment_days_ago = 0;
+    render(){
+        return(
+            <div>
+                <div className="card">
+                    <div className="row">
+                        <div className="col l1 center-align">
+                            <img src={this.props.avatar} className="avatar-comments"/>
+                        </div>
+                        <div className="col l11">
+                            <b>{this.props.user}</b> commented {this.comment_days_ago} days ago
+                            <hr></hr>
+                            <div className="row">
+                            <div className="col l12">
+                                {this.props.comment}
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+    mounted() {
+        let today = Date.now();
+        let commentDate = this.props.date_comment;
+        this.comment_days_ago = today-commentDate;
     }
 }

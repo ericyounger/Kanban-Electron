@@ -55,12 +55,11 @@ export class Card extends Component{
 }
 
 export class Label extends Component{
-
-  
   render(){
     return (
     	<div className={`card ${this.category} darken-1`} id={this.props.type.replace(/ /g,'')}>
-			<div className="card-title center-align">{this.props.type}</div>
+			<div className="card-title center-align">{this.props.type}  {this.props.close===true?<i className="close material-icons">close</i>:null}</div>
+
     	</div>
 		);
   }
@@ -73,3 +72,24 @@ export class Label extends Component{
 	}
   }
 }
+
+export class Chip extends Component{
+    render(){
+            return (
+                <div className="chip black-text" id={this.props.type.replace(/ /g,'')}>
+                    <img src={this.props.image}/>
+                        {this.props.type}
+                    <i className="close material-icons">close</i>
+                </div>
+            )
+    }
+
+    mounted() {
+        let labelColor = this.props.color;
+        let label = document.querySelector("#" + this.props.type.replace(/ /g,''));
+        if(label != null){
+            label.style.backgroundColor = `#${labelColor}`;
+        }
+    }
+}
+

@@ -189,3 +189,13 @@ margin-15{
 .bold {
     font-weight: bold;
 }
+
+.avatar-comments{
+    border-radius: 100px;
+    padding:10px;
+}
+
+.fixed-bottom{
+    position: relative;
+    bottom:100px;
+}
