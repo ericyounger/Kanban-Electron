@@ -63,6 +63,8 @@ export class Add extends Component{
 
 export class IssueView extends Component{
     issue = {};
+    created_date = "";
+    updated_date = "";
     render(){
         return(
             <div className="row">
@@ -102,13 +104,13 @@ export class IssueView extends Component{
                                     </div>
 
                                     <p><b>Date created:</b><br/>
-                                    {this.issue.created_at}
+                                    {this.created_date}
                                     </p><br/>
                                     <p><b>Last updated:</b><br/>
-                                    {this.issue.updated_at}
+                                    {this.updated_date}
                                     </p>
                                     <br/>
-                                    <input type="button" className="btn btn-small" value="Close issue"/>
+                                    <input type="button" className="btn btn-small red" value="Close issue"/>
                                 </div>
                             </div>
                         </div>
@@ -130,6 +132,11 @@ export class IssueView extends Component{
 
     mounted() {
         this.issue = this.props.issue;
+        let created_at = this.issue.created_at.replace(/Z/g, '').replace(/T/g, ' at ');
+        this.created_date = created_at;
+        let updated_at = this.issue.updated_at.replace(/Z/g, '').replace(/T/g, ' at ');
+        this.updated_date = updated_at;
+
     }
 }
 
@@ -145,6 +152,7 @@ export class CommentField extends Component{
                         <textarea id="textArea1"
                                   className="materialize-textarea white" placeholder="Leave a comment">
                         </textarea>
+
                         <button className="btn teal">Comment</button>
                     </div>
 
@@ -162,7 +170,7 @@ export class Comment extends Component{
     render(){
         return(
             <div>
-                <div className="card">
+                <div className="card grey lighten-4">
                     <div className="row">
                         <div className="col l1 center-align">
                             <img src={this.props.avatar} className="avatar-comments"/>
