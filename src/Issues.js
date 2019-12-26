@@ -182,8 +182,15 @@ export class Comment extends Component{
         )
     }
     mounted() {
-        let today = Date.now();
-        let commentDate = this.props.date_comment;
-        this.comment_days_ago = today-commentDate;
+        let date = new Date();
+        let year = date.getFullYear().toString();
+        let month = parseInt(date.getMonth().toString())+1;
+        let day = date.getDate().toString();
+        
+        let now = parseInt(year+month+day);
+
+        let commentDateString = this.props.date_comment.replace(/-/g, '').substr(0,8);
+        let commentDate = parseInt(commentDateString);
+        this.comment_days_ago = now-commentDate;
     }
 }
