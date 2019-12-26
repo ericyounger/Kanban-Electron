@@ -66,16 +66,16 @@ export class IssueView extends Component{
     render(){
         return(
             <div className="row">
-            <div className="issueview col l8">
+            <div className="issueview col l10">
                     <Card title={this.props.title} type="simple">
                         <div className="row">
-                            <div className="col l8">
+                            <div className="col l9">
                                 <div className="divider"></div>
 
                             {this.props.body}
                             <br/>
                             </div>
-                            <div className="col l4">
+                            <div className="col l3">
                                 <div className="card-panel teal lighten-5 ">
                                     <span className="bold">Labels:</span>
                                     <p>
@@ -138,9 +138,9 @@ export class CommentField extends Component{
     render(){
         return(
                     <div className="addForm">
-                        {this.comments.map(comment =>
+                        {this.comments.length>0?this.comments.map(comment =>
                             <Comment user={comment.user.login} date_comment={comment.created_at} comment={comment.body} avatar={comment.user.avatar_url}/>
-                        )}
+                        ):"No comments"}
 
                         <textarea id="textArea1"
                                   className="materialize-textarea white" placeholder="Leave a comment">
