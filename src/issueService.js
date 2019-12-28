@@ -1,11 +1,13 @@
 import Axios from "axios";
 import {sharedComponentData} from "react-simplified";
+let token = require("./token/token.js");
+
 
 class IssueService{
     user = "ericyounger";
     repo = "Kanban-Electron";
-    issues = [];
-    loggedIn = false;
+    loggedIn = true;
+    tokenAuth = token.token;
 
     getAllIssues(){
         return Axios.get(`https://api.github.com/repos/${this.user}/${this.repo}/issues?state=all`);
@@ -13,7 +15,6 @@ class IssueService{
 
     getAllLabels(){
         return Axios.get(`https://api.github.com/repos/${this.user}/${this.repo}/labels?state=all` );
-
     }
 
     getAllRepos(){
@@ -23,6 +24,23 @@ class IssueService{
     getAllCommentsPerIssue(issueId){
         return Axios.get(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueId}/comments`);
     }
+
+    postIssue(json){
+        let packed = this.packPost(json);
+        return Axios.post(`http://api.github.com/${this.repo}/${this.user}/repo/issues`, packed);
+    }
+
+    packPost(json) {
+        let headers = {
+            "url": `http://api.github.com/${this.repo}/${this.user}/repo/issues`,
+            "method": "POST",
+            "headers": {"Authorization": `token ${this.tokenAuth}`},
+            "body": JSON.stringify({title: json.title, body: json.body})
+        }
+        return headers;
+    }
+
 }
 
 export let issueService = sharedComponentData(new IssueService());
+

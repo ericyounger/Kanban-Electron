@@ -39,6 +39,15 @@ body{
 
 .flex{
     display: flex;
+    overflow-x: scroll;
+}
+
+.font12{
+    font-size: 12pt !important;
+}
+
+.card-content{
+    overflow:hidden;
 }
 
 
@@ -46,6 +55,8 @@ body{
 .content .fixer{
     margin-top:-10px;
 }
+
+
 
 
 

@@ -42,6 +42,11 @@ class App extends Component{
 									/>
 								)}
 
+								<Route
+									exact path="/0"
+									component={()=> <Content category={"unlabeled"} color={"FF7F00"} />}
+								/>
+
 								{this.array.map(issue =>
 									<Route
 										exact path={"/"+issue.id}
@@ -76,17 +81,14 @@ class App extends Component{
 	addHandler = () => {
 			let title = document.querySelector('#issueTitle').value;
 			let description = document.querySelector("#textArea1").value;
-			let dueDate = document.querySelector("#date").value;
-			let category = document.querySelector('#selectIssue').value;
+
+			//let category = document.querySelector('#selectIssue').value;
 			let issue = {
 				"title":title,
 				"description": description,
-				"dueDate":dueDate,
-				"tag": category
 			};
 
-			issueService.issues.push(issue);
-			alert("Added issue");
+			issueService.postIssue(issue).then(res => console.log(res)).catch(e => console.log());
 		}
 
 		mounted() {
@@ -121,9 +123,14 @@ class Content extends Component{
 
   mounted() {
 		issueService.getAllIssues().then(res => {
-			this.array = res.data.filter(e => e.labels[0].name === this.props.category);
-
-		});
+			if(this.props.category === "unlabeled"){
+				console.log(res.data);
+				this.array = res.data.filter(e => e.labels.length === 0);
+			} else {
+				this.array = res.data.filter(e => e.labels[0] != null && e.labels[0].name === this.props.category);
+			}
+		}).catch(e =>
+		console.log(e));
 
   }
 
@@ -149,8 +156,9 @@ class Dashboard extends Component{
 					<div className="row">
 						{this.labels.map(e =>
 							<div className="col l3">
-								<Label type={e.name} color={e.color}/>
-								{this.array.filter(label => label.labels[0].name === e.name).map(issue =>
+								<Label type={e.name} color={e.color} id={e.id}/>
+
+								{this.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
 									<Card title={issue.title} id={issue.id} assign={issue.assignees} >
 										{issue.body}
 									</Card>
@@ -158,6 +166,14 @@ class Dashboard extends Component{
 								)}
 							</div>
 						)}
+						<div className="col l3">
+						<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
+							{this.array.filter(e => e.labels.length === 0).map(issue =>
+								<Card title={issue.title} id={issue.id} assign={issue.assignees} >
+									{issue.body}
+								</Card>
+							)}
+						</div>
 					</div>
 				</div>
 			)
@@ -167,9 +183,11 @@ class Dashboard extends Component{
   mounted() {
 		issueService.getAllLabels().then(res => {
 			this.labels = res.data
-			console.log(res.data);
 		});
-		issueService.getAllIssues().then(res => this.array = res.data);
+		issueService.getAllIssues().then(res =>  {
+			this.array = res.data
+			console.log(this.array);
+		});
   }
 
 }

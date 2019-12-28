@@ -4,6 +4,9 @@ import { Component } from 'react-simplified';
 import {issueService} from "./issueService";
 import {Chip} from "./Widgets";
 
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
+
 
 export class Add extends Component{
     labels = [];
@@ -27,10 +30,10 @@ export class Add extends Component{
                         <div className="row">
                             <div className="col l12 m12">
                                 <label>Description</label>
-								<textarea
-                                    id="textArea1"
-                                    className="materialize-textarea"
-                                ></textarea>
+                                <SimpleMDE onChange={this.handleChange}  options={{
+                                    autofocus: true,
+                                    spellChecker: false
+                                }} />
                             </div>
                         </div>
                         <div className="row">
@@ -149,9 +152,10 @@ export class CommentField extends Component{
                             <Comment user={comment.user.login} date_comment={comment.created_at} comment={comment.body} avatar={comment.user.avatar_url}/>
                         ):"No comments"}
 
-                        <textarea id="textArea1"
-                                  className="materialize-textarea white" placeholder="Leave a comment">
-                        </textarea>
+                        <SimpleMDE onChange={this.handleChange}  options={{
+                            autofocus: true,
+                            spellChecker: false
+                        }} />
 
                         <button className="btn teal">Comment</button>
                     </div>

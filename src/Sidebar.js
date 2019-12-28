@@ -32,7 +32,6 @@ export class Menu extends Component{
 
 
 					{this.labels.map((e,index) =>
-
 					<NavLink
 						to={"/"+e.id}
 						activeStyle={{
@@ -44,8 +43,20 @@ export class Menu extends Component{
 							{e.name}
 						</li>
 					</NavLink>
-
 					)}
+
+
+					<NavLink
+						to={"/0"}
+						activeStyle={{
+							color: "orange"
+						}}
+					>
+
+						<li key={"unlabeled0"}className="collection-item grey darken-2">
+							{"unlabeled"}
+						</li>
+					</NavLink>
 				</ul>
 			</div>
 		);
