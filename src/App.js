@@ -153,7 +153,7 @@ class Dashboard extends Component{
 		} else{
 			return(
 				<div className="content">
-					<div className="row">
+					<div className="flex">
 						{this.labels.map(e =>
 							<div className="col l3">
 								<Label type={e.name} color={e.color} id={e.id}/>

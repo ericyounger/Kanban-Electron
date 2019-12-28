@@ -40,6 +40,7 @@ body{
 .flex{
     display: flex;
     overflow-x: scroll;
+    width: 2500px;
 }
 
 .font12{
