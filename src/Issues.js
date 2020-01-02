@@ -152,10 +152,11 @@ export class CommentField extends Component{
                             <Comment user={comment.user.login} date_comment={comment.created_at} comment={comment.body} avatar={comment.user.avatar_url}/>
                         ):"No comments"}
 
-                        <SimpleMDE onChange={this.handleChange}  options={{
-                            autofocus: true,
-                            spellChecker: false
-                        }} />
+
+                        <textarea>
+
+                        </textarea>
+
 
                         <button className="btn teal">Comment</button>
                     </div>
