@@ -36,7 +36,7 @@ class IssueService{
             "method": "POST",
             "headers": {"Authorization": `token ${this.tokenAuth}`},
             "body": JSON.stringify({title: json.title, body: json.body})
-        }
+        };
         return headers;
     }
 
