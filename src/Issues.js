@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Label, Card} from './Widgets.js';
-import { Component } from 'react-simplified';
+import { Component } from 'react';
 import {issueService} from "./issueService";
 import {Chip} from "./Widgets";
 
@@ -9,7 +9,15 @@ import "easymde/dist/easymde.min.css";
 
 
 export class Add extends Component{
-    labels = [];
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            labels : [],
+        };
+    }
+
     render(){
         return (
             <div>
@@ -40,7 +48,7 @@ export class Add extends Component{
                             <div className="col l6">
                                 <label>Category:</label>
                                 <select className="browser-default" id="selectIssue">
-                                    {this.labels.map(label =>
+                                    {this.state.labels.map(label =>
                                     <option>{label.name}</option>
                                     )}
                                 </select>
@@ -57,17 +65,28 @@ export class Add extends Component{
             </div>
         );
     }
-    mounted() {
-        issueService.getAllLabels().then(res => this.labels = res.data);
+
+    componentDidMount() {
+        issueService.getAllLabels().then(res => this.setState({labels : res.data}));
     }
+
+
 
 
 }
 
 export class IssueView extends Component{
-    issue = {};
-    created_date = "";
-    updated_date = "";
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            issue : {},
+            created_date : "",
+            updated_date : "",
+        };
+    }
+
     render(){
         return(
             <div className="row">
@@ -75,7 +94,7 @@ export class IssueView extends Component{
                     <Card title={this.props.title} type="simple">
                         <div className="row">
                             <div className="col l9">
-                                <div className="divider"></div>
+                                <div className="divider"> </div>
 
                             {this.props.body}
                             <br/>
@@ -93,7 +112,7 @@ export class IssueView extends Component{
                                     <div className="row">
 
 
-                                        {this.issue.assignees != null && this.issue.assignees != 0 ? this.issue.assignees.map(issue =>
+                                        {this.state.issue.assignees != null && this.state.issue.assignees != 0 ? this.state.issue.assignees.map(issue =>
                                             <div className="addForm">
                                                 <Chip type={issue.login} image={issue.avatar_url}/>
                                             </div>
@@ -107,10 +126,10 @@ export class IssueView extends Component{
                                     </div>
 
                                     <p><b>Date created:</b><br/>
-                                    {this.created_date}
+                                    {this.state.created_date}
                                     </p><br/>
                                     <p><b>Last updated:</b><br/>
-                                    {this.updated_date}
+                                    {this.state.updated_date}
                                     </p>
                                     <br/>
                                     <input type="button" className="btn btn-small red" value="Close issue"/>
@@ -133,45 +152,60 @@ export class IssueView extends Component{
         )
     }
 
-    mounted() {
-        this.issue = this.props.issue;
-        let created_at = this.issue.created_at.replace(/Z/g, '').replace(/T/g, ' at ');
-        this.created_date = created_at;
-        let updated_at = this.issue.updated_at.replace(/Z/g, '').replace(/T/g, ' at ');
-        this.updated_date = updated_at;
-
+    componentDidMount() {
+        let created_at = this.props.issue.created_at.replace(/Z/g, '').replace(/T/g, ' at ');
+        let updated_at = this.props.issue.updated_at.replace(/Z/g, '').replace(/T/g, ' at ');
+        this.setState({
+            issue : this.props.issue,
+            created_date : created_at,
+            updated_date : updated_at,
+        });
     }
+
+
 }
 
 export class CommentField extends Component{
-    comments = [];
+    constructor(props){
+        super(props);
+
+        this.state = {
+            comments : [],
+        };
+    }
+
     render(){
         return(
-                    <div className="addForm">
-                        {this.comments.length>0?this.comments.map(comment =>
-                            <Comment user={comment.user.login} date_comment={comment.created_at} comment={comment.body} avatar={comment.user.avatar_url}/>
-                        ):"No comments"}
+            <div className="addForm">
+                {this.state.comments.length>0?this.state.comments.map(comment =>
+                    <Comment user={comment.user.login} date_comment={comment.created_at} comment={comment.body} avatar={comment.user.avatar_url}/>
+                ):"No comments"}
 
+                <textarea>
 
-                        <textarea>
+                </textarea>
 
-                        </textarea>
-
-
-                        <button className="btn teal">Comment</button>
-                    </div>
-
+                <button className="btn teal">Comment</button>
+            </div>
         )
     }
 
-    mounted() {
-        let issueId = this.props.issueId;
-        issueService.getAllCommentsPerIssue(issueId).then(res => this.comments = res.data);
+    componentDidMount() {
+        issueService.getAllCommentsPerIssue(this.props.issueId).then(res => this.setState({comments: res.data}));
     }
+
 }
 
 export class Comment extends Component{
-    comment_days_ago = 0;
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            comment_days_ago : 0,
+        };
+    }
+
     render(){
         return(
             <div>
@@ -181,7 +215,7 @@ export class Comment extends Component{
                             <img src={this.props.avatar} className="avatar-comments"/>
                         </div>
                         <div className="col l11">
-                            <b>{this.props.user}</b> commented {this.comment_days_ago} days ago
+                            <b>{this.props.user}</b> commented {this.state.comment_days_ago} days ago
                             <hr></hr>
                             <div className="row">
                             <div className="col l12">
@@ -194,16 +228,19 @@ export class Comment extends Component{
             </div>
         )
     }
-    mounted() {
+
+    componentDidMount() {
         let date = new Date();
         let year = date.getFullYear().toString();
         let month = parseInt(date.getMonth().toString())+1;
         let day = date.getDate().toString();
-        
+
         let now = parseInt(year+month+day);
 
         let commentDateString = this.props.date_comment.replace(/-/g, '').substr(0,8);
         let commentDate = parseInt(commentDateString);
-        this.comment_days_ago = now-commentDate;
+        this.setState({comment_days_ago : now-commentDate});
     }
+
+
 }

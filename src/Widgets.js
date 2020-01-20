@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 
-import { Component } from 'react-simplified';
+import { Component } from 'react';
 
 
 
@@ -41,17 +41,17 @@ export class Card extends Component{
 		);
       }
   }
-  stashHandler(){
+  stashHandler = () => {
   	let idTitle = this.props.title;
   	let issue = issueService.issues.find(e => e.title === idTitle);
   	issue.tag = "Stashed";
-  }
+  };
 
-  completeHandler(){
+  completeHandler = () => {
 	  let idTitle = this.props.title;
 	  let issue = issueService.issues.find(e => e.title === idTitle);
 	  issue.tag = "Finished";
-  }
+  };
 }
 
 export class Label extends Component{
@@ -69,7 +69,7 @@ export class Label extends Component{
 		);
   }
 
-  mounted() {
+  componentDidMount() {
   	let labelColor = this.props.color;
   	let label = document.querySelector("#issue"+this.props.id);
   	if(label != null){
@@ -89,7 +89,7 @@ export class Chip extends Component{
             )
     }
 
-    mounted() {
+    componentDidMount() {
         let labelColor = this.props.color;
         let label = document.querySelector("#issue"+this.props.id);
         if(label != null){

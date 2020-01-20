@@ -1,5 +1,5 @@
 import Axios from "axios";
-import {sharedComponentData} from "react-simplified";
+
 let token = require("./token/token.js");
 
 
@@ -42,5 +42,5 @@ class IssueService{
 
 }
 
-export let issueService = sharedComponentData(new IssueService());
+export let issueService = new IssueService();
 

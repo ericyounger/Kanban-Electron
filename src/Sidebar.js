@@ -1,14 +1,18 @@
-import * as React from 'react';
+import React from 'react';
 import { NavLink } from "react-router-dom";
-import { Component } from 'react-simplified';
-
-
+import {Component} from 'react';
 import "./css/materialize.min.css";
 import "./css/style.css";
 import {issueService} from "./issueService";
 
 export class Menu extends Component{
-	labels = [];
+	constructor(props){
+		super(props);
+
+		this.state = {
+			labels : [],
+		}
+	}
 
   render(){
     return (
@@ -31,7 +35,7 @@ export class Menu extends Component{
 					</NavLink>
 
 
-					{this.labels.map((e,index) =>
+					{this.state.labels.map((e,index) =>
 					<NavLink
 						to={"/"+e.id}
 						activeStyle={{
@@ -39,7 +43,7 @@ export class Menu extends Component{
 						}}
 					>
 
-						<li key={e.name+index}className="collection-item grey darken-2">
+						<li key={e.name+index} className="collection-item grey darken-2">
 							{e.name}
 						</li>
 					</NavLink>
@@ -53,7 +57,7 @@ export class Menu extends Component{
 						}}
 					>
 
-						<li key={"unlabeled0"}className="collection-item grey darken-2">
+						<li key={"unlabeled0"} className="collection-item grey darken-2">
 							{"unlabeled"}
 						</li>
 					</NavLink>
@@ -62,8 +66,8 @@ export class Menu extends Component{
 		);
   }
 
-  mounted() {
-  	issueService.getAllLabels().then(res => this.labels = res.data);
+	componentDidMount() {
+  	issueService.getAllLabels().then(res => this.setState({labels : res.data}));
   }
 
 }

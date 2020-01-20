@@ -1,18 +1,24 @@
-import * as React from 'react';
+import React from 'react';
 import {HashRouter, NavLink, Route} from "react-router-dom";
 import {Menu} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
 import {Add, IssueView} from "./Issues";
-import {Component} from 'react-simplified';
-
+import {Component} from 'react';
 import "./css/materialize.min.css";
 import "./css/style.css";
 import {issueService} from "./issueService";
 
 
 class App extends Component{
-	array = [];
-	labels = [];
+
+	constructor(props){
+		super(props);
+
+		this.state = {
+			array : [],
+			labels : [],
+		};
+	}
 
 	render(){
 		if(issueService.loggedIn){
@@ -35,7 +41,7 @@ class App extends Component{
 									component={()=> <Add addHandler={this.addHandler} title={"Post new issue"}/>}
 								/>
 
-								{this.labels.map(e =>
+								{this.state.labels.map(e =>
 									<Route
 										exact path={"/"+e.id}
 										component={() => <Content category={e.name} color={e.color} />}
@@ -47,7 +53,7 @@ class App extends Component{
 									component={()=> <Content category={"unlabeled"} color={"FF7F00"} />}
 								/>
 
-								{this.array.map(issue =>
+								{this.state.array.map(issue =>
 									<Route
 										exact path={"/"+issue.id}
 										component={() => <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueId={issue.number}/>}
@@ -89,26 +95,34 @@ class App extends Component{
 			};
 
 			issueService.postIssue(issue).then(res => console.log(res)).catch(e => console.log());
+		};
+
+		componentDidMount() {
+			issueService.getAllIssues().then(res => this.setState({array : res.data}));
+			issueService.getAllLabels().then(res => this.setState({labels: res.data}));
 		}
 
-		mounted() {
-		issueService.getAllIssues().then(res => this.array = res.data);
-		issueService.getAllLabels().then(res => this.labels = res.data);
-		}
+
 
 
 }
 
 
 class Content extends Component{
-	array = [];
+	constructor(props){
+		super(props);
+
+		this.state = {
+			array : [],
+		}
+	}
 	render(){
       	return (
       		<div className="content">
 				<div className="row">
 				<Label type={this.props.category} color={this.props.color}/>
 				<div className="fixer">
-					{this.array.map(issue =>
+					{this.state.array.map(issue =>
 						<div className="col l3">
 							<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 								{issue.body}
@@ -121,31 +135,37 @@ class Content extends Component{
 		);
   }
 
-  mounted() {
-		issueService.getAllIssues().then(res => {
-			if(this.props.category === "unlabeled"){
-				console.log(res.data);
-				this.array = res.data.filter(e => e.labels.length === 0);
-			} else {
-				this.array = res.data.filter(e => e.labels[0] != null && e.labels[0].name === this.props.category);
-			}
-		}).catch(e =>
-		console.log(e));
-
+  componentDidMount() {
+	  issueService.getAllIssues().then(res => {
+		  if(this.props.category === "unlabeled"){
+		  	this.setState({array : res.data.filter(e => e.labels.length === 0)});
+		  } else {
+		  	this.setState({array :res.data.filter(e => e.labels[0] != null && e.labels[0].name === this.props.category)});
+		  }
+	  }).catch(e =>
+		  console.log(e));
   }
+
 
 }
 
 class Dashboard extends Component{
-	array = [];
-	labels = [];
+	constructor(props){
+		super(props);
+
+		this.state = {
+			array : [],
+			labels : [],
+		}
+	}
+
 	render(){
-		if(this.array.length === -1){
+		if(this.state.array.length === -1){
 			return (
-				<div class="center-progress center">
+				<div className="center-progress center">
 					Building skynet
-					<div class="progress">
-						<div class="indeterminate"></div>
+					<div className="progress">
+						<div className="indeterminate"> </div>
 					</div>
 				</div>
 			);
@@ -154,11 +174,11 @@ class Dashboard extends Component{
 			return(
 				<div className="content">
 					<div className="flex">
-						{this.labels.map(e =>
+						{this.state.labels.map(e =>
 							<div className="col l3">
 								<Label type={e.name} color={e.color} id={e.id}/>
 
-								{this.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
+								{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
 									<Card title={issue.title} id={issue.id} assign={issue.assignees} >
 										{issue.body}
 									</Card>
@@ -168,7 +188,7 @@ class Dashboard extends Component{
 						)}
 						<div className="col l3">
 						<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
-							{this.array.filter(e => e.labels.length === 0).map(issue =>
+							{this.state.array.filter(e => e.labels.length === 0).map(issue =>
 								<Card title={issue.title} id={issue.id} assign={issue.assignees} >
 									{issue.body}
 								</Card>
@@ -180,15 +200,16 @@ class Dashboard extends Component{
 		}
 	}
 
-  mounted() {
+	componentDidMount() {
 		issueService.getAllLabels().then(res => {
-			this.labels = res.data
+			this.setState({labels : res.data});
 		});
 		issueService.getAllIssues().then(res =>  {
-			this.array = res.data
-			console.log(this.array);
+			this.setState({array : res.data});
 		});
-  }
+	}
+
+
 
 }
 
@@ -218,8 +239,14 @@ export class UserInput extends Component{
 }
 
 export class RepoList extends Component{
-	repos = [];
-	radios = [];
+	constructor(props){
+		super(props);
+
+		this.state = {
+			repos : [],
+			radios : [],
+		}
+	}
 
 	render(){
 		return(
@@ -227,7 +254,7 @@ export class RepoList extends Component{
 				<div className="card width-30 login-form">
 					<div className="card-content">
 						<div className="card-title">Choose repo</div>
-						{this.repos.map((repos, index) =>
+						{this.state.repos.map((repos, index) =>
 							<p>
 							<label>
 								<input name="group1" type="radio" id="radioRepo" value={repos.name}/>
@@ -242,12 +269,11 @@ export class RepoList extends Component{
 		)
 
 	}
-	mounted() {
-		issueService.getAllRepos().then(res => this.repos = res.data);
+	componentDidMount() {
+		issueService.getAllRepos().then(res => this.setState({repos: res.data}));
 	}
 
 	loginHandler = () => {
-
 		let selectedRepo = document.querySelector("input[name = group1]:checked").value;
 		issueService.repo = selectedRepo;
 		issueService.loggedIn = true;
