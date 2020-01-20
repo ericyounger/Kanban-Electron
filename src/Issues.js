@@ -15,6 +15,8 @@ export class Add extends Component{
 
         this.state = {
             labels : [],
+            title : "",
+            body : "",
         };
     }
 
@@ -28,20 +30,14 @@ export class Add extends Component{
                         <div className="row">
                             <div className="col l12 m12">
                                 <label>Title</label>
-                                <input
-                                    type="text"
-                                    className="active" id="issueTitle"
-                                ></input>
+                                <input type="text" className="active" id="issueTitle" onChange={this.inputHandler} name="title"/>
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="col l12 m12">
                                 <label>Description</label>
-                                <SimpleMDE onChange={this.handleChange}  options={{
-                                    autofocus: true,
-                                    spellChecker: false
-                                }} />
+                                <textarea name="body" onChange={this.inputHandler}/>
                             </div>
                         </div>
                         <div className="row">
@@ -56,7 +52,7 @@ export class Add extends Component{
                         </div>
 
                         <div className="row">
-                            <button className="btn" onClick={this.props.addHandler}>Add issue</button>
+                            <button className="btn" onClick={this.submit}>Add issue</button>
                         </div>
                     </div>
                 </Card>
@@ -66,9 +62,23 @@ export class Add extends Component{
         );
     }
 
+    inputHandler = (event) => {
+        console.log(event.target.name);
+        this.setState({[event.target.name] : event.target.value });
+
+    };
+
     componentDidMount() {
         issueService.getAllLabels().then(res => this.setState({labels : res.data}));
     }
+
+    submit = () => {
+        let json = {
+            title : this.state.title,
+            body : this.state.body,
+        };
+        this.props.addHandler(json);
+    };
 
 
 

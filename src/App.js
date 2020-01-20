@@ -8,6 +8,12 @@ import "./css/materialize.min.css";
 import "./css/style.css";
 import {issueService} from "./issueService";
 
+import { createHashHistory } from 'history';
+
+
+let history = createHashHistory();
+
+
 
 class App extends Component{
 
@@ -17,6 +23,7 @@ class App extends Component{
 		this.state = {
 			array : [],
 			labels : [],
+			title : "",
 		};
 	}
 
@@ -84,17 +91,8 @@ class App extends Component{
 		}
 	}
 
-	addHandler = () => {
-			let title = document.querySelector('#issueTitle').value;
-			let description = document.querySelector("#textArea1").value;
-
-			//let category = document.querySelector('#selectIssue').value;
-			let issue = {
-				"title":title,
-				"description": description,
-			};
-
-			issueService.postIssue(issue).then(res => console.log(res)).catch(e => console.log());
+	addHandler = (json) => {
+			issueService.postIssue(json).then(res => console.log(res)).catch(e => console.log());
 		};
 
 		componentDidMount() {
@@ -277,6 +275,9 @@ export class RepoList extends Component{
 		let selectedRepo = document.querySelector("input[name = group1]:checked").value;
 		issueService.repo = selectedRepo;
 		issueService.loggedIn = true;
+		console.log("logged in?");
+		console.log(issueService.loggedIn);
+		history.push("/dashboard");
 	}
 
 }
