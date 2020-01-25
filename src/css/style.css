@@ -1,5 +1,5 @@
 
-
+/* Global settings */
 body, html {
         margin: 0px !important;
         padding: 0px !important;
@@ -15,14 +15,64 @@ body, html {
     margin: 0;
 }
 
-    
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right{
+    text-align: right;
+}
 
 body{
     background: #3e3e3e;
 }
 
-.wrapper {
+.pointer {
+    cursor: pointer;
+}
 
+.font12{
+    font-size: 12pt !important;
+}
+
+a {
+    cursor: pointer;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.margin-15{
+    margin:15px;
+}
+
+.margin-right-15{
+    margin-right: 15px;
+}
+
+.padding-right-15{
+    padding-right: 15px;
+}
+
+.width-70{
+    width: 70%;
+}
+
+.width-50{
+    width: 70%;
+}
+
+.width-30{
+    width: 30%;
+}
+
+/* Content */
+.wrapper {
   height: 100vh;
   width: 100%;
   background:#3e3e3e;
@@ -32,10 +82,25 @@ body{
 .content{
     padding-left: 25px;
     padding-right: 15px;
-    padding-top: 10px;
+    padding-top: 5px;
     height: 130vh;
     overflow-y:scroll;
     zoom:80%;
+}
+
+.content .fixer{
+    margin-top:-10px;
+}
+
+.filter-bar{
+    position: fixed;
+    float: left;
+    width: 83.4%;
+    text-align: right;
+    bottom: 0;
+    background: #424242;
+    padding: 5px 5px 5px 10px;
+    border-top: 1px solid lightslategray;
 }
 
 .flex{
@@ -44,108 +109,11 @@ body{
     width: 2500px;
 }
 
-.font12{
-    font-size: 12pt !important;
-}
-
-.card-content{
-    overflow:hidden;
-}
-
-
-
-.content .fixer{
-    margin-top:-10px;
-}
-
-
-
-
-
 .add{
     text-align: center;
     color: white;
     cursor: pointer;
     font-size: 14pt;
-}
-
-
-
-
-.center-progress{
-    margin:0 auto;
-    width: 70%;
-    text-align: center;
-    color: white;
-    margin-top:40vh;
-
-
-}
-
-a {
-    cursor: pointer;
-}
-
-.sidebar ul{
-    margin: 0 !important;
-    padding: 0 !important;
-    border:0;
-    zoom:95%;
-}
-
-
-
-.sidebar{
-    height: 100vh;
-    background: rgb(74,84,93);
-}
-
-.sidebar a{
-        color:white;
-}
-
-.sidebar li:hover{
-       background:#424242 !important;
-}
-
-.sidebar li:active{
-    background:red;
-}
-
-.sidebar li{
-    font-size:12px;
-    white-space: normal;
-    padding-left: 0px;
-}
-
-.material-icons{
-    display: inline-flex;
-    vertical-align: top;
-}
-
-.card{
-    margin-top: 10px;
-    margin-right: 10px;
-}
-
-
-
-
-.sidebar a:active{
-    border:1px solid black;
-}
-
-
-
-.logo{
-    background-image: url("../images/logo.png");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    color:black !important;
-    padding-top:10px;
-    height:130px;
-    margin-bottom: 50px;
 }
 
 .addForm{
@@ -163,31 +131,95 @@ a {
     margin-bottom: 15px;
 }
 
-margin-15{
-    margin:15px;
-}
 .addForm textarea:focus{
     outline:2px solid teal;
 }
 
-.width-70{
-    width: 70%;
+.login-form{
+    margin: 25vh auto;
 }
 
-.width-50{
-    width: 70%;
+/* Menu */
+.sidebar ul{
+    margin: 0 !important;
+    padding: 0 !important;
+    border:0;
+    zoom:95%;
 }
 
-.width-30{
-    width: 30%;
+.sidebar{
+    height: 100vh;
+    background: rgb(74,84,93);
+}
+
+.sidebar a{
+    color:white;
+}
+
+.sidebar li:hover{
+    background:#424242 !important;
+}
+
+.sidebar li:active{
+    background:red;
+}
+
+.sidebar li{
+    font-size:12px;
+    white-space: normal;
+    padding-left: 0px;
+}
+
+.sidebar a:active{
+    border:1px solid black;
+}
+
+.logo{
+    background-image: url("../images/logo.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    color:black !important;
+    padding-top:10px;
+    height:130px;
+    margin-bottom: 50px;
+}
+
+
+/* Widgets */
+
+.filter-icon{
+    color: white;
+}
+
+.filter-icon:hover{
+    color: #00b8d4;
 }
 
 .btn{
     margin-top:10px;
 }
 
-.login-form{
-    margin: 25vh auto;
+.card-content{
+    overflow:hidden;
+}
+
+.center-progress{
+    margin:0 auto;
+    width: 70%;
+    text-align: center;
+    color: white;
+    margin-top:40vh;
+}
+
+.material-icons{
+    display: inline-flex;
+    vertical-align: top;
+}
+
+.card{
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
 .issueview .col{
@@ -198,10 +230,6 @@ margin-15{
 .issueview .divider{
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-.bold {
-    font-weight: bold;
 }
 
 .avatar-comments{

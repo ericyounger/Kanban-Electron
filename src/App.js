@@ -7,6 +7,9 @@ import {Component} from 'react';
 import "./css/materialize.min.css";
 import "./css/style.css";
 import {issueService} from "./issueService";
+import {FaList} from "react-icons/all";
+import {FaEllipsisV} from "react-icons/all";
+import {FaEllipsisH} from "react-icons/all";
 
 import { createHashHistory } from 'history';
 
@@ -34,12 +37,12 @@ class App extends Component{
 		if(issueService.loggedIn){
 			return (
 				<HashRouter>
-					<div className="row">
-						<div className="wrapper">
-							<div className="col s12 m2 l2">
+					<div className="wrapper">
+						<div className="row">
+							<div className="col s12 m2 l2" id="menu">
 								<Menu />
 							</div>
-							<div className="col s12 m10 l10">
+							<div className="col s12 m10 l10" id="content">
 								<Route
 									exact
 									path="/dashboard"
@@ -69,8 +72,6 @@ class App extends Component{
 										component={() => <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueId={issue.number}/>}
 									/>
 								)}
-
-
 							</div>
 						</div>
 					</div>
@@ -164,6 +165,7 @@ class Dashboard extends Component{
 		this.state = {
 			array : [],
 			labels : [],
+			display: "slide",
 		}
 	}
 
@@ -180,33 +182,86 @@ class Dashboard extends Component{
 
 		} else{
 			return(
-				<div className="content">
-					<div className="flex">
-						{this.state.labels.map(e =>
-							<div className="col l3">
-								<Label type={e.name} color={e.color} id={e.id}/>
+				<div>
+					<div className="content">
 
-								{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
-									<Card title={issue.title} id={issue.id} assign={issue.assignees} >
-										{issue.body}
-									</Card>
 
+						{this.state.display === "slide" ?
+							<div className="flex">
+								{this.state.labels.map(e =>
+									<div className="col l3">
+										<Label type={e.name} color={e.color} id={e.id}/>
+
+										{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
+											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+												{issue.body}
+											</Card>
+										)}
+									</div>
 								)}
+								<div className="col l3">
+									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
+									{this.state.array.filter(e => e.labels.length === 0).map(issue =>
+										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+											{issue.body}
+										</Card>
+									)}
+								</div>
 							</div>
-						)}
-						<div className="col l3">
-						<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
-							{this.state.array.filter(e => e.labels.length === 0).map(issue =>
-								<Card title={issue.title} id={issue.id} assign={issue.assignees} >
-									{issue.body}
-								</Card>
-							)}
+						:null}
+
+						{this.state.display === "list"?
+							<div>
+								{this.state.labels.map(e =>
+									<div className="col l3">
+										<Label type={e.name} color={e.color} id={e.id}/>
+
+										{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
+											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+												{issue.body}
+											</Card>
+										)}
+									</div>
+								)}
+								<div className="col l3">
+									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
+									{this.state.array.filter(e => e.labels.length === 0).map(issue =>
+										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+											{issue.body}
+										</Card>
+									)}
+								</div>
+
+
+							</div>
+						:null}
+
+					</div>
+					<div className="filter-bar">
+
+						<div className="flex">
+							<div onClick={this.displayList} className="pointer filter-icon margin-right-15">
+								<FaList/>
+							</div>
+							<div onClick={this.displaySlide} className="pointer filter-icon">
+								<FaEllipsisH/>
+							</div>
 						</div>
+
+
 					</div>
 				</div>
 			)
 		}
 	}
+
+	displayList = () => {
+		this.setState({display : "list"});
+	};
+
+	displaySlide = () => {
+		this.setState({display : "slide"});
+	};
 
 	componentDidMount() {
 		issueService.getAllLabels().then(res => {
