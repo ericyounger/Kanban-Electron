@@ -5,6 +5,10 @@ import "./css/materialize.min.css";
 import "./css/style.css";
 import {issueService} from "./issueService";
 
+/**
+ * @class Menu
+ * @classdesc Menu is the main navigation for the site.
+ */
 export class Menu extends Component{
 	constructor(props){
 		super(props);

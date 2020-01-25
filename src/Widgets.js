@@ -9,6 +9,10 @@ import "./css/style.css";
 import {issueService} from "./issueService";
 import {NavLink} from "react-router-dom";
 
+/**
+ * @class Card
+ * @classdesc Card is the standard component for displaying issues. Small card component
+ */
 export class Card extends Component{
   render(){
       if(this.props.type === "simple"){
@@ -54,6 +58,10 @@ export class Card extends Component{
   };
 }
 
+/**
+ * @class Label
+ * @classdesc Label is the standard component for displaying labels.
+ */
 export class Label extends Component{
   render(){
     return (
@@ -78,6 +86,10 @@ export class Label extends Component{
   }
 }
 
+/**
+ * @class Chip
+ * @classdesc Chip is the component used for showing assignees on a issue
+ */
 export class Chip extends Component{
     render(){
             return (

@@ -14,7 +14,10 @@ import { createHashHistory } from 'history';
 let history = createHashHistory();
 
 
-
+/**
+ * @class App
+ * @classdesc App is the uppermost parent that holds all components and also handles the navlink with hashroutes.
+ */
 class App extends Component{
 
 	constructor(props){
@@ -78,13 +81,13 @@ class App extends Component{
 				<HashRouter>
 				<Route
 					exact path="/"
-					component={() => <UserInput />}
+					component={() => <UserNameInput />}
 				/>
 
 					<Route
 						exact
 						path="/repos"
-						component={() => <RepoList/>}
+						component={() => <RepoSelection/>}
 					/>
 				</HashRouter>
 			)
@@ -105,7 +108,10 @@ class App extends Component{
 
 }
 
-
+/**
+ * @class Content
+ * @classdesc Content is the main container for all the content
+ */
 class Content extends Component{
 	constructor(props){
 		super(props);
@@ -147,6 +153,10 @@ class Content extends Component{
 
 }
 
+/**
+ * @class Dashboard
+ * @classdesc Dashboard is the landing page when logged in, and displays all issues with labels categorised.
+ */
 class Dashboard extends Component{
 	constructor(props){
 		super(props);
@@ -211,7 +221,12 @@ class Dashboard extends Component{
 
 }
 
-export class UserInput extends Component{
+/**
+ * @class UserNameInput
+ * @classdesc UserNameInput is the first component the user sees, that lets user write in their username.
+ *  RepoSelection uses the user input from this component to get their repos listed out.
+ */
+export class UserNameInput extends Component{
 	render(){
 		return(
 			<div>
@@ -236,7 +251,11 @@ export class UserInput extends Component{
 
 }
 
-export class RepoList extends Component{
+/**
+ * @class RepoSelection
+ * @classdesc RepoSelection lists up all repos associated with user, and lets user select repo.
+ */
+export class RepoSelection extends Component{
 	constructor(props){
 		super(props);
 

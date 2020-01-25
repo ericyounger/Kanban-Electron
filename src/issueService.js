@@ -2,7 +2,10 @@ import Axios from "axios";
 
 let token = require("./token/token.js");
 
-
+/**
+ * @class IssueService
+ * @classdesc IssueService is a class that holds all methods for communicating with GitHub API
+ */
 class IssueService{
     user = "ericyounger";
     repo = "Kanban-Electron";

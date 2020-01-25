@@ -8,6 +8,10 @@ import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 
 
+/**
+ * @class Add
+ * @classdesc Add is the component where user can add new issues. Holds the forms for submission.
+ */
 export class Add extends Component{
 
     constructor(props){
@@ -62,6 +66,11 @@ export class Add extends Component{
         );
     }
 
+    /**
+     * Handles the inputfields and stores information in state.
+     * @param {event}event
+     * Takes in event from onChange
+     */
     inputHandler = (event) => {
         console.log(event.target.name);
         this.setState({[event.target.name] : event.target.value });
@@ -72,6 +81,9 @@ export class Add extends Component{
         issueService.getAllLabels().then(res => this.setState({labels : res.data}));
     }
 
+    /**
+     * Submits information stored in state from forms, and adds a new issue to repo.
+     */
     submit = () => {
         let json = {
             title : this.state.title,
@@ -85,6 +97,10 @@ export class Add extends Component{
 
 }
 
+/**
+ * @class IssueView
+ * @classdesc IssueView is for display all information about a specific issue
+ */
 export class IssueView extends Component{
 
     constructor(props){
@@ -175,6 +191,11 @@ export class IssueView extends Component{
 
 }
 
+/**
+ * @class CommentField
+ * @classdesc CommentField is the parent component of the comments, it both shows submitted comments, and also holds the
+ * input form for submitting new comments
+ */
 export class CommentField extends Component{
     constructor(props){
         super(props);
@@ -206,6 +227,11 @@ export class CommentField extends Component{
 
 }
 
+/**
+ * @class Comment
+ * @classdesc Comment is the component that holds information on one comment. This component is usually mapped
+ * and shows comment information through props
+ */
 export class Comment extends Component{
 
     constructor(props){
