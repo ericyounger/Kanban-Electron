@@ -115,7 +115,8 @@ a {
 .user-avatar{
     color: white;
     text-align: center;
-    padding-top: 50px;
+    width: fit-content;
+    margin: 40px auto;
 }
 
 .user {
