@@ -112,6 +112,35 @@ a {
     width: 200px;
 }
 
+.user-avatar{
+    color: white;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.user {
+
+}
+
+.user:hover{
+    color: #00b8d4;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.user-avatar img{
+    object-fit: cover;
+    border-radius: 50%;
+    height: 75px;
+    width: 75px;
+}
+
 .range-field{
     height: 20px !important;
 

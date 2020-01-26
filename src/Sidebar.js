@@ -67,7 +67,15 @@ export class Sidebar extends Component{
 					</NavLink>
 				</ul>
 
-				<img src={issueService.userAvatar} />
+				<div className="user-avatar">
+					<div className="user">
+						<div className="avatar">
+							<img src="https://postmediatorontosun.files.wordpress.com/2019/12/cat-e1575303121192.jpg"/>
+						</div>
+
+						{issueService.user}
+					</div>
+				</div>
 			</div>
 		);
   }
