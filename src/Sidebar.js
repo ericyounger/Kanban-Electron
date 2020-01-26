@@ -32,7 +32,7 @@ export class Menu extends Component{
 							</div>
 						</li>
 					</NavLink>
-					<NavLink to="/dashboard" activeStyle={{ color: "orange" }}>
+					<NavLink to="/" activeStyle={{ color: "orange" }}>
 						<li className="collection-item grey darken-2">
 							<i className="material-icons">build</i>Dashboard
 						</li>

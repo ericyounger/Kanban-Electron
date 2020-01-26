@@ -104,7 +104,11 @@ a {
 .flex{
     display: flex;
     overflow-x: scroll;
-    width: 2500px;
+    width: fit-content;
+}
+
+.label-width{
+    width: 200px;
 }
 
 .add{

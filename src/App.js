@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {Component, createContext } from 'react';
 import {HashRouter, NavLink, Route} from "react-router-dom";
 import {Menu} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
 import {Add, IssueView} from "./Issues";
-import {Component} from 'react';
+
 import "./css/materialize.min.css";
 import "./css/style.css";
 import {issueService} from "./issueService";
-import {FaList} from "react-icons/all";
-import {FaEllipsisV} from "react-icons/all";
+
 import {FaEllipsisH} from "react-icons/all";
 import {FaTh} from "react-icons/all";
 import {FaBars} from "react-icons/all";
@@ -17,6 +16,7 @@ import { createHashHistory } from 'history';
 
 
 let history = createHashHistory();
+
 
 
 /**
@@ -50,7 +50,7 @@ class App extends Component{
 							<div className="col s12 m10 l10" id="contentPages">
 								<Route
 									exact
-									path="/dashboard"
+									path="/"
 									component={() => <Content page={<Dashboard />}/>}
 								/>
 
@@ -209,7 +209,7 @@ class Dashboard extends Component{
 						{this.state.display === "slide" ?
 							<div className="flex">
 								{this.state.labels.map(e =>
-									<div className="col l3">
+									<div className="label-width">
 										<Label type={e.name} color={e.color} id={e.id}/>
 
 										{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
@@ -219,7 +219,7 @@ class Dashboard extends Component{
 										)}
 									</div>
 								)}
-								<div className="col l3">
+								<div className="label-width">
 									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
 									{this.state.array.filter(e => e.labels.length === 0).map(issue =>
 										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
@@ -333,6 +333,9 @@ class Dashboard extends Component{
 		});
 	}
 
+	/**
+	 * Hides labels if there are no issues associated with it.
+	 */
 	toggleHideEmpty = () => {
 		if(this.state.hideShow === "Hide empty"){
 			let currentState = this.state;
@@ -340,8 +343,18 @@ class Dashboard extends Component{
 
 			currentState.array.map(issue => {
 				if(issue.labels.length !== 0){
-					//TODO: Have to check if label is added already before pushing
-					hideEmpty.push(issue.labels[0]);
+					let found = false;
+					hideEmpty.map(e => {
+						if(e.name === issue.labels[0].name){
+							console.log(e.name);
+							found = true;
+						}
+					});
+					if(!found){
+						hideEmpty.push(issue.labels[0]);
+					}
+
+
 				}
 			});
 
