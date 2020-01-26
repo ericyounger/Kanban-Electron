@@ -144,10 +144,10 @@ a {
 
 .range-field{
     height: 20px !important;
-
     float: top !important;
     position: absolute;
     bottom: 12px;
+    left:200px;
 
 }
 
