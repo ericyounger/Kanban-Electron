@@ -4,9 +4,10 @@ import { Component } from 'react';
 import {issueService} from "./issueService";
 import {Chip} from "./Widgets";
 
-import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
+import { createHashHistory } from 'history';
 
+
+let history = createHashHistory();
 
 /**
  * @class Add
@@ -88,6 +89,7 @@ export class Add extends Component{
         let json = {
             title : this.state.title,
             body : this.state.body,
+            labels : this.state.labels,
         };
         this.props.addHandler(json);
     };

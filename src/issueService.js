@@ -37,21 +37,15 @@ class IssueService{
     }
 
     postIssue(json){
-
-        let packed = this.packPost(json);
-        return Axios.post(`https://api.github.com/repos/${this.user}/${this.repo}/issues`, packed);
-    }
-
-    packPost(json) {
-        return {
-            method: "POST",
-            headers: {
-                "Authorization": `token ${this.tokenAuth}`,
-                "Content-Type": "application/json"
-            },
-            body: {title: json.title},
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3.raw',
+            "Authorization": `token ${this.tokenAuth}`,
         };
+
+        return Axios.post(`https://api.github.com/repos/${this.user}/${this.repo}/issues`, json , {headers: headers});
     }
+
 
 }
 

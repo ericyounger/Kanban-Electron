@@ -103,7 +103,15 @@ class App extends Component{
 	}
 
 	addHandler = (json) => {
-			issueService.postIssue(json).then(res => console.log(res)).catch(e => console.log(e));
+			issueService.postIssue(json).then(res => {
+				alert("Issue has been posted");
+				console.log(res);
+				history.push("/");
+			}).catch(e => {
+				alert("Something went wrong");
+				console.log(e);
+			});
+
 		};
 
 		componentDidMount() {
