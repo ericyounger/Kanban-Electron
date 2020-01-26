@@ -116,7 +116,7 @@ export class IssueView extends Component{
     render(){
         return(
             <div className="row">
-            <div className="issueview col l12">
+            <div className="col l12">
                     <Card title={this.props.title} type="simple">
                         <div className="row">
                             <div className="col l9">

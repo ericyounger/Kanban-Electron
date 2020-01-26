@@ -10,6 +10,8 @@ import {issueService} from "./issueService";
 import {FaList} from "react-icons/all";
 import {FaEllipsisV} from "react-icons/all";
 import {FaEllipsisH} from "react-icons/all";
+import {FaTh} from "react-icons/all";
+import {FaBars} from "react-icons/all";
 
 import { createHashHistory } from 'history';
 
@@ -38,41 +40,53 @@ class App extends Component{
 			return (
 				<HashRouter>
 					<div className="wrapper">
+
 						<div className="row">
-							<div className="col s12 m2 l2" id="menu">
+
+							<div className="col s12 m2 l2" id="menuNavigation">
 								<Menu />
 							</div>
-							<div className="col s12 m10 l10" id="content">
+
+							<div className="col s12 m10 l10" id="contentPages">
 								<Route
 									exact
 									path="/dashboard"
-									component={() => <Dashboard />}
+									component={() => <Content page={<Dashboard />}/>}
 								/>
 
 								<Route
 									exact path="/add"
-									component={()=> <Add addHandler={this.addHandler} title={"Post new issue"}/>}
+									component={() => <Content page={<Add addHandler={this.addHandler} title={"Post new issue"}/>}/>}
 								/>
+
 
 								{this.state.labels.map(e =>
 									<Route
 										exact path={"/"+e.id}
-										component={() => <Content category={e.name} color={e.color} />}
+										component={() => <Content page={<IssueContent category={e.name} color={e.color} />
+										}/>}
+
 									/>
 								)}
 
 								<Route
 									exact path="/0"
-									component={()=> <Content category={"unlabeled"} color={"FF7F00"} />}
+									component={() => <Content page={<IssueContent category={"unlabeled"} color={"FF7F00"} />}/>}
 								/>
+
+
 
 								{this.state.array.map(issue =>
 									<Route
 										exact path={"/"+issue.id}
-										component={() => <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueId={issue.number}/>}
+										component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueId={issue.number}/>}/>}
 									/>
 								)}
-							</div>
+
+
+
+								</div>
+
 						</div>
 					</div>
 				</HashRouter>
@@ -96,7 +110,7 @@ class App extends Component{
 	}
 
 	addHandler = (json) => {
-			issueService.postIssue(json).then(res => console.log(res)).catch(e => console.log());
+			issueService.postIssue(json).then(res => console.log(res)).catch(e => console.log(e));
 		};
 
 		componentDidMount() {
@@ -109,11 +123,21 @@ class App extends Component{
 
 }
 
+export class Content extends Component{
+	render() {
+		return(
+			<div className="content">
+				{this.props.page}
+			</div>
+		)
+	}
+}
+
 /**
- * @class Content
- * @classdesc Content is the main container for all the content
+ * @class IssueContent
+ * @classdesc IssueContent is the main container for all the content
  */
-class Content extends Component{
+class IssueContent extends Component{
 	constructor(props){
 		super(props);
 
@@ -123,20 +147,18 @@ class Content extends Component{
 	}
 	render(){
       	return (
-      		<div className="content">
-				<div className="row">
-				<Label type={this.props.category} color={this.props.color}/>
-				<div className="fixer">
-					{this.state.array.map(issue =>
-						<div className="col l3">
-							<Card title={issue.title} id={issue.id} assign={issue.assignees}>
-								{issue.body}
-							</Card>
-						</div>
-					)}
+				<div>
+					<Label type={this.props.category} color={this.props.color}/>
+					<div className="fixer">
+						{this.state.array.map(issue =>
+							<div className="col l3">
+								<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+									{issue.body}
+								</Card>
+							</div>
+						)}
+					</div>
 				</div>
-				</div>
-      		</div>
 		);
   }
 
@@ -166,6 +188,7 @@ class Dashboard extends Component{
 			array : [],
 			labels : [],
 			display: "slide",
+			hideShow : "Hide empty",
 		}
 	}
 
@@ -183,9 +206,6 @@ class Dashboard extends Component{
 		} else{
 			return(
 				<div>
-					<div className="content">
-
-
 						{this.state.display === "slide" ?
 							<div className="flex">
 								{this.state.labels.map(e =>
@@ -210,7 +230,7 @@ class Dashboard extends Component{
 							</div>
 						:null}
 
-						{this.state.display === "list"?
+						{this.state.display === "table"?
 							<div>
 								{this.state.labels.map(e =>
 									<div className="col l3">
@@ -236,20 +256,54 @@ class Dashboard extends Component{
 							</div>
 						:null}
 
-					</div>
-					<div className="filter-bar">
+						{this.state.display === "list"?
+							<div className="padding-bottom-50">
 
-						<div className="flex">
-							<div onClick={this.displayList} className="pointer filter-icon margin-right-15">
-								<FaList/>
+								{this.state.labels.map(e =>
+									<div>
+										<Label type={e.name} color={e.color} id={e.id}/>
+
+										{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
+											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+												{issue.body}
+											</Card>
+										)}
+									</div>
+								)}
+
+								<div>
+									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
+									{this.state.array.filter(e => e.labels.length === 0).map(issue =>
+										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+											{issue.body}
+										</Card>
+									)}
+								</div>
+
 							</div>
-							<div onClick={this.displaySlide} className="pointer filter-icon">
+							:null}
+
+
+					<div className="filter-bar">
+						<div className="flex">
+							<div onClick={this.displayTable} className="pointer filter-icon margin-right-15">
+								<FaTh/>
+							</div>
+
+							<div onClick={this.displayList} className="pointer filter-icon margin-right-15">
+								<FaBars/>
+							</div>
+
+							<div onClick={this.displaySlide} className="pointer filter-icon margin-right-15">
 								<FaEllipsisH/>
 							</div>
+
+							<div className="filter-icon pointer" onClick={this.toggleHideEmpty}>
+								{this.state.hideShow}
+							</div>
 						</div>
-
-
 					</div>
+
 				</div>
 			)
 		}
@@ -257,6 +311,10 @@ class Dashboard extends Component{
 
 	displayList = () => {
 		this.setState({display : "list"});
+	}
+
+	displayTable = () => {
+		this.setState({display : "table"});
 	};
 
 	displaySlide = () => {
@@ -266,10 +324,34 @@ class Dashboard extends Component{
 	componentDidMount() {
 		issueService.getAllLabels().then(res => {
 			this.setState({labels : res.data});
+
 		});
 		issueService.getAllIssues().then(res =>  {
 			this.setState({array : res.data});
+
+			console.log(res.data);
 		});
+	}
+
+	toggleHideEmpty = () => {
+		if(this.state.hideShow === "Hide empty"){
+			let currentState = this.state;
+			let hideEmpty = [];
+
+			currentState.array.map(issue => {
+				if(issue.labels.length !== 0){
+					//TODO: Have to check if label is added already before pushing
+					hideEmpty.push(issue.labels[0]);
+				}
+			});
+
+			this.setState({labels : hideEmpty, hideShow : "Show empty"});
+		} else{
+			issueService.getAllLabels().then(res => {
+				this.setState({labels : res.data, hideShow : "Hide empty"});
+			});
+		}
+
 	}
 
 

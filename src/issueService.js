@@ -29,18 +29,29 @@ class IssueService{
     }
 
     postIssue(json){
+
+           let headers = {
+                "Access-Control-Allow-Origin" : "*",
+                'Content-Type': 'application/json',
+                "Authorization": `token ${this.tokenAuth}`
+            };
+
+
         let packed = this.packPost(json);
         return Axios.post(`http://api.github.com/${this.repo}/${this.user}/repo/issues`, packed);
     }
 
     packPost(json) {
-        let headers = {
+        return {
             "url": `http://api.github.com/${this.repo}/${this.user}/repo/issues`,
             "method": "POST",
-            "headers": {"Authorization": `token ${this.tokenAuth}`},
-            "body": JSON.stringify({title: json.title, body: json.body})
+            "headers": {
+                "Authorization": `token ${this.tokenAuth}`,
+                "Content-Type": "text/plain",
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": {title: json.title, body: json.body}
         };
-        return headers;
     }
 
 }

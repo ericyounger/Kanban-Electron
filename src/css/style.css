@@ -5,15 +5,18 @@ body, html {
         padding: 0px !important;
     }
 
-.col{
-    padding:0px !important;
-    margin: 0px !important;
+.w-100{
+    width: 100%;
 }
 
-.row{
-    padding:0;
-    margin: 0;
+.padding-bottom-50{
+    padding-bottom: 50px;
 }
+
+.row .col{
+    padding: 0 !important;
+}
+
 
 .text-left {
     text-align: left;
@@ -74,30 +77,25 @@ a {
 /* Content */
 .wrapper {
   height: 100vh;
-  width: 100%;
   background:#3e3e3e;
-    overflow: hidden;
+    overflow:hidden;
 }
 
 .content{
-    padding-left: 25px;
-    padding-right: 15px;
-    padding-top: 5px;
-    height: 130vh;
-    overflow-y:scroll;
-    zoom:80%;
-}
+    width: 100%;
+    height: 100vh;
+    padding: 0 2px 0 15px;
 
-.content .fixer{
-    margin-top:-10px;
+    overflow-y:scroll;
 }
 
 .filter-bar{
     position: fixed;
     float: left;
-    width: 83.4%;
+    width: 100%;
     text-align: right;
     bottom: 0;
+    margin-left: -15px;
     background: #424242;
     padding: 5px 5px 5px 10px;
     border-top: 1px solid lightslategray;
@@ -222,10 +220,7 @@ a {
     margin-right: 10px;
 }
 
-.issueview .col{
-    padding:10px !important;
-    margin-right: 10px;
-}
+
 
 .issueview .divider{
     margin-top: 10px;
