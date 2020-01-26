@@ -15,10 +15,12 @@ Still working on this, not complete at all.
 - [ ] Create user settings page
 - [ ] Implement second sidebar
 - [ ] Add custom menus to Electron
-- [ ] Find out how to package project to native runners.
-- [ ] Research and add oAuth instead of personal tokens.
-- [ ] User tests
-- [ ] Bug fix
+- [ ] Find out how to package project to native runners
+- [ ] Research and add oAuth instead of personal tokens
+- [ ] User tests
+- [ ] Bug fixes
+
+
 
 
 ## Available Scripts
