@@ -307,7 +307,7 @@ class Dashboard extends Component{
 
 								<form action="#">
 									<div className="range-field">
-									<input type="range"  min="100" max="400" value={this.state.labelSize} onChange={this.handleRange}/>
+									<input type="range"  min="200" max="600" value={this.state.labelSize} onChange={this.handleRange}/>
 									</div>
 								</form>
 
