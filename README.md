@@ -1,9 +1,5 @@
 Still working on this, not complete at all.
 
-<img width="1792" alt="Skjermbilde 2019-12-15 kl  23 11 52" src="https://user-images.githubusercontent.com/44582953/70870186-6779ab00-1f90-11ea-932c-708b61106df3.png">
-
-<img width="1792" alt="Skjermbilde 2019-12-15 kl  23 12 04" src="https://user-images.githubusercontent.com/44582953/70870193-71031300-1f90-11ea-81d2-779d74eed85b.png">
-
 ## Status:
 - [x] Integrate React with Electron
 - [x] Setup core layout
@@ -20,6 +16,12 @@ Still working on this, not complete at all.
 - [ ] User tests
 - [ ] Bug fixes
 
+# Screenshots:
+
+<img width="1792" alt="Skjermbilde 2020-01-26 kl  20 12 08" src="https://user-images.githubusercontent.com/44582953/73140353-3654c600-4078-11ea-8e48-d57555aa680f.png">
+
+
+<img width="1792" alt="Skjermbilde 2019-12-15 kl  23 12 04" src="https://user-images.githubusercontent.com/44582953/70870193-71031300-1f90-11ea-81d2-779d74eed85b.png">
 
 
 
