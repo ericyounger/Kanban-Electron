@@ -22,6 +22,7 @@ export class Add extends Component{
             labels : [],
             title : "",
             body : "",
+            labelSelected : "",
         };
     }
 
@@ -48,7 +49,7 @@ export class Add extends Component{
                         <div className="row">
                             <div className="col l6">
                                 <label>Category:</label>
-                                <select className="browser-default" id="selectIssue">
+                                <select className="browser-default" id="selectIssue" onChange={this.labelHandler}>
                                     {this.state.labels.map(label =>
                                     <option>{label.name}</option>
                                     )}
@@ -75,11 +76,14 @@ export class Add extends Component{
     inputHandler = (event) => {
         console.log(event.target.name);
         this.setState({[event.target.name] : event.target.value });
+    };
 
+    labelHandler = (event) => {
+        this.setState({labelSelected : event.target.value});
     };
 
     componentDidMount() {
-        issueService.getAllLabels().then(res => this.setState({labels : res.data}));
+        issueService.getAllLabels().then(res => this.setState({labels : res.data, labelSelected : res.data[0]}));
     }
 
     /**
