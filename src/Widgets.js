@@ -17,7 +17,7 @@ export class Card extends Component{
   render(){
       if(this.props.type === "simple"){
           return (
-          	<div className="content">
+          	<div className="width-90">
 				<div className="card">
 					<div className="card-content">
 						<div className="card-title orange-text text-darken-2">{this.props.title}</div>

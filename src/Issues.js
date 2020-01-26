@@ -27,7 +27,7 @@ export class Add extends Component{
     render(){
         return (
             <div>
-            <div className="row">
+            <div className="">
                 <div className="col l8 m12">
                 <Card title={this.props.title} type="simple">
                     <div className="addForm">
@@ -115,8 +115,8 @@ export class IssueView extends Component{
 
     render(){
         return(
-            <div className="row">
-            <div className="col l12">
+            <div className="">
+            <div className="">
                     <Card title={this.props.title} type="simple">
                         <div className="row">
                             <div className="col l9">
@@ -162,12 +162,12 @@ export class IssueView extends Component{
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="">
 
 
                         </div>
                         <div className="divider"></div>
-                        <div className="row">
+                        <div className="">
                             <CommentField issueId={this.props.issueId}/>
                         </div>
                     </Card>

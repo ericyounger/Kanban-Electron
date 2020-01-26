@@ -40,7 +40,6 @@ class App extends Component{
 			return (
 				<HashRouter>
 					<div className="wrapper">
-
 						<div className="row">
 
 							<div className="col s12 m2 l2" id="menuNavigation">
@@ -59,7 +58,6 @@ class App extends Component{
 									component={() => <Content page={<Add addHandler={this.addHandler} title={"Post new issue"}/>}/>}
 								/>
 
-
 								{this.state.labels.map(e =>
 									<Route
 										exact path={"/"+e.id}
@@ -74,8 +72,6 @@ class App extends Component{
 									component={() => <Content page={<IssueContent category={"unlabeled"} color={"FF7F00"} />}/>}
 								/>
 
-
-
 								{this.state.array.map(issue =>
 									<Route
 										exact path={"/"+issue.id}
@@ -83,10 +79,7 @@ class App extends Component{
 									/>
 								)}
 
-
-
 								</div>
-
 						</div>
 					</div>
 				</HashRouter>
