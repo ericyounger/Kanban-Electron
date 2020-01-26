@@ -6,10 +6,10 @@ import "./css/style.css";
 import {issueService} from "./issueService";
 
 /**
- * @class Menu
- * @classdesc Menu is the main navigation for the site.
+ * @class Sidebar
+ * @classdesc Sidebar is the main navigation for the site.
  */
-export class Menu extends Component{
+export class Sidebar extends Component{
 	constructor(props){
 		super(props);
 
@@ -66,6 +66,8 @@ export class Menu extends Component{
 						</li>
 					</NavLink>
 				</ul>
+
+				<img src={issueService.userAvatar} />
 			</div>
 		);
   }

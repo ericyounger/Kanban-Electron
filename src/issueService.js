@@ -12,8 +12,13 @@ let token = require("./token/token.js");
 class IssueService{
     user = "ericyounger";
     repo = "Kanban-Electron";
+    userAvatar = "";
     loggedIn = true;
     tokenAuth = token.token;
+
+    storeUserAvatar(){
+        Axios.get(`http://github.com/${this.user}.png`).then(res => this.userAvatar = res.data.avatar_url);
+    }
 
     getAllIssues(){
         return Axios.get(`https://api.github.com/repos/${this.user}/${this.repo}/issues?state=all`);

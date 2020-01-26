@@ -1,6 +1,6 @@
-import React, {Component, createContext } from 'react';
+import React, {Component} from 'react';
 import {HashRouter, NavLink, Route} from "react-router-dom";
-import {Menu} from './Sidebar.js';
+import {Sidebar} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
 import {Add, IssueView} from "./Issues";
 
@@ -44,7 +44,7 @@ class App extends Component{
 						<div className="row">
 
 							<div className="col s12 m2 l2" id="menuNavigation">
-								<Menu />
+								<Sidebar />
 							</div>
 
 							<div className="col s12 m10 l10" id="contentPages">
@@ -189,6 +189,7 @@ class Dashboard extends Component{
 			labels : [],
 			display: "slide",
 			hideShow : "Hide empty",
+			labelSize : 200,
 		}
 	}
 
@@ -298,9 +299,19 @@ class Dashboard extends Component{
 								<FaEllipsisH/>
 							</div>
 
-							<div className="filter-icon pointer" onClick={this.toggleHideEmpty}>
+							<div className="filter-icon pointer margin-right-15" onClick={this.toggleHideEmpty}>
 								{this.state.hideShow}
 							</div>
+
+
+
+								<form action="#">
+									<div className="range-field">
+									<input type="range"  min="100" max="400" value={this.state.labelSize} onChange={this.handleRange}/>
+									</div>
+								</form>
+
+
 						</div>
 					</div>
 
@@ -321,6 +332,17 @@ class Dashboard extends Component{
 		this.setState({display : "slide"});
 	};
 
+	handleRange = (event) => {
+		this.setState({labelSize : event.target.value}, () => {
+			let label = document.querySelectorAll(".label-width");
+			if(label != null){
+				label.forEach( x=> x.setAttribute("style",`width:${this.state.labelSize}px`));
+
+			}
+		});
+
+	};
+
 	componentDidMount() {
 		issueService.getAllLabels().then(res => {
 			this.setState({labels : res.data});
@@ -331,6 +353,7 @@ class Dashboard extends Component{
 
 			console.log(res.data);
 		});
+
 	}
 
 	/**

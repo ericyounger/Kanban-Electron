@@ -107,8 +107,18 @@ a {
     width: fit-content;
 }
 
+
 .label-width{
     width: 200px;
+}
+
+.range-field{
+    height: 20px !important;
+
+    float: top !important;
+    position: absolute;
+    bottom: 12px;
+
 }
 
 .add{
@@ -141,7 +151,7 @@ a {
     margin: 25vh auto;
 }
 
-/* Menu */
+/* Sidebar */
 .sidebar ul{
     margin: 0 !important;
     padding: 0 !important;
