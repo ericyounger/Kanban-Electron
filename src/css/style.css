@@ -98,7 +98,7 @@ a {
     float: left;
     width: 100%;
     text-align: right;
-    bottom: 0;
+    bottom: 15px;
     margin-left: -15px;
     background: #424242;
     padding: 5px 5px 5px 10px;

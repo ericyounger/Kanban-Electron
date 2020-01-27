@@ -83,19 +83,22 @@ export class Add extends Component{
     };
 
     componentDidMount() {
-        issueService.getAllLabels().then(res => this.setState({labels : res.data, labelSelected : res.data[0]}));
+        issueService.getAllLabels().then(res => this.setState({labels : res.data, labelSelected : res.data[0].name}));
     }
 
     /**
      * Submits information stored in state from forms, and adds a new issue to repo.
      */
     submit = () => {
+
         let json = {
             title : this.state.title,
             body : this.state.body,
-            labels : this.state.labels,
+            labels : [this.state.labelSelected]
         };
-        this.props.addHandler(json);
+
+        console.log(json.labels);
+       this.props.addHandler(json);
     };
 
 
@@ -208,6 +211,7 @@ export class CommentField extends Component{
 
         this.state = {
             comments : [],
+            newComment : "",
         };
     }
 
@@ -218,17 +222,31 @@ export class CommentField extends Component{
                     <Comment user={comment.user.login} date_comment={comment.created_at} comment={comment.body} avatar={comment.user.avatar_url}/>
                 ):"No comments"}
 
-                <textarea>
+                <textarea onChange={this.commentHandler}>
 
                 </textarea>
 
-                <button className="btn teal">Comment</button>
+                <button className="btn teal" onClick={this.postComment}>Comment</button>
             </div>
         )
     }
 
     componentDidMount() {
         issueService.getAllCommentsPerIssue(this.props.issueId).then(res => this.setState({comments: res.data}));
+    }
+
+    commentHandler = (event) => {
+        this.setState({newComment : event.target.value}, () => {
+            console.log(this.state.newComment);
+        })
+    };
+
+    postComment = () => {
+        let json = {
+            body : this.state.newComment
+        };
+
+        issueService.postComment(json, this.props.issueId);
     }
 
 }

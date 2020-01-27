@@ -46,6 +46,25 @@ class IssueService{
         return Axios.post(`https://api.github.com/repos/${this.user}/${this.repo}/issues`, json , {headers: headers});
     }
 
+    postComment(json, issueID){
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3.raw',
+            "Authorization": `token ${this.tokenAuth}`,
+        };
+
+        return Axios.post(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}/comments`, json, {headers: headers});
+
+        /*
+            let json: {
+                "body" : 'my uber comment'
+            }
+
+
+         */
+        };
+
+
 
 }
 

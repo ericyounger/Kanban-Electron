@@ -1,21 +1,24 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { NavLink } from "react-router-dom";
 import {Component} from 'react';
 import "./css/materialize.min.css";
 import "./css/style.css";
 import {issueService} from "./issueService";
+import {UserContext} from "./userStore";
 
 /**
  * @class Sidebar
  * @classdesc Sidebar is the main navigation for the site.
  */
 export class Sidebar extends Component{
+
 	constructor(props){
 		super(props);
 
 		this.state = {
 			labels : [],
 		}
+
 	}
 
   render(){
@@ -73,9 +76,13 @@ export class Sidebar extends Component{
 							<img src="https://postmediatorontosun.files.wordpress.com/2019/12/cat-e1575303121192.jpg"/>
 						</div>
 
+
 						{issueService.user}
+
+
 					</div>
 				</div>
+
 			</div>
 		);
   }

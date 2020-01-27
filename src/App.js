@@ -13,6 +13,8 @@ import {FaTh} from "react-icons/all";
 import {FaBars} from "react-icons/all";
 
 import { createHashHistory } from 'history';
+import {UserContext} from "./userStore";
+
 
 
 let history = createHashHistory();
@@ -43,7 +45,9 @@ class App extends Component{
 						<div className="row">
 
 							<div className="col s12 m2 l2" id="menuNavigation">
+								<UserContext.Provider>
 								<Sidebar />
+								</UserContext.Provider>
 							</div>
 
 							<div className="col s12 m10 l10" id="contentPages">
@@ -74,7 +78,7 @@ class App extends Component{
 
 								{this.state.array.map(issue =>
 									<Route
-										exact path={"/"+issue.id}
+										exact path={"/:id"}
 										component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueId={issue.number}/>}/>}
 									/>
 								)}
@@ -306,11 +310,10 @@ class Dashboard extends Component{
 
 
 
-								<form action="#">
 									<div className="range-field">
 									<input type="range"  min="200" max="600" value={this.state.labelSize} onChange={this.handleRange}/>
 									</div>
-								</form>
+
 
 
 						</div>
@@ -470,7 +473,7 @@ export class RepoSelection extends Component{
 		issueService.loggedIn = true;
 		console.log("logged in?");
 		console.log(issueService.loggedIn);
-		history.push("/dashboard");
+		history.push("/");
 	}
 
 }
