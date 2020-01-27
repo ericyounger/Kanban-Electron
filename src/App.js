@@ -41,6 +41,7 @@ class App extends Component{
 		if(issueService.loggedIn){
 			return (
 				<HashRouter>
+					<div className="header-drag"></div>
 					<div className="wrapper">
 						<div className="row">
 

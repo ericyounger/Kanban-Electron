@@ -98,7 +98,7 @@ a {
     float: left;
     width: 100%;
     text-align: right;
-    bottom: 15px;
+    bottom: 0px;
     margin-left: -15px;
     background: #424242;
     padding: 5px 5px 5px 10px;
@@ -220,16 +220,27 @@ a {
     border:1px solid black;
 }
 
+.header-drag{
+    position: fixed;
+    -webkit-app-region: drag;
+    width: 100%;
+
+    height: 30px;
+    z-index: 9999;
+}
+
 .logo{
+
     background-image: url("../images/logo.png");
     background-size: contain;
+    object-fit: cover;
     background-position: center;
     background-repeat: no-repeat;
-    color:black !important;
-    padding-top:10px;
     height:130px;
     margin-bottom: 50px;
 }
+
+
 
 
 /* Widgets */
