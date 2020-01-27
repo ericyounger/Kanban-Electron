@@ -7,10 +7,11 @@ Still working on this, not complete at all.
 - [x] Filtering/display methods on dashboard
 - [ ] Make design responsive
 - [ ] Integrate user/repo selection with core layout
-- [ ] Make Post methods work
+- [x] Make Post methods work
 - [ ] Create user settings page
 - [ ] Implement second sidebar
-- [ ] Add custom menus to Electron
+- [x] Add custom menus to Electron
+- [ ] Add functionality to custom menus
 - [ ] Find out how to package project to native runners
 - [ ] Research and add oAuth instead of personal tokens
 - [ ] User tests
