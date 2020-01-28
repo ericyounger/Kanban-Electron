@@ -14,6 +14,7 @@ import {FaBars} from "react-icons/all";
 
 import { createHashHistory } from 'history';
 import {UserContext} from "./userStore";
+import {UserSetting} from "./user";
 
 
 
@@ -61,6 +62,11 @@ class App extends Component{
 								<Route
 									exact path="/add"
 									component={() => <Content page={<Add addHandler={this.addHandler} title={"Post new issue"}/>}/>}
+								/>
+
+								<Route
+									exact path="/userSettings"
+									component={() => <Content page={<UserSetting/>}/>}
 								/>
 
 								{this.state.labels.map(e =>

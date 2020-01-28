@@ -70,7 +70,8 @@ export class Sidebar extends Component{
 					</NavLink>
 				</ul>
 
-				<div className="user-avatar" onClick={this.userSettings}>
+                <NavLink to="/userSettings">
+				<div className="user-avatar">
 					<div className="user">
 						<div className="avatar">
 							<img src="https://postmediatorontosun.files.wordpress.com/2019/12/cat-e1575303121192.jpg"/>
@@ -82,6 +83,7 @@ export class Sidebar extends Component{
 
 					</div>
 				</div>
+                </NavLink>
 
 			</div>
 		);
