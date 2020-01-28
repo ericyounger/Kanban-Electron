@@ -6,7 +6,7 @@ Still working on this, not complete at all.
 - [x] Get methods to pull needed information from API
 - [x] Filtering/display methods on dashboard
 - [ ] Make design responsive
-- [ ] Integrate user/repo selection with core layout
+- [x] Integrate user/repo selection with core layout
 - [x] Make Post methods work
 - [ ] Create user settings page
 - [ ] Implement second sidebar
