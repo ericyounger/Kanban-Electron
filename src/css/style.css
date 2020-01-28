@@ -246,6 +246,8 @@ a {
     -webkit-user-select: none;
     height: 30px;
     z-index: 9999;
+    top: 0;
+
 }
 
 .logo{

@@ -95,6 +95,8 @@ class App extends Component{
 			);
 		} else{
 			return (
+				<div>
+				<div className="header-drag"></div>
 				<div className="login-form">
 				<HashRouter>
 
@@ -110,6 +112,7 @@ class App extends Component{
 							/>
 
 				</HashRouter>
+				</div>
 				</div>
 			)
 		}
