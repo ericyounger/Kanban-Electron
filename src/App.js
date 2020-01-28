@@ -78,8 +78,9 @@ class App extends Component{
 								/>
 
 								{this.state.array.map(issue =>
+
 									<Route
-										exact path={"/:id"}
+										exact path={"/"+issue.id}
 										component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueId={issue.number}/>}/>}
 									/>
 								)}
@@ -196,11 +197,13 @@ class Dashboard extends Component{
 			display: "slide",
 			hideShow : "Hide empty",
 			labelSize : 200,
+			openIssues : [],
+			closedIssues: [],
 		}
 	}
 
 	render(){
-		if(this.state.array.length === -1){
+		if(this.state.openIssues.length === 0){
 			return (
 				<div className="center-progress center">
 					Building skynet
@@ -219,7 +222,7 @@ class Dashboard extends Component{
 									<div className="label-width">
 										<Label type={e.name} color={e.color} id={e.id}/>
 
-										{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
+										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
 											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 												{issue.body}
 											</Card>
@@ -228,7 +231,7 @@ class Dashboard extends Component{
 								)}
 								<div className="label-width">
 									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
-									{this.state.array.filter(e => e.labels.length === 0).map(issue =>
+									{this.state.openIssues.filter(e => e.labels.length === 0).map(issue =>
 										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 											{issue.body}
 										</Card>
@@ -243,7 +246,7 @@ class Dashboard extends Component{
 									<div className="col l3">
 										<Label type={e.name} color={e.color} id={e.id}/>
 
-										{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
+										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
 											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 												{issue.body}
 											</Card>
@@ -252,7 +255,7 @@ class Dashboard extends Component{
 								)}
 								<div className="col l3">
 									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
-									{this.state.array.filter(e => e.labels.length === 0).map(issue =>
+									{this.state.openIssues.filter(e => e.labels.length === 0).map(issue =>
 										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 											{issue.body}
 										</Card>
@@ -270,7 +273,7 @@ class Dashboard extends Component{
 									<div>
 										<Label type={e.name} color={e.color} id={e.id}/>
 
-										{this.state.array.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
+										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
 											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 												{issue.body}
 											</Card>
@@ -280,7 +283,7 @@ class Dashboard extends Component{
 
 								<div>
 									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
-									{this.state.array.filter(e => e.labels.length === 0).map(issue =>
+									{this.state.openIssues.filter(e => e.labels.length === 0).map(issue =>
 										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 											{issue.body}
 										</Card>
@@ -327,7 +330,7 @@ class Dashboard extends Component{
 
 	displayList = () => {
 		this.setState({display : "list"});
-	}
+	};
 
 	displayTable = () => {
 		this.setState({display : "table"});
@@ -354,7 +357,9 @@ class Dashboard extends Component{
 
 		});
 		issueService.getAllIssues().then(res =>  {
-			this.setState({array : res.data});
+			let open = res.data.filter(issue => issue.state === "open");
+			let closed = res.data.filter(issue => issue.state === "closed");
+			this.setState({array : res.data, openIssues : open, closedIssues: closed});
 
 			console.log(res.data);
 		});

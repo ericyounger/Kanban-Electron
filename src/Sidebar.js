@@ -70,7 +70,7 @@ export class Sidebar extends Component{
 					</NavLink>
 				</ul>
 
-				<div className="user-avatar" onClick={() => {alert("No function added to this yet")}}>
+				<div className="user-avatar" onClick={this.userSettings}>
 					<div className="user">
 						<div className="avatar">
 							<img src="https://postmediatorontosun.files.wordpress.com/2019/12/cat-e1575303121192.jpg"/>
@@ -86,6 +86,10 @@ export class Sidebar extends Component{
 			</div>
 		);
   }
+
+  	userSettings = () => {
+
+	};
 
 	componentDidMount() {
   	issueService.getAllLabels().then(res => this.setState({labels : res.data}));

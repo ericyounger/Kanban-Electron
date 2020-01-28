@@ -167,7 +167,7 @@ export class IssueView extends Component{
                                     {this.state.updated_date}
                                     </p>
                                     <br/>
-                                    <input type="button" className="btn btn-small red" value="Close issue"/>
+                                    <input type="button" className="btn btn-small red" value="Close issue" onClick={this.closeIssue}/>
                                 </div>
                             </div>
                         </div>
@@ -195,6 +195,11 @@ export class IssueView extends Component{
             created_date : created_at,
             updated_date : updated_at,
         });
+    }
+
+    closeIssue = () => {
+        issueService.closeIssue(this.props.issueId).then(res => console.log(res));
+        alert("Issue closed");
     }
 
 
@@ -291,11 +296,13 @@ export class Comment extends Component{
 
     componentDidMount() {
         let date = new Date();
-        let year = date.getFullYear().toString();
-        let month = parseInt(date.getMonth().toString())+1;
-        let day = date.getDate().toString();
+        let year = date.getFullYear();
+        let month = date.getMonth()+1;
+        let day = date.getDate();
+
 
         let now = parseInt(year+month+day);
+
 
         let commentDateString = this.props.date_comment.replace(/-/g, '').substr(0,8);
         let commentDate = parseInt(commentDateString);

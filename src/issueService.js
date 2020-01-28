@@ -16,11 +16,18 @@ class IssueService{
     loggedIn = true;
     tokenAuth = token.token;
 
-    storeUserAvatar(){
-        Axios.get(`http://github.com/${this.user}.png`).then(res => this.userAvatar = res.data.avatar_url);
+    getUser(){
+        //TODO: This is not working
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3.raw',
+            "Authorization": `token ${this.tokenAuth}`,
+        };
+        Axios.get(`http://github.com/user/${this.user}`).then(res => console.log(res));
     }
 
     getAllIssues(){
+        //TODO: get methods do not filter out closed or open
         return Axios.get(`https://api.github.com/repos/${this.user}/${this.repo}/issues?state=all`);
     }
 
@@ -46,6 +53,21 @@ class IssueService{
         return Axios.post(`https://api.github.com/repos/${this.user}/${this.repo}/issues`, json , {headers: headers});
     }
 
+    closeIssue(issueID){
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3.raw',
+            "Authorization": `token ${this.tokenAuth}`,
+        };
+
+        let json = {
+            state : "closed",
+        };
+
+        return Axios.patch(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`, json, {headers: headers});
+
+    }
+
     postComment(json, issueID){
         const headers = {
             'Content-Type': 'application/json',
@@ -54,14 +76,6 @@ class IssueService{
         };
 
         return Axios.post(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}/comments`, json, {headers: headers});
-
-        /*
-            let json: {
-                "body" : 'my uber comment'
-            }
-
-
-         */
         };
 
 
