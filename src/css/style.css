@@ -79,11 +79,7 @@ a {
 }
 
 /* Content */
-.wrapper {
-  height: 100vh;
-  background:#3e3e3e;
-    overflow:hidden;
-}
+
 
 .content{
     width: 100%;
@@ -122,6 +118,11 @@ a {
     text-align: center;
     width: fit-content;
     margin: 75px auto;
+}
+
+.wrapper{
+    width:100%;
+    background: red !important;
 }
 
 .user {
@@ -196,11 +197,18 @@ a {
 
 .sidebar{
     height: 100vh;
+    width: 300px;
+    float: left;
     background: rgb(74,84,93);
 }
 
 .sidebar a{
     color:white;
+}
+
+.contentMain{
+    width: calc(100% - 300px);
+    float: left;
 }
 
 .sidebar li:hover{

@@ -43,16 +43,13 @@ class App extends Component{
 			return (
 				<HashRouter>
 					<div className="header-drag"></div>
-					<div className="wrapper">
-						<div className="row">
 
-							<div className="col s12 m2 l2" id="menuNavigation">
-								<UserContext.Provider>
+					<div className="wrapper">
+							<div className="sidebar" id="menuNavigation">
 								<Sidebar />
-								</UserContext.Provider>
 							</div>
 
-							<div className="col s12 m10 l10" id="contentPages">
+							<div className="contentMain" id="contentPages">
 								<Route
 									exact
 									path="/"
@@ -91,9 +88,9 @@ class App extends Component{
 									/>
 								)}
 
-								</div>
-						</div>
+							</div>
 					</div>
+
 				</HashRouter>
 			);
 		} else{

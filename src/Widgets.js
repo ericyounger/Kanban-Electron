@@ -68,7 +68,7 @@ export class Label extends Component{
     	<div className={`card darken-1`} id={"issue"+this.props.id}>
 			<div className="card-title center-align font12">{this.props.type}
 			{this.props.close===true?
-                <i className="close material-icons">close</i>
+                <i className="close material-icons pointer" onClick={() => {this.props.removeLabel(this.props.type)}}>close</i>
                 :null
 			}
 			</div>

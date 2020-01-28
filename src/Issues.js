@@ -139,7 +139,7 @@ export class IssueView extends Component{
                                     <span className="bold">Labels:</span>
                                     <p>
                                     {this.props.label.map(label =>
-                                        <Label type={label.name} color={label.color} close={true}/>
+                                        <Label type={label.name} color={label.color} close={true} removeLabel={this.removeLabel}/>
                                         )}
                                         <input type="button" className="btn btn-small" value="Add label"/>
                                     </p><br/>
@@ -186,6 +186,14 @@ export class IssueView extends Component{
             </div>
         )
     }
+
+    removeLabel = (labelName) => {
+        let labelsRemaining = [];
+        console.log(this.state.labels);
+        this.props.label.filter(e => e.name !== labelName).map(label => labelsRemaining.push(label.name));
+
+        issueService.removeLabel(this.props.issueId, labelsRemaining);
+    };
 
     componentDidMount() {
         let created_at = this.props.issue.created_at.replace(/Z/g, '').replace(/T/g, ' at ');

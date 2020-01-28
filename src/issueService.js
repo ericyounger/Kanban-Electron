@@ -65,7 +65,34 @@ class IssueService{
         };
 
         return Axios.patch(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`, json, {headers: headers});
+    }
 
+    removeLabel(issueID, list){
+        let json = {
+            labels: list
+        };
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3.raw',
+            "Authorization": `token ${this.tokenAuth}`,
+        };
+
+        Axios.patch(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`, json, {headers: headers}).then(res => console.log(res));
+    }
+
+    removeAssignes(issueID, list){
+        let json = {
+            assignees: list
+        };
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3.raw',
+            "Authorization": `token ${this.tokenAuth}`,
+        };
+
+        Axios.patch(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`, json, {headers: headers}).then(res => console.log(res));
     }
 
     postComment(json, issueID){
