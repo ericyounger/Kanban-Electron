@@ -4,10 +4,7 @@ import { Component } from 'react';
 import {issueService} from "./issueService";
 import {Chip} from "./Widgets";
 
-import { createHashHistory } from 'history';
 
-
-let history = createHashHistory();
 
 /**
  * @class Add
@@ -29,8 +26,8 @@ export class Add extends Component{
     render(){
         return (
             <div>
-            <div className="">
-                <div className="col l8 m12">
+            <div className="row">
+                <div className="col l12 m12">
                 <Card title={this.props.title} type="simple">
                     <div className="addForm">
                         <div className="row">
@@ -50,8 +47,8 @@ export class Add extends Component{
                             <div className="col l6">
                                 <label>Label:</label>
                                 <select className="browser-default" id="selectIssue" onChange={this.labelHandler}>
-                                    {this.state.labels.map(label =>
-                                    <option>{label.name}</option>
+                                    {this.state.labels.map((label, index) =>
+                                    <option key={label.name + index}>{label.name}</option>
                                     )}
                                 </select>
                             </div>
@@ -147,7 +144,7 @@ export class IssueView extends Component{
                                     <div className="row">
 
 
-                                        {this.state.issue.assignees != null && this.state.issue.assignees != 0 ? this.state.issue.assignees.map(issue =>
+                                        {this.state.issue.assignees !== null && this.state.issue.assignees !== 0 ? this.state.issue.assignees.map(issue =>
                                             <div className="addForm">
                                                 <Chip type={issue.login} image={issue.avatar_url}/>
                                             </div>
@@ -285,7 +282,7 @@ export class Comment extends Component{
                 <div className="card grey lighten-4">
                     <div className="row">
                         <div className="col l1 center-align">
-                            <img src={this.props.avatar} className="avatar-comments"/>
+                            <img src={this.props.avatar} className="avatar-comments" alt=""/>
                         </div>
                         <div className="col l11">
                             <b>{this.props.user}</b> commented {this.state.comment_days_ago} days ago

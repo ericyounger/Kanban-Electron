@@ -11,19 +11,20 @@ let token = require("./token/token.js");
 
 class IssueService{
     user = "ericyounger";
+    authenticatedUser = "";
     repo = "Kanban-Electron";
     userAvatar = "";
     loggedIn = true;
     tokenAuth = token.token;
 
-    getUser(){
+    storeAuthenticatedUser(){
         //TODO: This is not working
         const headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/vnd.github.v3.raw',
             "Authorization": `token ${this.tokenAuth}`,
         };
-        Axios.get(`http://github.com/user/${this.user}`).then(res => console.log(res));
+        Axios.get(`http://github.com/user/`, {headers: headers}).then(res => console.log(res)).catch(req => console.log(req));
     }
 
     getAllIssues(){
@@ -94,6 +95,22 @@ class IssueService{
 
         Axios.patch(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`, json, {headers: headers}).then(res => console.log(res));
     }
+
+    addAssignees(issueID, list){
+        let json = {
+            assignees: list
+        };
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3.raw',
+            "Authorization": `token ${this.tokenAuth}`,
+        };
+
+        Axios.patch(`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`, json, {headers: headers}).then(res => console.log(res));
+    }
+
+
 
     postComment(json, issueID){
         const headers = {

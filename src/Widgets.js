@@ -38,7 +38,7 @@ export class Card extends Component{
 				</NavLink>
                     <div className="card-action orange-text">
                         {this.props.assign.map(item =>
-                            <div className="chip grey lighten-2">{item.login} <i className="close material-icons">close</i></div>
+                            <div key={item.id} className="chip grey lighten-2">{item.login} <i className="close material-icons">close</i></div>
                         )}
                     </div>
       		</div>
@@ -94,7 +94,7 @@ export class Chip extends Component{
     render(){
             return (
                 <div className="chip black-text" id={this.props.type.replace(/ /g,'')}>
-                    <img src={this.props.image}/>
+                    <img src={this.props.image} alt=""/>
                         {this.props.type}
                     <i className="close material-icons">close</i>
                 </div>

@@ -5,10 +5,21 @@ export class UserSetting extends Component{
         return(
             <div>
                 <div className="card">
-                    <div className="card-title">User settings</div>
-                    <div className="card-content">
 
-                        Test
+                    <div className="card-content">
+                        <div className="card-title">User settings</div>
+                        <div className="row">
+                            <div className="col l4">
+                                username
+                            </div>
+
+                            <div className="col l2">
+                                User image
+                            </div>
+
+
+
+                        </div>
 
                     </div>
                 </div>

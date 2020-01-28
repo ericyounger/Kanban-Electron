@@ -13,7 +13,6 @@ import {FaTh} from "react-icons/all";
 import {FaBars} from "react-icons/all";
 
 import { createHashHistory } from 'history';
-import {UserContext} from "./userStore";
 import {UserSetting} from "./user";
 
 
@@ -58,12 +57,12 @@ class App extends Component{
 
 								<Route
 									exact path="/add"
-									component={() => <Content page={<Add addHandler={this.addHandler} title={"Post new issue"}/>}/>}
+									component={() => <SmallContent page={<Add addHandler={this.addHandler} title={"Post new issue"}/>}/>}
 								/>
 
 								<Route
 									exact path="/userSettings"
-									component={() => <Content page={<UserSetting/>}/>}
+									component={() => <SmallContent page={<UserSetting/>}/>}
 								/>
 
 								{this.state.labels.map(e =>
@@ -80,9 +79,9 @@ class App extends Component{
 									component={() => <Content page={<IssueContent category={"unlabeled"} color={"FF7F00"} />}/>}
 								/>
 
-								{this.state.array.map(issue =>
+								{this.state.array.map((issue, index) =>
 
-									<Route
+									<Route key={issue.id + index}
 										exact path={"/"+issue.id}
 										component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueId={issue.number}/>}/>}
 									/>
@@ -126,11 +125,22 @@ class App extends Component{
 		componentDidMount() {
 			issueService.getAllIssues().then(res => this.setState({array : res.data}));
 			issueService.getAllLabels().then(res => this.setState({labels: res.data}));
+			//issueService.storeAuthenticatedUser();
 		}
 
 
 
 
+}
+
+export class SmallContent extends Component{
+	render() {
+		return(
+			<div className="smallContent">
+				{this.props.page}
+			</div>
+		)
+	}
 }
 
 export class Content extends Component{
@@ -225,8 +235,8 @@ class Dashboard extends Component{
 									<div className="label-width">
 										<Label type={e.name} color={e.color} id={e.id}/>
 
-										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
-											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map((issue,index) =>
+											<Card key={issue.title+index} title={issue.title} id={issue.id} assign={issue.assignees}>
 												{issue.body}
 											</Card>
 										)}
@@ -244,7 +254,7 @@ class Dashboard extends Component{
 						:null}
 
 						{this.state.display === "table"?
-							<div>
+							<div className="row">
 								{this.state.labels.map(e =>
 									<div className="col l3">
 										<Label type={e.name} color={e.color} id={e.id}/>
@@ -363,8 +373,6 @@ class Dashboard extends Component{
 			let open = res.data.filter(issue => issue.state === "open");
 			let closed = res.data.filter(issue => issue.state === "closed");
 			this.setState({array : res.data, openIssues : open, closedIssues: closed});
-
-			console.log(res.data);
 		});
 
 	}
@@ -380,9 +388,9 @@ class Dashboard extends Component{
 			currentState.array.map(issue => {
 				if(issue.labels.length !== 0){
 					let found = false;
+					// eslint-disable-next-line array-callback-return
 					hideEmpty.map(e => {
 						if(e.name === issue.labels[0].name){
-							console.log(e.name);
 							found = true;
 						}
 					});
@@ -392,6 +400,7 @@ class Dashboard extends Component{
 
 
 				}
+				return null
 			});
 
 			this.setState({labels : hideEmpty, hideShow : "Show empty"});

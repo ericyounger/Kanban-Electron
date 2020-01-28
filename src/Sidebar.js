@@ -1,10 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import { NavLink } from "react-router-dom";
 import {Component} from 'react';
 import "./css/materialize.min.css";
 import "./css/style.css";
 import {issueService} from "./issueService";
-import {UserContext} from "./userStore";
+
 
 /**
  * @class Sidebar
@@ -43,7 +43,7 @@ export class Sidebar extends Component{
 
 
 					{this.state.labels.map((e,index) =>
-					<NavLink
+					<NavLink key={index}
 						to={"/"+e.id}
 						activeStyle={{
 							color: "orange"
@@ -74,7 +74,7 @@ export class Sidebar extends Component{
 				<div className="user-avatar">
 					<div className="user">
 						<div className="avatar">
-							<img src="https://postmediatorontosun.files.wordpress.com/2019/12/cat-e1575303121192.jpg"/>
+							<img src="https://postmediatorontosun.files.wordpress.com/2019/12/cat-e1575303121192.jpg" alt=""/>
 						</div>
 
 
