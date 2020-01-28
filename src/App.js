@@ -12,9 +12,9 @@ import {FaEllipsisH} from "react-icons/all";
 import {FaTh} from "react-icons/all";
 import {FaBars} from "react-icons/all";
 
-import { createHashHistory } from 'history';
-import {UserSetting} from "./user";
 
+import {UserSetting} from "./user";
+import { createHashHistory } from 'history';
 
 
 let history = createHashHistory();
@@ -34,11 +34,12 @@ class App extends Component{
 			array : [],
 			labels : [],
 			title : "",
+			loggedIn : false
 		};
 	}
 
 	render(){
-		if(issueService.loggedIn){
+		if(this.state.loggedIn){
 			return (
 				<HashRouter>
 					<div className="header-drag"></div>
@@ -62,7 +63,7 @@ class App extends Component{
 
 								<Route
 									exact path="/userSettings"
-									component={() => <SmallContent page={<UserSetting/>}/>}
+									component={() => <SmallContent page={<UserSetting logOut={this.logOut}/>}/>}
 								/>
 
 								{this.state.labels.map(e =>
@@ -94,21 +95,34 @@ class App extends Component{
 			);
 		} else{
 			return (
+				<div className="login-form">
 				<HashRouter>
-				<Route
-					exact path="/"
-					component={() => <UserNameInput />}
-				/>
 
-					<Route
-						exact
-						path="/repos"
-						component={() => <RepoSelection/>}
-					/>
+						<Route
+							exact path="/"
+							component={() => <UserNameInput/>}
+						/>
+
+							<Route
+								exact
+								path="/repos"
+								component={() => <RepoSelection handleLogin={this.handleLogin}/>}
+							/>
+
 				</HashRouter>
+				</div>
 			)
 		}
 	}
+
+	logOut = () => {
+		this.setState({loggedIn : false});
+	};
+
+	handleLogin = () => {
+		localStorage.setItem("loggedIn", "true");
+		this.setState({loggedIn : true});
+	};
 
 	addHandler = (json) => {
 			issueService.postIssue(json).then(res => {
@@ -123,8 +137,16 @@ class App extends Component{
 		};
 
 		componentDidMount() {
-			issueService.getAllIssues().then(res => this.setState({array : res.data}));
-			issueService.getAllLabels().then(res => this.setState({labels: res.data}));
+			let hasLoggedIn = localStorage.getItem("loggedIn");
+			console.log(hasLoggedIn);
+			if(hasLoggedIn != null){
+				if(hasLoggedIn === "true"){
+					this.setState({loggedIn : true});
+				}
+
+			}
+			//issueService.getAllIssues().then(res => this.setState({array : res.data}));
+			//issueService.getAllLabels().then(res => this.setState({labels: res.data}));
 			//issueService.storeAuthenticatedUser();
 		}
 
@@ -142,6 +164,7 @@ export class SmallContent extends Component{
 		)
 	}
 }
+
 
 export class Content extends Component{
 	render() {
@@ -425,7 +448,7 @@ export class UserNameInput extends Component{
 	render(){
 		return(
 			<div>
-				<div className="card width-30 login-form">
+				<div className="card">
 						<div className="card-content">
 							<div className="card-title">Login</div>
 							<label>GitHub User-name</label>
@@ -488,10 +511,7 @@ export class RepoSelection extends Component{
 	loginHandler = () => {
 		let selectedRepo = document.querySelector("input[name = group1]:checked").value;
 		issueService.repo = selectedRepo;
-		issueService.loggedIn = true;
-		console.log("logged in?");
-		console.log(issueService.loggedIn);
-		history.push("/");
+		this.props.handleLogin();
 	}
 
 }

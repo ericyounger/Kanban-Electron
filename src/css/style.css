@@ -181,7 +181,14 @@ a {
 }
 
 .login-form{
-    margin: 25vh auto;
+    width: 500px;
+    margin:30vh auto;
+
+}
+
+.login-form .card{
+    margin:0 !important;
+
 }
 
 /* Sidebar */

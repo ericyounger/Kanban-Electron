@@ -1,4 +1,9 @@
 import React, {Component} from 'react';
+import { createHashHistory } from 'history';
+
+
+let history = createHashHistory();
+
 
 export class UserSetting extends Component{
     render() {
@@ -16,14 +21,22 @@ export class UserSetting extends Component{
                             <div className="col l2">
                                 User image
                             </div>
-
-
-
                         </div>
 
+                        <div className="row">
+                            <div className="col-4">
+                                <button className="btn" onClick={this.logOut}>Log out</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         )
+    }
+
+    logOut = () => {
+        localStorage.setItem("loggedIn", "false");
+        this.props.logOut();
+        history.push("/");
     }
 }

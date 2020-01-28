@@ -14,7 +14,6 @@ class IssueService{
     authenticatedUser = "";
     repo = "Kanban-Electron";
     userAvatar = "";
-    loggedIn = true;
     tokenAuth = token.token;
 
     storeAuthenticatedUser(){
