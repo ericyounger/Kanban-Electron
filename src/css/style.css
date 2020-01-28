@@ -114,6 +114,7 @@ a {
 
 .label-width{
     width: 200px;
+    -webkit-user-select: none;
 }
 
 .user-avatar{
@@ -224,7 +225,7 @@ a {
     position: fixed;
     -webkit-app-region: drag;
     width: 100%;
-
+    -webkit-user-select: none;
     height: 30px;
     z-index: 9999;
 }

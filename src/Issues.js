@@ -48,7 +48,7 @@ export class Add extends Component{
                         </div>
                         <div className="row">
                             <div className="col l6">
-                                <label>Category:</label>
+                                <label>Label:</label>
                                 <select className="browser-default" id="selectIssue" onChange={this.labelHandler}>
                                     {this.state.labels.map(label =>
                                     <option>{label.name}</option>
