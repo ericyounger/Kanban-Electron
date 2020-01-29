@@ -80,11 +80,11 @@ class App extends Component{
 									component={() => <Content page={<IssueContent category={"unlabeled"} color={"FF7F00"} />}/>}
 								/>
 
-								{this.state.array.map((issue, index) =>
+								{this.state.array.map(issue =>
 
-									<Route key={issue.id + index}
-										exact path={"/"+issue.id}
-										component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueId={issue.number}/>}/>}
+									<Route
+										exact path={"/issue/"+issue.number}
+										component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueNumber={issue.number}/>}/>}
 									/>
 								)}
 
@@ -148,9 +148,13 @@ class App extends Component{
 				}
 
 			}
-			//issueService.getAllIssues().then(res => this.setState({array : res.data}));
-			//issueService.getAllLabels().then(res => this.setState({labels: res.data}));
-			//issueService.storeAuthenticatedUser();
+			issueService.getAllIssues().then(res => {
+				this.setState({array : res.data});
+
+				console.log(res.data);
+			});
+			issueService.getAllLabels().then(res => this.setState({labels: res.data}));
+			issueService.storeAuthenticatedUser();
 		}
 
 
@@ -262,7 +266,7 @@ class Dashboard extends Component{
 										<Label type={e.name} color={e.color} id={e.id}/>
 
 										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map((issue,index) =>
-											<Card key={issue.title+index} title={issue.title} id={issue.id} assign={issue.assignees}>
+											<Card title={issue.title} issueNumber={issue.number} assign={issue.assignees}>
 												{issue.body}
 											</Card>
 										)}

@@ -47,8 +47,8 @@ export class Add extends Component{
                             <div className="col l6">
                                 <label>Label:</label>
                                 <select className="browser-default" id="selectIssue" onChange={this.labelHandler}>
-                                    {this.state.labels.map((label, index) =>
-                                    <option key={label.name + index}>{label.name}</option>
+                                    {this.state.labels.map(label =>
+                                    <option>{label.name}</option>
                                     )}
                                 </select>
                             </div>
@@ -113,7 +113,7 @@ export class IssueView extends Component{
         super(props);
 
         this.state = {
-            issue : {},
+            issue : this.props.issue,
             created_date : "",
             updated_date : "",
         };
@@ -196,7 +196,6 @@ export class IssueView extends Component{
         let created_at = this.props.issue.created_at.replace(/Z/g, '').replace(/T/g, ' at ');
         let updated_at = this.props.issue.updated_at.replace(/Z/g, '').replace(/T/g, ' at ');
         this.setState({
-            issue : this.props.issue,
             created_date : created_at,
             updated_date : updated_at,
         });

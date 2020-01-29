@@ -30,7 +30,7 @@ export class Card extends Component{
       else {
       	return (
       		<div className="card blue-grey darken-1 hoverable">
-				<NavLink to={"/"+this.props.id}>
+				<NavLink to={"/issue/"+this.props.issueNumber}>
                     <div className="card-content white-text">
                         <span className="card-title orange-text">{this.props.title}</span>
                         <p>{this.props.children}</p>
@@ -38,24 +38,14 @@ export class Card extends Component{
 				</NavLink>
                     <div className="card-action orange-text">
                         {this.props.assign.map(item =>
-                            <div key={item.id} className="chip grey lighten-2">{item.login} <i className="close material-icons">close</i></div>
+                            <div className="chip grey lighten-2">{item.login} <i className="close material-icons">close</i></div>
                         )}
                     </div>
       		</div>
 		);
       }
   }
-  stashHandler = () => {
-  	let idTitle = this.props.title;
-  	let issue = issueService.issues.find(e => e.title === idTitle);
-  	issue.tag = "Stashed";
-  };
 
-  completeHandler = () => {
-	  let idTitle = this.props.title;
-	  let issue = issueService.issues.find(e => e.title === idTitle);
-	  issue.tag = "Finished";
-  };
 }
 
 /**
