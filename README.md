@@ -16,6 +16,7 @@ Still working on this, not complete at all.
 - [ ] Research and add oAuth instead of personal tokens
 - [ ] User tests
 - [ ] Bug fixes
+- [ ] Better design pattern for re-render and less API calls.
 
 # Screenshots:
 
