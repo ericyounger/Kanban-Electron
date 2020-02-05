@@ -15,6 +15,7 @@ class IssueService{
     repo = "Kanban-Electron";
     userAvatar = "";
     tokenAuth = token.token;
+    allIssues = [];
 
     storeAuthenticatedUser(){
         //TODO: This is not working
@@ -26,9 +27,12 @@ class IssueService{
         Axios.get(`http://github.com/user/`, {headers: headers}).then(res => console.log(res)).catch(req => console.log(req));
     }
 
-    getAllIssues(){
+    storeAllIssues(callback){
         //TODO: get methods do not filter out closed or open
-        return Axios.get(`https://api.github.com/repos/${this.user}/${this.repo}/issues?state=all`);
+        Axios.get(`https://api.github.com/repos/${this.user}/${this.repo}/issues?state=all`).then(res => {
+            this.allIssues = res.data;
+            callback();
+        });
     }
 
     getAllLabels(){

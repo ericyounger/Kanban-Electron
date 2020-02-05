@@ -14,10 +14,9 @@ import {FaBars} from "react-icons/all";
 
 
 import {UserSetting} from "./user";
-import { createHashHistory } from 'history';
 
 
-let history = createHashHistory();
+
 
 
 
@@ -31,7 +30,7 @@ class App extends Component{
 		super(props);
 
 		this.state = {
-			array : [],
+			issues : [],
 			labels : [],
 			title : "",
 			loggedIn : false
@@ -53,7 +52,7 @@ class App extends Component{
 								<Route
 									exact
 									path="/"
-									component={() => <Content page={<Dashboard />}/>}
+									component={() => <Content page={<Dashboard issues={this.state.issues} />}/>}
 								/>
 
 								<Route
@@ -80,11 +79,11 @@ class App extends Component{
 									component={() => <Content page={<IssueContent category={"unlabeled"} color={"FF7F00"} />}/>}
 								/>
 
-								{this.state.array.map(issue =>
+								{this.state.issues.map(issue =>
 
 									<Route
 										exact path={"/issue/"+issue.number}
-										component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} issueNumber={issue.number}/>}/>}
+										component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} removeHandler={this.removeHandler} issueNumber={issue.number}/>}/>}
 									/>
 								)}
 
@@ -130,8 +129,8 @@ class App extends Component{
 	addHandler = (json) => {
 			issueService.postIssue(json).then(res => {
 				alert("Issue has been posted");
-				console.log(res);
-				history.push("/");
+				issueService.allIssues.push(res.data);
+				this.setState({issues : issueService.allIssues});
 			}).catch(e => {
 				alert("Something went wrong");
 				console.log(e);
@@ -139,22 +138,30 @@ class App extends Component{
 
 		};
 
+	removeHandler = (issue) => {
+		let oldIssue = issueService.allIssues.filter(e => e.id === issue.id);
+		let index = issueService.allIssues.indexOf(oldIssue[0]);
+		issueService.allIssues.splice(index, 1, issue);
+	};
+
 		componentDidMount() {
 			let hasLoggedIn = localStorage.getItem("loggedIn");
 			console.log(hasLoggedIn);
 			if(hasLoggedIn != null){
 				if(hasLoggedIn === "true"){
 					this.setState({loggedIn : true});
+
+					issueService.storeAllIssues(() => {
+						this.setState({issues : issueService.allIssues});
+					});
+
+					issueService.getAllLabels().then(res => this.setState({labels: res.data}));
+					//issueService.storeAuthenticatedUser();
+
 				}
 
 			}
-			issueService.getAllIssues().then(res => {
-				this.setState({array : res.data});
 
-				console.log(res.data);
-			});
-			issueService.getAllLabels().then(res => this.setState({labels: res.data}));
-			issueService.storeAuthenticatedUser();
 		}
 
 
@@ -192,7 +199,7 @@ class IssueContent extends Component{
 		super(props);
 
 		this.state = {
-			array : [],
+			issues : issueService.allIssues,
 		}
 	}
 	render(){
@@ -200,7 +207,7 @@ class IssueContent extends Component{
 				<div>
 					<Label type={this.props.category} color={this.props.color}/>
 					<div className="fixer">
-						{this.state.array.map(issue =>
+						{this.state.issues.map(issue =>
 							<div className="col l3">
 								<Card title={issue.title} id={issue.id} assign={issue.assignees}>
 									{issue.body}
@@ -213,14 +220,16 @@ class IssueContent extends Component{
   }
 
   componentDidMount() {
-	  issueService.getAllIssues().then(res => {
+
+	  let open = this.state.issues.filter(issue => (issue.state !== undefined && issue.state.trim() === "open"));
+	  this.setState({issues: open}, () => {
 		  if(this.props.category === "unlabeled"){
-		  	this.setState({array : res.data.filter(e => e.labels.length === 0)});
+			  this.setState({issues : this.state.issues.filter(e => e.labels.length === 0)});
 		  } else {
-		  	this.setState({array :res.data.filter(e => e.labels[0] != null && e.labels[0].name === this.props.category)});
+			  this.setState({issues : this.state.issues.filter(e => e.labels[0] != null && e.labels[0].name.trim() === this.props.category)});
 		  }
-	  }).catch(e =>
-		  console.log(e));
+	  });
+
   }
 
 
@@ -235,7 +244,7 @@ class Dashboard extends Component{
 		super(props);
 
 		this.state = {
-			array : [],
+			issues : issueService.allIssues,
 			labels : [],
 			display: "slide",
 			hideShow : "Hide empty",
@@ -266,7 +275,7 @@ class Dashboard extends Component{
 										<Label type={e.name} color={e.color} id={e.id}/>
 
 										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map((issue,index) =>
-											<Card title={issue.title} issueNumber={issue.number} assign={issue.assignees}>
+											<Card key={issue} title={issue.title} issueNumber={issue.number} assign={issue.assignees}>
 												{issue.body}
 											</Card>
 										)}
@@ -399,11 +408,11 @@ class Dashboard extends Component{
 			this.setState({labels : res.data});
 
 		});
-		issueService.getAllIssues().then(res =>  {
-			let open = res.data.filter(issue => issue.state === "open");
-			let closed = res.data.filter(issue => issue.state === "closed");
-			this.setState({array : res.data, openIssues : open, closedIssues: closed});
-		});
+
+			let open = this.state.issues.filter(issue => (issue.state !== undefined && issue.state.trim() === "open"));
+			let closed = this.state.issues.filter(issue => (issue.state !== undefined && issue.state === "closed"));
+			this.setState({openIssues : open, closedIssues: closed});
+
 
 	}
 
@@ -415,7 +424,7 @@ class Dashboard extends Component{
 			let currentState = this.state;
 			let hideEmpty = [];
 
-			currentState.array.map(issue => {
+			currentState.issues.map(issue => {
 				if(issue.labels.length !== 0){
 					let found = false;
 					// eslint-disable-next-line array-callback-return

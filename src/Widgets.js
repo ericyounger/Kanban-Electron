@@ -6,7 +6,7 @@ import { Component } from 'react';
 
 import "./css/materialize.min.css";
 import "./css/style.css";
-import {issueService} from "./issueService";
+
 import {NavLink} from "react-router-dom";
 
 /**
@@ -38,7 +38,7 @@ export class Card extends Component{
 				</NavLink>
                     <div className="card-action orange-text">
                         {this.props.assign.map(item =>
-                            <div className="chip grey lighten-2">{item.login} <i className="close material-icons">close</i></div>
+                            <div key={item} className="chip grey lighten-2">{item.login} <i key={item.name} className="close material-icons">close</i></div>
                         )}
                     </div>
       		</div>

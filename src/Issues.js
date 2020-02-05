@@ -3,7 +3,8 @@ import {Label, Card} from './Widgets.js';
 import { Component } from 'react';
 import {issueService} from "./issueService";
 import {Chip} from "./Widgets";
-
+import { createHashHistory } from 'history';
+let history = createHashHistory();
 
 
 /**
@@ -127,7 +128,6 @@ export class IssueView extends Component{
                         <div className="row">
                             <div className="col l9">
                                 <div className="divider"> </div>
-
                             {this.props.body}
                             <br/>
                             </div>
@@ -202,8 +202,13 @@ export class IssueView extends Component{
     }
 
     closeIssue = () => {
-        issueService.closeIssue(this.props.issueId).then(res => console.log(res));
-        alert("Issue closed");
+        issueService.closeIssue(this.props.issue.number).then(res =>{
+            alert("Issue closed");
+            history.push("/");
+            this.props.removeHandler(res.data);
+        }).catch(req => console.log(req));
+
+
     }
 
 
