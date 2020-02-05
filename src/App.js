@@ -209,7 +209,7 @@ class IssueContent extends Component{
 					<div className="fixer">
 						{this.state.issues.map(issue =>
 							<div className="col l3">
-								<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+								<Card title={issue.title} id={issue.id} issueNumber={issue.number} assign={issue.assignees}>
 									{issue.body}
 								</Card>
 							</div>
@@ -284,7 +284,7 @@ class Dashboard extends Component{
 								<div className="label-width">
 									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
 									{this.state.openIssues.filter(e => e.labels.length === 0).map(issue =>
-										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+										<Card title={issue.title} id={issue.id} issueNumber={issue.number} assign={issue.assignees}>
 											{issue.body}
 										</Card>
 									)}
@@ -299,7 +299,7 @@ class Dashboard extends Component{
 										<Label type={e.name} color={e.color} id={e.id}/>
 
 										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
-											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+											<Card title={issue.title} id={issue.id} issueNumber={issue.number} assign={issue.assignees}>
 												{issue.body}
 											</Card>
 										)}
@@ -308,7 +308,7 @@ class Dashboard extends Component{
 								<div className="col l3">
 									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
 									{this.state.openIssues.filter(e => e.labels.length === 0).map(issue =>
-										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+										<Card title={issue.title} id={issue.id} issueNumber={issue.number} assign={issue.assignees}>
 											{issue.body}
 										</Card>
 									)}
@@ -326,7 +326,7 @@ class Dashboard extends Component{
 										<Label type={e.name} color={e.color} id={e.id}/>
 
 										{this.state.openIssues.filter(filt => filt.labels[0] != null && e.name === filt.labels[0].name).map(issue =>
-											<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+											<Card title={issue.title} id={issue.id} issueNumber={issue.number} assign={issue.assignees}>
 												{issue.body}
 											</Card>
 										)}
@@ -336,7 +336,7 @@ class Dashboard extends Component{
 								<div>
 									<Label type={"unlabeled"} color={"FF7F00"} id={0}/>
 									{this.state.openIssues.filter(e => e.labels.length === 0).map(issue =>
-										<Card title={issue.title} id={issue.id} assign={issue.assignees}>
+										<Card title={issue.title} id={issue.id} issueNumber={issue.number} assign={issue.assignees}>
 											{issue.body}
 										</Card>
 									)}
@@ -436,9 +436,8 @@ class Dashboard extends Component{
 					if(!found){
 						hideEmpty.push(issue.labels[0]);
 					}
-
-
 				}
+				//TODO: FIX THIS, NOT WORKING AFTER STORE CHANGE
 				return null
 			});
 
