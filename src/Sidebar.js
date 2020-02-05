@@ -24,7 +24,7 @@ export class Sidebar extends Component{
   render(){
     return (
 			<div className="sidebar">
-				<div className="logo"></div>
+				<div className="logo margin-top-30"></div>
 
 				<ul className="collection grey darken-1">
 					<NavLink to="/add" activeStyle={{ color: "orange" }}>

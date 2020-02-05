@@ -27,8 +27,6 @@ export class Add extends Component{
     render(){
         return (
             <div>
-            <div className="row">
-                <div className="col l12 m12">
                 <Card title={this.props.title} type="simple">
                     <div className="addForm">
                         <div className="row">
@@ -60,8 +58,7 @@ export class Add extends Component{
                         </div>
                     </div>
                 </Card>
-                </div>
-            </div>
+
             </div>
         );
     }
