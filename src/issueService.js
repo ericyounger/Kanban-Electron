@@ -10,9 +10,9 @@ let token = require("./token/token.js");
 
 
 class IssueService{
-    user = "ericyounger";
+    user = "";
     authenticatedUser = "";
-    repo = "Kanban-Electron";
+    repo = "";
     userAvatar = "";
     tokenAuth = token.token;
     allIssues = [];
