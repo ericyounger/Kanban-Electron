@@ -13,8 +13,9 @@ class IssueService{
     user = "";
     authenticatedUser = "";
     repo = "";
+    token = "";
     userAvatar = "";
-    tokenAuth = token.token;
+    tokenAuth = token; // token.token
     allIssues = [];
 
     storeAuthenticatedUser(){

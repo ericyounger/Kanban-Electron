@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 import {Component} from 'react';
 import "./css/materialize.min.css";
@@ -7,21 +7,15 @@ import {issueService} from "./issueService";
 
 
 /**
- * @class Sidebar
- * @classdesc Sidebar is the main navigation for the site.
+ * @function Sidebar
+ * Sidebar is the main navigation for the site.
  */
-export class Sidebar extends Component{
+export function Sidebar(){
+	const [labels, setLabels] = useState([]);
+	const onLoad = useEffect(() => {
+		issueService.getAllLabels().then(res => setLabels(res.data));
+	}, []);
 
-	constructor(props){
-		super(props);
-
-		this.state = {
-			labels : [],
-		}
-
-	}
-
-  render(){
     return (
 			<div className="sidebar">
 				<div className="logo margin-top-30"></div>
@@ -42,7 +36,7 @@ export class Sidebar extends Component{
 					</NavLink>
 
 
-					{this.state.labels.map((e,index) =>
+					{labels.map((e,index) =>
 					<NavLink key={index}
 						to={"/"+e.id}
 						activeStyle={{
@@ -74,27 +68,13 @@ export class Sidebar extends Component{
 				<div className="user-avatar">
 					<div className="user">
 						<div className="avatar">
-							<img src="https://postmediatorontosun.files.wordpress.com/2019/12/cat-e1575303121192.jpg" alt=""/>
+							<img src={issueService.userAvatar} alt=""/>
 						</div>
-
-
 						{issueService.user}
-
-
 					</div>
 				</div>
                 </NavLink>
 
 			</div>
 		);
-  }
-
-  	userSettings = () => {
-
-	};
-
-	componentDidMount() {
-  	issueService.getAllLabels().then(res => this.setState({labels : res.data}));
-  }
-
 }

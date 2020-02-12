@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {HashRouter, NavLink, Route} from "react-router-dom";
 import {Sidebar} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
@@ -13,7 +13,7 @@ import {FaTh} from "react-icons/all";
 import {FaBars} from "react-icons/all";
 
 
-import {UserSetting} from "./user";
+import UserSetting from "./user";
 
 
 
@@ -110,6 +110,14 @@ class App extends Component{
 								component={() => <RepoSelection handleLogin={this.handleLogin}/>}
 							/>
 
+							<Route
+								exact
+								path="/authorization"
+								component={() => <AuthorizationInput />}
+
+							/>
+
+
 				</HashRouter>
 				</div>
 				</div>
@@ -169,45 +177,48 @@ class App extends Component{
 
 }
 
-export class SmallContent extends Component{
-	render() {
-		return(
+export function SmallContent({page}){
+	return(
 			<div className="smallContent">
-				{this.props.page}
+				{page}
 			</div>
 		)
-	}
 }
 
 
-export class Content extends Component{
-	render() {
-		return(
-			<div className="content">
-				{this.props.page}
-			</div>
-		)
-	}
+export function Content({page}){
+	return(
+		<div className="content">
+			{page}
+		</div>
+	)
 }
 
 /**
  * @class IssueContent
  * @classdesc IssueContent is the main container for all the content
  */
-class IssueContent extends Component{
-	constructor(props){
-		super(props);
+export function IssueContent({category, color}){
+	const [issues, setIssues] = useState([]);
+	const onLoad = useEffect(() => {
+		setIssues(issueService.allIssues);
 
-		this.state = {
-			issues : issueService.allIssues,
+
+		let open = issues.filter(issue => (issue.state !== undefined && issue.state.trim() === "open"));
+
+		if (category === "unlabeled") {
+			setIssues(open.filter(e => e.labels.length === 0));
+		} else {
+			setIssues(open.filter(e => e.labels[0] != null && e.labels[0].name.trim() === category));
 		}
-	}
-	render(){
+		
+	}, []);
+
       	return (
 				<div>
-					<Label type={this.props.category} color={this.props.color}/>
+					<Label type={category} color={color}/>
 					<div className="fixer">
-						{this.state.issues.map(issue =>
+						{issues.map(issue =>
 							<div className="col l3">
 								<Card title={issue.title} id={issue.id} issueNumber={issue.number} assign={issue.assignees}>
 									{issue.body}
@@ -217,22 +228,6 @@ class IssueContent extends Component{
 					</div>
 				</div>
 		);
-  }
-
-  componentDidMount() {
-
-	  let open = this.state.issues.filter(issue => (issue.state !== undefined && issue.state.trim() === "open"));
-	  this.setState({issues: open}, () => {
-		  if(this.props.category === "unlabeled"){
-			  this.setState({issues : this.state.issues.filter(e => e.labels.length === 0)});
-		  } else {
-			  this.setState({issues : this.state.issues.filter(e => e.labels[0] != null && e.labels[0].name.trim() === this.props.category)});
-		  }
-	  });
-
-  }
-
-
 }
 
 /**
@@ -455,56 +450,49 @@ class Dashboard extends Component{
 }
 
 /**
- * @class UserNameInput
- * @classdesc UserNameInput is the first component the user sees, that lets user write in their username.
+ * @function UserNameInput
+ * UserNameInput is the first component the user sees, that lets user write in their username.
  *  RepoSelection uses the user input from this component to get their repos listed out.
  */
-export class UserNameInput extends Component{
-	render(){
+export function UserNameInput(){
+	const [username, setUsername] = useState("");
+	
 		return(
 			<div>
 				<div className="card">
 						<div className="card-content">
 							<div className="card-title">Login</div>
 							<label>GitHub User-name</label>
-							<input type="text" className="input-field" id="usernameInput"/>
+							<input type="text" className="input-field" id="usernameInput" onChange={(event) => setUsername(event.target.value)}/>
 							<NavLink to="/repos">
-							<button className="btn" onClick={this.userInputHandler}>Next</button>
+							<button className="btn" onClick={() => {
+								issueService.user = username
+							}}>Next</button>
 							</NavLink>
 						</div>
 				</div>
 			</div>
 		)
-	}
-
-	userInputHandler = () => {
-		let userInput = document.querySelector("#usernameInput").value;
-		issueService.user = userInput;
-	}
-
 }
 
 /**
- * @class RepoSelection
- * @classdesc RepoSelection lists up all repos associated with user, and lets user select repo.
+ * @function RepoSelection
+ *  RepoSelection lists up all repos associated with user, and lets user select repo.
  */
-export class RepoSelection extends Component{
-	constructor(props){
-		super(props);
+export function RepoSelection (props){
+	const [repos, setRepos] = useState([]);
+	const onLoadEffect = useEffect(() => {
+		
+	issueService.getAllRepos().then(res => setRepos(res.data));
+	}, []) 
 
-		this.state = {
-			repos : [],
-			radios : [],
-		}
-	}
 
-	render(){
 		return(
 			<div>
 				<div className="card width-30 login-form">
 					<div className="card-content">
 						<div className="card-title">Choose repo</div>
-						{this.state.repos.map((repos, index) =>
+						{repos.map((repos, index) =>
 							<p>
 							<label>
 								<input name="group1" type="radio" id="radioRepo" value={repos.name}/>
@@ -512,22 +500,36 @@ export class RepoSelection extends Component{
 							</label>
 							</p>
 						)}
-							<button className="btn" onClick={this.loginHandler}>Next</button>
+							<button className="btn" onClick={() => {
+							let selectedRepo = document.querySelector("input[name = group1]:checked").value;
+							issueService.repo = selectedRepo;
+							props.handleLogin();
+							}}>Next</button>
 					</div>
 				</div>
 			</div>
 		)
 
-	}
-	componentDidMount() {
-		issueService.getAllRepos().then(res => this.setState({repos: res.data}));
-	}
+}
 
-	loginHandler = () => {
-		let selectedRepo = document.querySelector("input[name = group1]:checked").value;
-		issueService.repo = selectedRepo;
-		this.props.handleLogin();
-	}
+
+export function AuthorizationInput(){
+	const [tokenInput, setToken] = useState("");
+
+		return(
+			<div>
+				<div className="card">
+					<div className="card-content">
+						<div className="card-title">Add token</div>
+						<label>Add Github personal token</label>
+						<input type="text" className="input-field" id="usernameInput" onChange={(event) => setToken(event.target.value) }/>
+						<NavLink to="/repos">
+							<button className="btn" onClick={() => issueService.token = tokenInput}>Next</button>
+						</NavLink>
+					</div>
+				</div>
+			</div>
+		)
 
 }
 

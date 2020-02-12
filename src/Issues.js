@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Label, Card} from './Widgets.js';
-import { Component } from 'react';
+import { Component, useState, useEffect} from 'react';
 import {issueService} from "./issueService";
 import {Chip} from "./Widgets";
 import { createHashHistory } from 'history';
@@ -8,45 +8,42 @@ let history = createHashHistory();
 
 
 /**
- * @class Add
- * @classdesc Add is the component where user can add new issues. Holds the forms for submission.
+ * @function Add
+ * Add is the component where user can add new issues. Holds the forms for submission.
  */
-export class Add extends Component{
+export function Add({title, addHandler}){
+    const [labels, setLabels] = useState([]);
+    const [issueTitle, setIssueTitle] = useState("");
+    const [body, setIssueBody] = useState("");
+    const [selectedLabel, setSelectedLabel] = useState("");
+    const onLoad = useEffect(() => {
+        issueService.getAllLabels().then(res => {
+            setLabels(res.data);
+            setSelectedLabel(res.data[0].name);
+        })},[]);
 
-    constructor(props){
-        super(props);
-
-        this.state = {
-            labels : [],
-            title : "",
-            body : "",
-            labelSelected : "",
-        };
-    }
-
-    render(){
         return (
             <div>
-                <Card title={this.props.title} type="simple">
+                <Card title={title} type="simple">
                     <div className="addForm">
                         <div className="row">
                             <div className="col l12 m12">
                                 <label>Title</label>
-                                <input type="text" className="active" id="issueTitle" onChange={this.inputHandler} name="title"/>
+                                <input type="text" className="active" id="issueTitle" onChange={(event) => setIssueTitle(event.target.value)} name="title"/>
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="col l12 m12">
                                 <label>Description</label>
-                                <textarea name="body" onChange={this.inputHandler}/>
+                                <textarea name="body" onChange={(event) => setIssueBody(event.target.value)}/>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col l6">
                                 <label>Label:</label>
-                                <select className="browser-default" id="selectIssue" onChange={this.labelHandler}>
-                                    {this.state.labels.map(label =>
+                                <select className="browser-default" id="selectIssue" onChange={(event) => setSelectedLabel(event.target.value)}>
+                                    {labels.map(label =>
                                     <option>{label.name}</option>
                                     )}
                                 </select>
@@ -54,51 +51,22 @@ export class Add extends Component{
                         </div>
 
                         <div className="row">
-                            <button className="btn" onClick={this.submit}>Add issue</button>
+                            <button className="btn" onClick={() => {
+
+                                let json = {
+                                    title: issueTitle,
+                                    body: body,
+                                    labels: [selectedLabel]
+                                };
+
+                                addHandler(json);
+                            }}>Add issue</button>
                         </div>
                     </div>
                 </Card>
 
             </div>
         );
-    }
-
-    /**
-     * Handles the inputfields and stores information in state.
-     * @param {event}event
-     * Takes in event from onChange
-     */
-    inputHandler = (event) => {
-        console.log(event.target.name);
-        this.setState({[event.target.name] : event.target.value });
-    };
-
-    labelHandler = (event) => {
-        this.setState({labelSelected : event.target.value});
-    };
-
-    componentDidMount() {
-        issueService.getAllLabels().then(res => this.setState({labels : res.data, labelSelected : res.data[0].name}));
-    }
-
-    /**
-     * Submits information stored in state from forms, and adds a new issue to repo.
-     */
-    submit = () => {
-
-        let json = {
-            title : this.state.title,
-            body : this.state.body,
-            labels : [this.state.labelSelected]
-        };
-
-        console.log(json.labels);
-       this.props.addHandler(json);
-    };
-
-
-
-
 }
 
 /**
@@ -212,85 +180,66 @@ export class IssueView extends Component{
 }
 
 /**
- * @class CommentField
- * @classdesc CommentField is the parent component of the comments, it both shows submitted comments, and also holds the
+ * @function CommentField
+ * CommentField is the parent component of the comments, it both shows submitted comments, and also holds the
  * input form for submitting new comments
  */
-export class CommentField extends Component{
-    constructor(props){
-        super(props);
+export function CommentField({issueId, }){
+    const [comments, setComments] = useState([]);
+    const [newComment,setCommentInput] = useState("");
+    const onLoad = useEffect(() => {
 
-        this.state = {
-            comments : [],
-            newComment : "",
-        };
-    }
+        issueService.getAllCommentsPerIssue(issueId).then(res => setComments(res.data));
 
-    render(){
+    }, []);
+
         return(
             <div className="addForm">
-                {this.state.comments.length>0?this.state.comments.map(comment =>
+                {comments.length>0?comments.map(comment =>
                     <Comment user={comment.user.login} date_comment={comment.created_at} comment={comment.body} avatar={comment.user.avatar_url}/>
                 ):"No comments"}
 
-                <textarea onChange={this.commentHandler}>
+                <textarea onChange={(event) => setCommentInput(event.target.value)}>
 
                 </textarea>
 
-                <button className="btn teal" onClick={this.postComment}>Comment</button>
+                <button className="btn teal" onClick={() => {
+                    let json = {
+                        body: this.state.newComment
+                    };
+
+                    issueService.postComment(json, this.props.issueId);
+
+                }}>Comment</button>
             </div>
         )
-    }
-
-    componentDidMount() {
-        issueService.getAllCommentsPerIssue(this.props.issueId).then(res => this.setState({comments: res.data}));
-    }
-
-    commentHandler = (event) => {
-        this.setState({newComment : event.target.value}, () => {
-            console.log(this.state.newComment);
-        })
-    };
-
-    postComment = () => {
-        let json = {
-            body : this.state.newComment
-        };
-
-        issueService.postComment(json, this.props.issueId);
-    }
-
 }
 
 /**
- * @class Comment
- * @classdesc Comment is the component that holds information on one comment. This component is usually mapped
+ * @function Comment
+ * Comment is the component that holds information on one comment. This component is usually mapped
  * and shows comment information through props
  */
-export class Comment extends Component{
+export function Comment({date_comment, avatar, user, comment}){
+    const [comment_days_ago, setCommentDate] = useState("");
+    const onLoad = useEffect(() => {
+        let commentDateString = date_comment.replace(/-/g, '').substr(0, 8);
+        setCommentDate(commentDateString);
+    },[]);
 
-    constructor(props){
-        super(props);
-
-        this.state = {
-            comment_days_ago : 0,
-        };
-    }
-
-    render(){
         return(
             <div>
                 <div className="card grey lighten-4">
                     <div className="row">
                         <div className="col l1 center-align">
-                            <img src={this.props.avatar} className="avatar-comments" alt=""/>
+                            <img src={avatar} className="avatar-comments" alt=""/>
                         </div>
                         <div className="col l11">
-                            <b>{this.props.user}</b> commented {this.state.comment_days_ago} days ago
+                            <b>{user}</b> commented {comment_days_ago} days ago
                             <hr></hr>
                             <div className="row">
                             <div className="col l12">
-                                {this.props.comment}
+                                {comment}
                             </div>
                             </div>
                         </div>
@@ -298,22 +247,4 @@ export class Comment extends Component{
                 </div>
             </div>
         )
-    }
-
-    componentDidMount() {
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = date.getMonth()+1;
-        let day = date.getDate();
-
-
-        let now = parseInt(year+month+day);
-
-
-        let commentDateString = this.props.date_comment.replace(/-/g, '').substr(0,8);
-        let commentDate = parseInt(commentDateString);
-        this.setState({comment_days_ago : now-commentDate});
-    }
-
-
 }

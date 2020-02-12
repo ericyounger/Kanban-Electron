@@ -1,12 +1,18 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import { createHashHistory } from 'history';
+import { issueService } from './issueService';
 
 
 let history = createHashHistory();
 
 
-export class UserSetting extends Component{
-    render() {
+function UserSetting({logOut}){
+    const [userName, setUserName] = useState("");
+    const [userImage, setAvatar] = useState("");
+    const onLoad = useEffect(() => {
+        setUserName(issueService.user);
+        setAvatar(issueService.userAvatar);
+    }, []);
         return(
             <div>
                 <div className="card">
@@ -15,28 +21,27 @@ export class UserSetting extends Component{
                         <div className="card-title">User settings</div>
                         <div className="row">
                             <div className="col l4">
-                                username
+                                {userName}
                             </div>
 
                             <div className="col l2">
-                                User image
+                                {userImage}
                             </div>
                         </div>
 
                         <div className="row">
                             <div className="col-4">
-                                <button className="btn" onClick={this.logOut}>Log out</button>
+                                <button className="btn" onClick={() => {
+                                    localStorage.setItem("loggedIn", "false");
+                                    logOut();
+                                    history.push("/");
+                                }}>Log out</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         )
-    }
-
-    logOut = () => {
-        localStorage.setItem("loggedIn", "false");
-        this.props.logOut();
-        history.push("/");
-    }
 }
+
+export default UserSetting;
