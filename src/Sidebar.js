@@ -70,7 +70,7 @@ export function Sidebar(){
 						<div className="avatar">
 							<img src={issueService.userAvatar} alt=""/>
 						</div>
-						{issueService.user}
+						username
 					</div>
 				</div>
                 </NavLink>

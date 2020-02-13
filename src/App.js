@@ -195,8 +195,8 @@ export function Content({page}){
 }
 
 /**
- * @class IssueContent
- * @classdesc IssueContent is the main container for all the content
+ * @function IssueContent
+ * IssueContent is the main container for all the content
  */
 export function IssueContent({category, color}){
 	const [issues, setIssues] = useState([]);
@@ -234,6 +234,8 @@ export function IssueContent({category, color}){
  * @class Dashboard
  * @classdesc Dashboard is the landing page when logged in, and displays all issues with labels categorised.
  */
+
+ //TODO: REWORK THIS COMPONENT
 class Dashboard extends Component{
 	constructor(props){
 		super(props);
@@ -466,7 +468,7 @@ export function UserNameInput(){
 							<input type="text" className="input-field" id="usernameInput" onChange={(event) => setUsername(event.target.value)}/>
 							<NavLink to="/repos">
 							<button className="btn" onClick={() => {
-								issueService.user = username
+								issueService.user = username;
 							}}>Next</button>
 							</NavLink>
 						</div>
