@@ -7,11 +7,10 @@ import { FaTh } from "react-icons/all";
 import { FaBars } from "react-icons/all";
 
 /**
- * @class Dashboard
- * @classdesc Dashboard is the landing page when logged in, and displays all issues with labels categorised.
+ * @function Dashboard
+ * Dashboard is the landing page when logged in, and displays all issues with labels categorised.
  */
 
-//TODO: REWORK THIS COMPONENT
 export function Dashboard(){
     const [issues, setIssues] = useState([]);
     const [labels, setLabels] = useState([]);
