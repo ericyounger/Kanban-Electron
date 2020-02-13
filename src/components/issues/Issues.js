@@ -18,10 +18,11 @@ export function Add({title, addHandler}){
     const [body, setIssueBody] = useState("");
     const [selectedLabel, setSelectedLabel] = useState("");
     const onLoad = useEffect(() => {
-        issueService.getAllLabels().then(res => {
-            setLabels(res.data);
-            setSelectedLabel(res.data[0].name);
-        })},[]);
+        issueService.storeAllLabels(() => {
+            setLabels(issueService.allLabels);
+            setSelectedLabel(issueService.allLabels[0].name);
+        });
+    });
 
         return (
             <div>
@@ -75,7 +76,7 @@ export function Add({title, addHandler}){
  * IssueView is for display all information about a specific issue
  */
 export function IssueView({title, body, label, issueId, labelName, removeHandler}){
-    /*page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} removeHandler={this.removeHandler} issueNumber={issue.number} */
+    /* <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} removeHandler={this.removeHandler} issueNumber={issue.number} */
     const [issue, setIssue] = useState({});
     const [createdDate, setCreatedDate] = useState("");
     const [updatedDate, setUpdatedDate] = useState("");

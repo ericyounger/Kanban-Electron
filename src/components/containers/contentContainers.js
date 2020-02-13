@@ -25,17 +25,17 @@ export function Content({ page }) {
  * IssueContent is the main container for all the content
  */
 export function IssueContent({ category, color }) {
-    const [issues, setIssues] = useState([]);
+    const [issues, setIssues] = useState(issueService.allIssues);
     const onLoad = useEffect(() => {
         setIssues(issueService.allIssues);
+   
 
-
-        let open = issues.filter(issue => (issue.state !== undefined && issue.state.trim() === "open"));
+        let open = issues.filter(issue => (issue.state !== undefined));
 
         if (category === "unlabeled") {
             setIssues(open.filter(e => e.labels.length === 0));
         } else {
-            setIssues(open.filter(e => e.labels[0] != null && e.labels[0].name.trim() === category));
+            setIssues(open.filter(e => (e.labels[0] != null) && (e.labels[0].name.trim() === category)));
         }
 
     }, []);

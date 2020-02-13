@@ -14,7 +14,7 @@ import { user } from '../userSettings/userContext';
 export function Sidebar(){
 	const [labels, setLabels] = useState([]);
 	const onLoad = useEffect(() => {
-		issueService.getAllLabels().then(res => setLabels(res.data));
+		issueService.storeAllLabels(() =>  setLabels(issueService.allLabels));
 	}, []);
 
     return (

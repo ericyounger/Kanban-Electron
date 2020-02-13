@@ -20,10 +20,10 @@ export function Dashboard(){
     const [labelSize, setLabelSize] = useState(200);
 
     const onLoad = useEffect(() => {
-          issueService.getAllLabels().then(res => {
-            setLabels(res.data);
-        }); 
-
+        issueService.storeAllIssues(() => {
+            setIssues(issueService.allIssues);
+        });
+        issueService.storeAllLabels(() => setLabels(issueService.allLabels));
         setIssues(issueService.allIssues);
         
 
