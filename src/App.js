@@ -126,7 +126,7 @@ class App extends Component{
 			this.setState({ issues: issueService.allIssues });
 		});
 
-		issueService.getAllLabels().then(res => this.setState({ labels: res.data }));
+		issueService.storeAllLabels(() => this.setState({ labels: issueService.allLabels }));
 					//issueService.storeAuthenticatedUser();
 	};
 
