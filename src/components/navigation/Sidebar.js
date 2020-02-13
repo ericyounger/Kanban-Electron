@@ -4,6 +4,7 @@ import {Component} from 'react';
 import "../../css/materialize.min.css";
 import "../../css/style.css";
 import {issueService} from "../store/issueService";
+import { user } from '../userSettings/userContext';
 
 
 /**
@@ -68,7 +69,7 @@ export function Sidebar(){
 				<div className="user-avatar">
 					<div className="user">
 						<div className="avatar">
-							<img src={issueService.userAvatar} alt=""/>
+							<img src={user.avatar} alt=""/>
 						</div>
 						username
 					</div>

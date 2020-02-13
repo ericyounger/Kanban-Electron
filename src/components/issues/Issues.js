@@ -75,6 +75,7 @@ export function Add({title, addHandler}){
  * IssueView is for display all information about a specific issue
  */
 export function IssueView({title, body, label, issueId, labelName, removeHandler}){
+    /*page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} removeHandler={this.removeHandler} issueNumber={issue.number} */
     const [issue, setIssue] = useState({});
     const [createdDate, setCreatedDate] = useState("");
     const [updatedDate, setUpdatedDate] = useState("");
@@ -84,6 +85,7 @@ export function IssueView({title, body, label, issueId, labelName, removeHandler
         let updated_at = issue.updated_at.replace(/Z/g, '').replace(/T/g, ' at ');
         setCreatedDate(created_at);
         setUpdatedDate(updated_at);
+        setIssue(issue);
     }, []);
 
         return(

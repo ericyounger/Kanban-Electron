@@ -15,7 +15,7 @@ import { FaBars } from "react-icons/all";
 export function Dashboard(){
     const [issues, setIssues] = useState([]);
     const [labels, setLabels] = useState([]);
-    const [display, setDisplayMode] = useState([]);
+    const [display, setDisplayMode] = useState("slide");
     const [hideShow, setHideShow] = useState("Hide empty");
     const [labelSize, setLabelSize] = useState(200);
 
@@ -23,7 +23,19 @@ export function Dashboard(){
           issueService.getAllLabels().then(res => {
             setLabels(res.data);
         }); 
+
+        setIssues(issueService.allIssues);
+        
+
     }, []);
+
+    const onRangeChange = useEffect(() => {
+        let label = document.querySelectorAll(".label-width");
+        if (label != null) {
+            label.forEach(x => x.setAttribute("style", `width:${labelSize}px`));
+
+        }
+    }, [labelSize]);
 
         if (issues.length === -1) {
             return(
@@ -49,23 +61,11 @@ export function Dashboard(){
                         displayTable={() => setDisplayMode("table")} 
                         displayList={() => setDisplayMode("list")} 
                         displaySlide={() => setDisplayMode("slide")} 
-                        toggleHideEmpty={() => {
-                        if (hideShow === "Hide empty") {
-                            setHideShow("Show empty");
-                        } else {
-                            setHideShow("Hide empty");
-                        }}} 
+                        toggleHideEmpty={() => { hideShow === "Hide empty" ? setHideShow("Show empty") : setHideShow("Hide empty")}} 
                         hideShow={hideShow} 
-                        handleRange={(event) => {
-                            setLabelSize(event.target.value);
-                            let label = document.querySelectorAll(".label-width");
-                            if (label != null) {
-                                label.forEach(x => x.setAttribute("style", `width:${labelSize}px`));
-
-                            }
-                        }} 
+                        handleRange={(event) => setLabelSize(event.target.value)} 
                         labelSize={labelSize}
-                        />
+                    />
                     
                 </div>
             )

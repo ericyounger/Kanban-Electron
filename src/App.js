@@ -122,6 +122,12 @@ class App extends Component{
 	handleLogin = () => {
 		localStorage.setItem("loggedIn", "true");
 		this.setState({loggedIn : true});
+		issueService.storeAllIssues(() => {
+			this.setState({ issues: issueService.allIssues });
+		});
+
+		issueService.getAllLabels().then(res => this.setState({ labels: res.data }));
+					//issueService.storeAuthenticatedUser();
 	};
 
 	addHandler = (json) => {
@@ -148,14 +154,6 @@ class App extends Component{
 			if(hasLoggedIn != null){
 				if(hasLoggedIn === "true"){
 					this.setState({loggedIn : true});
-
-					issueService.storeAllIssues(() => {
-						this.setState({issues : issueService.allIssues});
-					});
-
-					issueService.getAllLabels().then(res => this.setState({labels: res.data}));
-					//issueService.storeAuthenticatedUser();
-
 				}
 
 			}
