@@ -22,13 +22,7 @@ export function Dashboard(){
     const onLoad = useEffect(() => {
           issueService.getAllLabels().then(res => {
             setLabels(res.data);
-        });
-
-
-
-
-
-       
+        }); 
     }, []);
 
         if (issues.length === -1) {
@@ -56,26 +50,19 @@ export function Dashboard(){
                         displayList={() => setDisplayMode("list")} 
                         displaySlide={() => setDisplayMode("slide")} 
                         toggleHideEmpty={() => {
-
                         if (hideShow === "Hide empty") {
                             setHideShow("Show empty");
                         } else {
                             setHideShow("Hide empty");
-                        }
-
-                            
-                        }} 
+                        }}} 
                         hideShow={hideShow} 
                         handleRange={(event) => {
-                            /*
                             setLabelSize(event.target.value);
                             let label = document.querySelectorAll(".label-width");
                             if (label != null) {
-                                label.forEach(x => x.setAttribute("style", `width:${this.state.labelSize}px`));
+                                label.forEach(x => x.setAttribute("style", `width:${labelSize}px`));
 
                             }
-                            */
-
                         }} 
                         labelSize={labelSize}
                         />
