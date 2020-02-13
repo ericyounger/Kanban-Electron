@@ -23,7 +23,7 @@ class App extends Component{
 			issues : [],
 			labels : [],
 			title : "",
-			loggedIn : true
+			loggedIn : false
 		};
 	}
 
