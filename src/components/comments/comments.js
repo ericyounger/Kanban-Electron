@@ -1,9 +1,9 @@
 
 import * as React from 'react';
-import { Label, Card } from './Widgets.js';
+import { Label, Card } from '../widgets/Widgets.js';
 import { Component, useState, useEffect } from 'react';
-import { issueService } from "./issueService";
-import { Chip } from "./Widgets";
+import { issueService } from "../store/issueService";
+import { Chip } from "../widgets/Widgets";
 import { createHashHistory } from 'history';
 let history = createHashHistory();
 

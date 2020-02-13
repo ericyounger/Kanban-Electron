@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 import {Component} from 'react';
-import "./css/materialize.min.css";
-import "./css/style.css";
-import {issueService} from "./issueService";
+import "../../css/materialize.min.css";
+import "../../css/style.css";
+import {issueService} from "../store/issueService";
 
 
 /**

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Component } from 'react';
 import {NavLink} from "react-router-dom";
-import "./css/materialize.min.css";
-import "./css/style.css";
+import "../../css/materialize.min.css";
+import "../../css/style.css";
 
 /**
  * @function Card

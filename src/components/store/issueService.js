@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 
-let token = require("./token/token.js");
+let token = require("../../token/token.js");
 
 /**
  * @class IssueService

@@ -1,6 +1,6 @@
 import React, {Component, useState, useEffect} from 'react';
 import { createHashHistory } from 'history';
-import { issueService } from './issueService';
+import { issueService } from '../store/issueService';
 
 
 let history = createHashHistory();
