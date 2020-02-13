@@ -2,5 +2,7 @@
 *token/*
 materialize.js
 token
-
+.build
+*build
 .idea
+.idea/inspectionProfiles/Project_Default.xml

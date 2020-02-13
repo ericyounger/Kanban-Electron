@@ -3,17 +3,14 @@ import {HashRouter, NavLink, Route} from "react-router-dom";
 import {Sidebar} from './Sidebar.js';
 import {Label, Card} from './Widgets.js';
 import {Add, IssueView} from "./Issues";
-
-import "./css/materialize.min.css";
-import "./css/style.css";
 import {issueService} from "./issueService";
-
 import {FaEllipsisH} from "react-icons/all";
 import {FaTh} from "react-icons/all";
 import {FaBars} from "react-icons/all";
-
-
 import UserSetting from "./user";
+
+import "./css/materialize.min.css";
+import "./css/style.css";
 
 
 

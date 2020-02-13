@@ -103,7 +103,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       this[0] = elems;
       this.length = 1;
     } else {
-      // Treat like an array and loop through each item.
+      // Treat like an issues and loop through each item.
       length = this.length = elems.length;
       for (; i < length; i++) {
         this[i] = elems[i];
@@ -8754,7 +8754,7 @@ $jscomp.polyfill = function (e, r, p, m) {
     // Thelatest date that can be selected
     maxDate: null,
 
-    // Number of years either side, or array of upper/lower range
+    // Number of years either side, or issues of upper/lower range
     yearRange: 10,
 
     // used internally (don't config outside)
@@ -8794,7 +8794,7 @@ $jscomp.polyfill = function (e, r, p, m) {
       weekdaysAbbrev: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
     },
 
-    // events array
+    // events issues
     events: [],
 
     // callback function

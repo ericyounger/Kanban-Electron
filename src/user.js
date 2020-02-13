@@ -7,10 +7,10 @@ let history = createHashHistory();
 
 
 function UserSetting({logOut}){
-    const [userName, setUserName] = useState("");
+    const [username, setUsername] = useState("");
     const [userImage, setAvatar] = useState("");
     const onLoad = useEffect(() => {
-        setUserName(issueService.user);
+        setUsername(issueService.user);
         setAvatar(issueService.userAvatar);
     }, []);
         return(
@@ -21,7 +21,7 @@ function UserSetting({logOut}){
                         <div className="card-title">User settings</div>
                         <div className="row">
                             <div className="col l4">
-                                {userName}
+                                {username}
                             </div>
 
                             <div className="col l2">
