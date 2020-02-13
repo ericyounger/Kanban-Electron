@@ -71,7 +71,7 @@ export function Sidebar(){
 						<div className="avatar">
 							<img src={user.avatar} alt=""/>
 						</div>
-						username
+						{issueService.user}
 					</div>
 				</div>
                 </NavLink>

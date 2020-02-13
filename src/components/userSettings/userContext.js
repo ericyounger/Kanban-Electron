@@ -2,7 +2,7 @@ import React, {Component, createContext} from 'react';
 
 export let user = {
     username : "ericyounger",
-    avatar : "https://postmediatorontosun.files.wordpress.com/2019/12/cat-e1575303121192.jpg",
+    avatar: "https://pngimg.com/uploads/github/github_PNG33.png",
 };
 
 
