@@ -2,6 +2,10 @@ import React, {useState, useEffect } from 'react';
 import {NavLink} from "react-router-dom";
 import {issueService} from '../store/issueService';
 
+import { createHashHistory } from 'history';
+import {LoadingContent} from "../widgets/Widgets";
+
+let history = createHashHistory();
 
 /**
  * @function UserNameInput
@@ -10,6 +14,16 @@ import {issueService} from '../store/issueService';
  */
 export function UserNameInput() {
     const [username, setUsername] = useState("");
+
+    const onLoad = useEffect(() => {
+        issueService.token = sessionStorage.getItem("token");
+        console.log(issueService.token);
+        issueService.storeAuthenticatedUser();
+        if(issueService.token === null) history.push("/");
+
+
+
+    },[]);
 
     return (
         <div>
@@ -66,23 +80,43 @@ export function RepoSelection(props) {
 
 }
 
+export function Callback(){
+    const onLoad = useEffect(() => {
+        let code = window.location.href.match(/\?code=(.{20})/)[1];
+        issueService.getAuthToken(code);
+    }, []);
 
-export function AuthorizationInput() {
-    const [tokenInput, setToken] = useState("");
-
-    return (
+    return(
         <div>
-            <div className="card">
-                <div className="card-content">
-                    <div className="card-title">Add token</div>
-                    <label>Add Github personal token</label>
-                    <input type="text" className="input-field" id="usernameInput" onChange={(event) => setToken(event.target.value)} />
-                    <NavLink to="/repos">
-                        <button className="btn" onClick={() => issueService.token = tokenInput}>Next</button>
-                    </NavLink>
-                </div>
-            </div>
+            <LoadingContent title={"Authorizing"} />
         </div>
     )
+}
+
+export function AuthorizationInput() {
+
+    return (
+			<div>
+				<div className="card">
+					<div className="card-content center-align">
+						<div className="card-title">Connect with GitHub</div>
+						<img
+							src="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+							width={400}
+						/>
+						<button
+							className="btn"
+							onClick={() =>
+								window.location.assign(
+									"https://github.com/login/oauth/authorize?client_id=ee428610bc357f539e6d&scope=repo read:user&redirect_uri=http://localhost:3000/#/authorization/callback"
+								)
+							}
+						>
+							Connect
+						</button>
+					</div>
+				</div>
+			</div>
+		);
 
 }

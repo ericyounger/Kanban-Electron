@@ -5,6 +5,7 @@ import {issueService} from '../store/issueService';
 import { FaEllipsisH } from "react-icons/all";
 import { FaTh } from "react-icons/all";
 import { FaBars } from "react-icons/all";
+import {LoadingContent} from "../widgets/Widgets";
 
 /**
  * @function Dashboard
@@ -38,7 +39,7 @@ export function Dashboard(){
 
         if (issues.length === -1) {
             return(
-                <LoadingContent/>        
+                <LoadingContent title={"Fetching issues"}/>
             )
         } else {
             return (
@@ -69,17 +70,6 @@ export function Dashboard(){
                 </div>
             )
         }
-    }
-
-export function LoadingContent(){
-    return (
-        <div className="center-progress center">
-            Building skynet
-					<div className="progress">
-                <div className="indeterminate"> </div>
-            </div>
-        </div>
-    )
 }
 
 export function SlideDisplay({labels, issues }){

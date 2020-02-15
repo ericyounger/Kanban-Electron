@@ -95,3 +95,13 @@ export function Chip({image, type, color}){
 
 }
 
+export function LoadingContent({title}){
+    return (
+        <div className="center-progress center">
+            {title}
+            <div className="progress">
+                <div className="indeterminate"> </div>
+            </div>
+        </div>
+    )
+}

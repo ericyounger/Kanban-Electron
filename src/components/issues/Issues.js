@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Component, useState, useEffect} from 'react';
 import {issueService} from "../store/issueService";
 import {Chip, Label, Card} from "../widgets/Widgets";
-import { createHashHistory } from 'history';
 import { CommentField } from '../comments/comments';
+import { createHashHistory } from 'history';
 let history = createHashHistory();
 
 
@@ -22,7 +22,7 @@ export function Add({title, addHandler}){
             setLabels(issueService.allLabels);
             setSelectedLabel(issueService.allLabels[0].name);
         });
-    });
+    }, []);
 
         return (
             <div>
