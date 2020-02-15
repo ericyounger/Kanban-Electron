@@ -15,15 +15,7 @@ let history = createHashHistory();
 export function UserNameInput() {
     const [username, setUsername] = useState("");
 
-    const onLoad = useEffect(() => {
-        issueService.token = sessionStorage.getItem("token");
-        console.log(issueService.token);
-        issueService.storeAuthenticatedUser();
-        if(issueService.token === null) history.push("/");
 
-
-
-    },[]);
 
     return (
         <div>
@@ -50,9 +42,14 @@ export function UserNameInput() {
 export function RepoSelection(props) {
     const [repos, setRepos] = useState([]);
     const onLoadEffect = useEffect(() => {
+        issueService.token = sessionStorage.getItem("token");
+        issueService.storeAuthenticatedUser(() => {
+            issueService.getAllRepos().then(res => setRepos(res.data));
+        });
 
-        issueService.getAllRepos().then(res => setRepos(res.data));
-    }, [])
+    }, []);
+
+
 
 
     return (

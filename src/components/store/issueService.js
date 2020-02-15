@@ -11,8 +11,8 @@ let history = createHashHistory();
 
 
 class IssueService {
-	user = "ericyounger";
-	repo = "Kanban-Electron";
+	user = "";
+	repo = "";
 	token = "";
 	userAvatar = "";
 	allIssues = [];
@@ -30,9 +30,10 @@ class IssueService {
 				this.token = res.data.access_token;
 
 				setTimeout(() => {
+
 					window.location.assign("http://localhost:3000/#/repos");
 
-				}, 600);
+				}, 800);
 
 			})
 			.catch(req => console.log(req));
@@ -40,13 +41,14 @@ class IssueService {
 
 
 
-	storeAuthenticatedUser() {
+	storeAuthenticatedUser(callback) {
 
 		Axios.get('https://api.github.com/user?access_token=' + this.token)
 			.then(response => {
-				this.userAvatar = response.data.userAvatar+".png";
+				this.userAvatar = 'https://avatars.githubusercontent.com/' + response.data.login + ".png";
 				this.user = response.data.login;
 				console.log(response);
+				callback();
 			})
 			.catch(reject => console.log(reject));
 		/*

@@ -22,10 +22,7 @@ function App(){
 	const [labels, setLabels] = useState([]);
 
 	const onLoad = useEffect(() => {
-		let hasLoggedIn = localStorage.getItem("loggedIn");
-		if(hasLoggedIn != null){
-			if(hasLoggedIn === "true") setLoggedIn(true);
-		}
+
 	},[]);
 
 	if(loggedIn){
