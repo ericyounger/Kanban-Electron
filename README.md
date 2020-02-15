@@ -13,13 +13,15 @@
 - [x] Add custom menus to Electron
 - [ ] Add functionality to custom menus
 - [ ] Find out how to package project to native runners
-- [ ] Research and add oAuth instead of personal tokens
+- [x] Research and add oAuth instead of personal tokens
 - [ ] User tests
 - [ ] Bug fixes
 - [ ] Better design pattern for re-render and less API calls.
-- [ ] Add Oauth Authentication
+- [x] Add Oauth Authentication
 - [ ] Implement the rest of the API calls.
 - [ ] Restructure project from prototype
+- [ ] Fix oAuth scope permission on deployment
+- [ ] clean up url after callback oAuth
 
 
 
