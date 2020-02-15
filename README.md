@@ -1,4 +1,5 @@
 # Still working on this, not complete at all.
+## This will not work for others than me at the time, oAuth requires the use of a server to handshake with, i am only working with localhost server, until deploy it.
 
 ## Status:
 - [x] Integrate React with Electron
@@ -21,7 +22,7 @@
 - [ ] Implement the rest of the API calls.
 - [ ] Restructure project from prototype
 - [ ] Fix oAuth scope permission on deployment
-- [ ] clean up url after callback oAuth
+- [x] clean up url after callback oAuth
 
 
 
