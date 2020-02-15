@@ -69,7 +69,7 @@ export function Sidebar(){
 				<div className="user-avatar">
 					<div className="user">
 						<div className="avatar">
-							<img src={user.avatar} alt=""/>
+							<img src={issueService.userAvatar} alt=""/>
 						</div>
 						{issueService.user}
 					</div>

@@ -30,7 +30,7 @@ class IssueService {
 				this.token = res.data.access_token;
 
 				setTimeout(() => {
-					window.location.assign("http://localhost:3000/#/user-repo");
+					window.location.assign("http://localhost:3000/#/repos");
 
 				}, 600);
 
@@ -42,12 +42,21 @@ class IssueService {
 
 	storeAuthenticatedUser() {
 
-		console.log(this.token);
+		Axios.get('https://api.github.com/user?access_token=' + this.token)
+			.then(response => {
+				this.userAvatar = response.data.userAvatar+".png";
+				this.user = response.data.login;
+				console.log(response);
+			})
+			.catch(reject => console.log(reject));
+		/*
 		Axios.post('http://localhost:8080/user', {token : this.token}).then(res =>{
 			console.log(res);
 			}).catch(req => {
 				console.log(req);
 		})
+
+		 */
 
 	}
 
