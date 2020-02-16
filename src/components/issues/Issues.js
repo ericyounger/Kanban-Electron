@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Component, useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {issueService} from "../store/issueService";
-import {Chip, Label, Card} from "../widgets/Widgets";
-import { CommentField } from '../comments/comments';
-import { createHashHistory } from 'history';
+import {Card, Chip, Label} from "../widgets/Widgets";
+import {CommentField} from '../comments/comments';
+import {createHashHistory} from 'history';
+
 let history = createHashHistory();
 
 
@@ -77,15 +78,16 @@ export function Add({title, addHandler}){
  */
 export function IssueView({title, body, assign, label, issue, issueNumber, removeHandler}){
     /* <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} removeHandler={this.removeHandler} issueNumber={issue.number} */
-    const [selectedIssue, setIssue] = useState({issue});
+
     const [createdDate, setCreatedDate] = useState("");
     const [updatedDate, setUpdatedDate] = useState("");
     const [labels, setLabels] = useState([label]);
 
-
+    console.log(issue);
     const onLoad = useEffect(() => {
+        //TODO: Restructure into smaller components.
 
-    }, [selectedIssue]);
+    }, [issue]);
 
         return(
             <div className="">
@@ -104,7 +106,7 @@ export function IssueView({title, body, assign, label, issue, issueNumber, remov
                                         <Label type={label.name} color={label.color} close={true} removeLabel={() => {
                                             let labelsRemaining = [];
                                              label.filter(e => e.name !== label.name).map(label => labelsRemaining.push(label.name));
-                                             issueService.removeLabel(selectedIssue.issueId, labelsRemaining);
+                                             issueService.removeLabel(issue.issueId, labelsRemaining);
                                         }}/>
                                         )}
                                         <input type="button" className="btn btn-small" value="Add label"/>
@@ -113,7 +115,7 @@ export function IssueView({title, body, assign, label, issue, issueNumber, remov
                                     <div className="row">
 
 
-                                        {selectedIssue.assignees !== undefined ? selectedIssue.assignees.map(issue =>
+                                        {issue.assignees.length !== 0 ? issue.assignees.map(issue =>
                                             <div className="addForm">
                                                 <Chip type={issue.login} image={issue.avatar_url}/>
                                             </div>
@@ -121,20 +123,25 @@ export function IssueView({title, body, assign, label, issue, issueNumber, remov
 
 
                                         <div className="addForm">
-                                        <input type="button" className="btn btn-small" value="Assign me"/>
+                                        <input type="button" className="btn btn-small" value="Assign me" onClick={() => {
+                                            issueService.addAssignees(issue.number, [issueService.user])
+                                                .then(res => {
+                                                    issue.assignees = issue.assignees.concat(res.data.assignees);
+                                                });
+                                        }}/>
                                         <input type="button" className="btn btn-small" value="Assign someone"/>
                                         </div>
                                     </div>
 
                                     <p><b>Date created:</b><br/>
-                                    {createdDate}
+                                    {issue.created_at}
                                     </p><br/>
                                     <p><b>Last updated:</b><br/>
-                                    {updatedDate}
+                                    {issue.updated_at}
                                     </p>
                                     <br/>
                                     <input type="button" className="btn btn-small red" value="Close issue" onClick={() => {
-                                    issueService.closeIssue(selectedIssue.number).then(res => {
+                                    issueService.closeIssue(issue.number).then(res => {
                                         alert("Issue closed");
                                         history.push("/");
                                         removeHandler(res.data);
@@ -149,7 +156,7 @@ export function IssueView({title, body, assign, label, issue, issueNumber, remov
                         </div>
                         <div className="divider"></div>
                         <div className="">
-                            <CommentField issueId={selectedIssue.issueId}/>
+                            <CommentField issueId={issue.number}/>
                         </div>
                     </Card>
             </div>

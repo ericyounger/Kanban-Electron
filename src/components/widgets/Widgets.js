@@ -86,7 +86,7 @@ export function Chip({image, type, color}){
     },[]);
 
             return (
-                <div className="chip black-text" id={type.replace(/ /g,'')}>
+                <div className="chip black-text" id={type}>
                     <img src={image} alt=""/>
                         {type}
                     <i className="close material-icons">close</i>

@@ -29,6 +29,7 @@ export function Dashboard(){
 
     }, []);
 
+
     const onRangeChange = useEffect(() => {
         let label = document.querySelectorAll(".label-width");
         if (label != null) {

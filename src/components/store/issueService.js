@@ -45,7 +45,8 @@ class IssueService {
 
 		Axios.get('https://api.github.com/user?access_token=' + this.token)
 			.then(response => {
-				this.userAvatar = 'https://avatars.githubusercontent.com/' + response.data.login + ".png";
+				console.log(response.data.login);
+				this.userAvatar = 'https://avatars.githubusercontent.com/' + response.data.login;
 				this.user = response.data.login;
 				console.log(response);
 				callback();
@@ -65,7 +66,7 @@ class IssueService {
 	storeAllIssues(callback) {
 		//TODO: get methods do not filter out closed or open
 		Axios.get(
-			`https://api.github.com/repos/${this.user}/${this.repo}/issues?state=all`
+			`https://api.github.com/repos/${this.user}/${this.repo}/issues?state=open`
 		).then(res => {
 			this.allIssues = res.data;
 			callback();
@@ -171,11 +172,11 @@ class IssueService {
 			Authorization: `bearer ${this.token}`
 		};
 
-		Axios.patch(
+		return Axios.patch(
 			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`,
 			json,
 			{ headers: headers }
-		).then(res => console.log(res));
+		);
 	}
 
 	postComment(json, issueID) {

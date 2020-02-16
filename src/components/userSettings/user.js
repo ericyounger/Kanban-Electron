@@ -25,7 +25,7 @@ function UserSetting({logOut}){
                             </div>
 
                             <div className="col l2">
-                                {userImage}
+                                <img src={userImage}  width={200}/>
                             </div>
                         </div>
 

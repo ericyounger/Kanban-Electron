@@ -46,7 +46,10 @@ export function Sidebar(){
 					>
 
 						<li key={e.name+index} className="collection-item grey darken-2">
+
 							{e.name}
+							{index%3 === 0?<span className="new badge">1</span>:<span className="badge">1</span>}
+
 						</li>
 					</NavLink>
 					)}
