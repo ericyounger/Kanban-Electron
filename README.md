@@ -1,5 +1,5 @@
 # Still working on this, not complete at all.
-## This will not work for others than me at the time, oAuth requires the use of a server to handshake with, i am only working with localhost server, until deploy it.
+## Cloning and running this project will not work for others than me at this time, oAuth requires the use of a server to handshake with, and i am only working with a localhost server, limited functionality until i deploy the server.
 
 ## Status:
 - [x] Integrate React with Electron
