@@ -1,7 +1,7 @@
 # Still working on this, not complete at all.
 ## Cloning and running this project will not work for others than me at this time, oAuth requires the use of a server to handshake with, and i am only working with a localhost server, limited functionality until i deploy the server.
 
-## Status:
+## Status for version 1.0 in no particular order:
 - [x] Integrate React with Electron
 - [x] Setup core layout
 - [x] Get methods to pull needed information from API
@@ -23,6 +23,15 @@
 - [ ] Restructure project from prototype
 - [ ] Fix oAuth scope permission on deployment
 - [x] clean up url after callback oAuth
+- [ ] Automatic build and deployment with badges on github readme
+
+## Possible extensions for version 1.01:
+* Custom issue boards for user
+* Realtime issue tracking on dashboard
+* Chat with team members
+* Search/filter for specific issue
+* Implement milestones
+
 
 
 
