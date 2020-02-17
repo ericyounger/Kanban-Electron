@@ -12,23 +12,20 @@ import {LoadingContent} from "../widgets/Widgets";
  * Dashboard is the landing page when logged in, and displays all issues with labels categorised.
  */
 
-export function Dashboard(){
-    const [issues, setIssues] = useState([]);
+export function Dashboard({issues, updateIssues}){
+
     const [labels, setLabels] = useState([]);
     const [display, setDisplayMode] = useState("slide");
     const [hideShow, setHideShow] = useState("Hide empty");
     const [labelSize, setLabelSize] = useState(200);
 
     const onLoad = useEffect(() => {
-        issueService.storeAllIssues(() => {
-            setIssues(issueService.allIssues);
-        });
         issueService.storeAllLabels(() => setLabels(issueService.allLabels));
-        setIssues(issueService.allIssues);
-        
-
     }, []);
 
+    const onIssueChange = useEffect(() => {
+        updateIssues();
+    }, [issues]);
 
     const onRangeChange = useEffect(() => {
         let label = document.querySelectorAll(".label-width");

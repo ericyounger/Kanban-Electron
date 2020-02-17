@@ -21,9 +21,29 @@ function App(){
 	const [issues, setIssues] = useState([]);
 	const [labels, setLabels] = useState([]);
 
-	const onLoad = useEffect(() => {
 
-	},[]);
+	function updateIssues() {
+		setIssues(issueService.allIssues);
+	}
+
+	function addIssue(json){
+		issueService.postIssue(json).then(res => {
+			alert("Issue has been posted");
+			issueService.allIssues.push(res.data);
+			updateIssues();
+		}).catch(e => {
+			alert("Something went wrong");
+			console.log(e);
+		});
+	}
+
+	function closeIssue(json){
+		let oldIssue = issueService.allIssues.filter(e => e.id === json.id);
+		let index = issueService.allIssues.indexOf(oldIssue[0]);
+		console.log(issueService.allIssues.splice(index, 1));
+		updateIssues();
+	}
+
 
 	if(loggedIn){
 		return (
@@ -39,21 +59,12 @@ function App(){
 						<Route
 							exact
 							path="/"
-							component={() => <Content page={<Dashboard issues={issues} />}/>}
+							component={() => <Content page={<Dashboard issues={issues}  updateIssues={updateIssues}/>}/>}
 						/>
 
 						<Route
 							exact path="/add"
-							component={() => <SmallContent page={<Add addHandler={(json) => {
-								issueService.postIssue(json).then(res => {
-									alert("Issue has been posted");
-									issueService.allIssues.push(res.data);
-									setIssues(issueService.allIssues);
-								}).catch(e => {
-									alert("Something went wrong");
-									console.log(e);
-								});
-							}}
+							component={() => <SmallContent page={<Add addHandler={(json) => addIssue(json)}
 						  	title={"Post new issue"}/>}/>}
 						/>
 
@@ -65,7 +76,7 @@ function App(){
 						{labels.map(e =>
 							<Route
 								exact path={"/"+e.id}
-								component={() => <Content page={<IssueContent category={e.name} color={e.color} />
+								component={() => <Content page={<IssueContent category={e.name} color={e.color} issues={issues} />
 								}/>}
 
 							/>
@@ -73,19 +84,14 @@ function App(){
 
 						<Route
 							exact path="/0"
-							component={() => <Content page={<IssueContent category={"unlabeled"} color={"FF7F00"} />}/>}
+							component={() => <Content page={<IssueContent category={"unlabeled"} color={"FF7F00"} issues={issues}/>}/>}
 						/>
 
 						{issues.map(issue =>
 
 							<Route
 								exact path={"/issue/"+issue.number}
-								component={() => <Content page={<IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} removeHandler={() => {
-									let oldIssue = issueService.allIssues.filter(e => e.id === issue.id);
-									let index = issueService.allIssues.indexOf(oldIssue[0]);
-									issueService.allIssues.splice(index, 1, issue);
-									setIssues(issueService.allIssues);
-								}}
+								component={() => <Content page={<IssueView issue={issue} updateIssues={updateIssues} removeHandler={closeIssue}
 							   	issueNumber={issue.number}/>}/>}
 							/>
 						)}

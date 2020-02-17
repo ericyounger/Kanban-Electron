@@ -76,12 +76,12 @@ export function Add({title, addHandler}){
  * @function IssueView
  * IssueView is for display all information about a specific issue
  */
-export function IssueView({title, body, assign, label, issue, issueNumber, removeHandler}){
+export function IssueView({issue, removeHandler, updateIssues}){
     /* <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} removeHandler={this.removeHandler} issueNumber={issue.number} */
 
     const [createdDate, setCreatedDate] = useState("");
     const [updatedDate, setUpdatedDate] = useState("");
-    const [labels, setLabels] = useState([label]);
+    const [labels, setLabels] = useState([issue.label]);
 
     console.log(issue);
     const onLoad = useEffect(() => {
@@ -89,65 +89,33 @@ export function IssueView({title, body, assign, label, issue, issueNumber, remov
 
     }, [issue]);
 
+    function closeIssue(){
+        issueService.closeIssue(issue.number).then(res => {
+            alert("Issue closed");
+            history.push("/");
+            removeHandler(res.data);
+        }).catch(req => alert("Something went wrong"));
+    }
+
+    function assignMe(){
+        issueService.addAssignees(issue.number, [issueService.user])
+            .then(res => {
+                issue.assignees = issue.assignees.concat(res.data.assignees);
+                updateIssues();
+            });
+    }
+
         return(
             <div className="">
-                    <Card title={title} type="simple">
+                    <Card title={issue.title} type="simple">
                         <div className="row">
                             <div className="col l9">
                                 <div className="divider"> </div>
-                            {body}
+                            {issue.body}
                             <br/>
                             </div>
                             <div className="col l3">
-                                <div className="card-panel teal lighten-5 ">
-                                    <span className="bold">Labels:</span>
-                                    <p>
-                                    {label.map(label =>
-                                        <Label type={label.name} color={label.color} close={true} removeLabel={() => {
-                                            let labelsRemaining = [];
-                                             label.filter(e => e.name !== label.name).map(label => labelsRemaining.push(label.name));
-                                             issueService.removeLabel(issue.issueId, labelsRemaining);
-                                        }}/>
-                                        )}
-                                        <input type="button" className="btn btn-small" value="Add label"/>
-                                    </p><br/>
-                                    <span className="bold">Assigned</span>
-                                    <div className="row">
-
-
-                                        {issue.assignees.length !== 0 ? issue.assignees.map(issue =>
-                                            <div className="addForm">
-                                                <Chip type={issue.login} image={issue.avatar_url}/>
-                                            </div>
-                                        ):<div className="addForm">{"No one assigned"}</div>}
-
-
-                                        <div className="addForm">
-                                        <input type="button" className="btn btn-small" value="Assign me" onClick={() => {
-                                            issueService.addAssignees(issue.number, [issueService.user])
-                                                .then(res => {
-                                                    issue.assignees = issue.assignees.concat(res.data.assignees);
-                                                });
-                                        }}/>
-                                        <input type="button" className="btn btn-small" value="Assign someone"/>
-                                        </div>
-                                    </div>
-
-                                    <p><b>Date created:</b><br/>
-                                    {issue.created_at}
-                                    </p><br/>
-                                    <p><b>Last updated:</b><br/>
-                                    {issue.updated_at}
-                                    </p>
-                                    <br/>
-                                    <input type="button" className="btn btn-small red" value="Close issue" onClick={() => {
-                                    issueService.closeIssue(issue.number).then(res => {
-                                        alert("Issue closed");
-                                        history.push("/");
-                                        removeHandler(res.data);
-                                    }).catch(req => console.log(req));
-                                    }}/>
-                                </div>
+                              <IssueControlPanel issue={issue} assignMe={assignMe} closeIssue={closeIssue}/>
                             </div>
                         </div>
                         <div className="">
@@ -161,4 +129,47 @@ export function IssueView({title, body, assign, label, issue, issueNumber, remov
                     </Card>
             </div>
         )
+}
+
+function IssueControlPanel({issue, assignMe, closeIssue}){
+    return(
+        <div className="card-panel teal lighten-5 ">
+            <span className="bold">Labels:</span>
+            <p>
+                {issue.labels.map(label =>
+                    <Label type={label.name} color={label.color} close={true} removeLabel={() => {
+                        let labelsRemaining = [];
+                        label.filter(e => e.name !== label.name).map(label => labelsRemaining.push(label.name));
+                        issueService.removeLabel(issue.issueId, labelsRemaining);
+                    }}/>
+                )}
+                <input type="button" className="btn btn-small" value="Add label"/>
+            </p><br/>
+            <span className="bold">Assigned</span>
+            <div className="row">
+
+
+                {issue.assignees.length !== 0 ? issue.assignees.map(issue =>
+                    <div className="addForm">
+                        <Chip type={issue.login} image={issue.avatar_url}/>
+                    </div>
+                ):<div className="addForm">{"No one assigned"}</div>}
+
+
+                <div className="addForm">
+                    <input type="button" className="btn btn-small" value="Assign me" onClick={assignMe}/>
+                    <input type="button" className="btn btn-small" value="Assign someone"/>
+                </div>
+            </div>
+
+            <p><b>Date created:</b><br/>
+                {issue.created_at}
+            </p><br/>
+            <p><b>Last updated:</b><br/>
+                {issue.updated_at}
+            </p>
+            <br/>
+            <input type="button" className="btn btn-small red" value="Close issue" onClick={closeIssue}/>
+        </div>
+    )
 }
