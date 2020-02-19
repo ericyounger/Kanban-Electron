@@ -24,6 +24,7 @@
 - [ ] Fix oAuth scope permission on deployment
 - [x] clean up url after callback oAuth
 - [ ] Automatic build and deployment with badges on github readme
+- [ ] Integrate Passport.js for oAuth instead of own solution
 
 ## Possible extensions for version 1.01:
 * Custom issue boards for user
