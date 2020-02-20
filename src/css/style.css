@@ -1,8 +1,6 @@
 
 /* Global settings */
 
-
-
 .w-100{
     width: 100%;
 }
@@ -212,7 +210,7 @@ a {
     height: 100vh;
     overflow-y: hidden;
 
-    width: 250px;
+    width: 230px;
     float: left;
     background: rgb(74,84,93);
 }
@@ -222,7 +220,7 @@ a {
 }
 
 .contentMain{
-    width: calc(100% - 250px);
+    width: calc(100% - 230px);
     float: left;
 }
 

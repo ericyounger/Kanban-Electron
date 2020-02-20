@@ -12,15 +12,27 @@ let history = createHashHistory();
  * CommentField is the parent component of the comments, it both shows submitted comments, and also holds the
  * input form for submitting new comments
  */
-export function CommentField({ issueId, }) {
+export function CommentField({ issueId, updateIssues }) {
     const [comments, setComments] = useState([]);
     const [newComment, setCommentInput] = useState("");
+
     const onLoad = useEffect(() => {
-
         issueService.getAllCommentsPerIssue(issueId).then(res => setComments(res.data));
-
     }, []);
 
+    const onNewIssue = useEffect(() => {
+    },[comments]);
+
+    function addComment(){
+        let json = {
+            body: newComment
+        };
+
+        issueService.postComment(json, issueId).then(response => {
+            setComments([...comments, response.data]);
+            setCommentInput("");
+        });
+    }
     return (
         <div className="addForm">
             {comments.length > 0 ? comments.map(comment =>
@@ -31,14 +43,7 @@ export function CommentField({ issueId, }) {
 
             </textarea>
 
-            <button className="btn teal" onClick={() => {
-                let json = {
-                    body: this.state.newComment
-                };
-
-                issueService.postComment(json, this.props.issueId);
-
-            }}>Comment</button>
+            <button className="btn teal" onClick={addComment}>Comment</button>
         </div>
     )
 }

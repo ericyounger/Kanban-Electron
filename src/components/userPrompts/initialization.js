@@ -81,6 +81,7 @@ export function Callback(){
     const onLoad = useEffect(() => {
         let code = window.location.href.match(/\?code=(.{20})/)[1];
         issueService.getAuthToken(code);
+
     }, []);
 
     return(
@@ -92,6 +93,19 @@ export function Callback(){
 
 export function AuthorizationInput() {
 
+
+
+
+							    /*
+							    	onClick={() => {
+                                window.location.assign(
+                                    "https://github.com/login/oauth/authorize?client_id=ee428610bc357f539e6d&scope=repo read:user&redirect_uri=http://localhost:3000/#/authorization/callback"
+                                )
+
+							     */
+
+
+
     return (
 			<div>
 				<div className="card">
@@ -101,16 +115,11 @@ export function AuthorizationInput() {
 							src="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
 							width={400}
 						/>
-						<button
-							className="btn"
-							onClick={() =>
-								window.location.assign(
-									"https://github.com/login/oauth/authorize?client_id=ee428610bc357f539e6d&scope=repo read:user&redirect_uri=http://localhost:3000/#/authorization/callback"
-								)
-							}
-						>
+						<a href={"http://localhost:8080/authorization/github"}>
+						<button className="btn">
 							Connect
 						</button>
+                        </a>
 					</div>
 				</div>
 			</div>

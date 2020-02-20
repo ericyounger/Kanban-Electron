@@ -7,12 +7,12 @@ import {Dashboard} from './components/dashboard/dashboard';
 import UserSetting from "./components/userSettings/user";
 import {Content, SmallContent, IssueContent} from './components/containers/contentContainers'
 import "./css/materialize.min.css";
-import "./css/style.css";
+import "./css/style.scss";
 import {UserNameInput, RepoSelection, AuthorizationInput, Callback} from './components/userPrompts/initialization';
 
 /**
- * @class App
- * @classdesc App is the uppermost parent that holds all components and also handles the navlink with hashroutes.
+ * @component App
+ *  App is the uppermost parent that holds all components and also handles the navlink with hashroutes.
  */
 
 
@@ -22,15 +22,21 @@ function App(){
 	const [labels, setLabels] = useState([]);
 
 
+
 	function updateIssues() {
 		setIssues(issueService.allIssues);
 	}
 
 	function addIssue(json){
+
 		issueService.postIssue(json).then(res => {
 			alert("Issue has been posted");
 			issueService.allIssues.push(res.data);
-			updateIssues();
+			setTimeout(() => {
+				updateIssues();
+				console.log("update issues");
+			},100);
+
 		}).catch(e => {
 			alert("Something went wrong");
 			console.log(e);
@@ -65,7 +71,9 @@ function App(){
 						<Route
 							exact path="/add"
 							component={() => <SmallContent page={<Add addHandler={(json) => addIssue(json)}
-						  	title={"Post new issue"}/>}/>}
+						  	title={"Post new issue"}
+						  	updateIssues={updateIssues}
+							/>}/>}
 						/>
 
 						<Route

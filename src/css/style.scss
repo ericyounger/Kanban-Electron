@@ -1,0 +1,335 @@
+/* Variables */
+
+//Dark mode colors
+$dark_primary_color: white;
+$dark_secondary_color: #00b8d4;
+$dark_tertiary_color : teal;
+$dark_label_text_primary: black;
+$dark_sidebar_background: rgb(74,84,93);
+$dark_body_background : #3e3e3e;
+$dark_filter_bar : #424242;
+$dark_sidebar_link_hover : #424242;
+$dark_filter_bar_icon_color : white;
+$dark_filter_bar_icon_color_hover : #00b8d4;
+$card_content_background : white;
+
+
+/* Global settings */
+.w-100{
+  width: 100%;
+}
+
+.padding-bottom-50{
+  padding-bottom: 50px;
+}
+
+.row .col{
+  padding: 0 !important;
+}
+
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right{
+  text-align: right;
+}
+
+body{
+  background: $dark_body_background;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.font12{
+  font-size: 12pt !important;
+}
+
+a {
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.margin-15{
+  margin:15px;
+}
+
+.margin-bottom-30{
+  margin-bottom: 30px;
+}
+
+.margin-right-15{
+  margin-right: 15px;
+}
+
+.margin-top-30{
+  margin-top:30px;
+}
+
+.padding-right-15{
+  padding-right: 15px;
+}
+
+.width-90{
+  width: 90%;
+}
+
+.width-70{
+  width: 70%;
+}
+
+.width-50{
+  width: 70%;
+}
+
+.width-30{
+  width: 30%;
+}
+
+/* Content */
+
+
+.content{
+  width: 100%;
+  height: 100vh;
+
+  padding: 0 2px 50px 15px;
+  overflow: scroll;
+}
+
+.filter-bar{
+  position: fixed;
+  float: left;
+  width: 100%;
+  text-align: right;
+  bottom: 0px;
+  margin-left: -15px;
+  background: $dark_filter_bar;
+  padding: 5px 5px 5px 10px;
+  border-top: 1px solid lightslategray;
+}
+
+.flex{
+  display: flex;
+  overflow: hidden;
+  width: fit-content;
+}
+
+
+.label-width{
+  width: 200px;
+  -webkit-user-select: none;
+}
+
+.user-avatar{
+  color: $dark_primary_color;
+  text-align: center;
+  width: fit-content;
+  margin: 50px auto;
+}
+
+.wrapper{
+  width:100%;
+
+}
+
+.user {
+
+}
+
+.user:hover{
+  color: #00b8d4;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.user-avatar img{
+  object-fit: cover;
+  border-radius: 50%;
+  height: 75px;
+  width: 75px;
+}
+
+.range-field{
+  height: 20px !important;
+  float: top !important;
+  position: absolute;
+  bottom: 12px;
+  left:200px;
+
+}
+
+.add{
+  text-align: center;
+  color: $dark_primary_color;
+  cursor: pointer;
+  font-size: 14pt;
+}
+
+.addForm{
+  padding:10px;
+}
+
+.addForm textarea{
+  height: 250px;
+  border:1px solid grey;
+  padding:10px;
+  margin-top: 15px;
+}
+
+.addForm select{
+  margin-bottom: 15px;
+}
+
+.addForm textarea:focus{
+  outline:2px solid $dark_tertiary_color;
+
+}
+
+.login-form{
+  width: 500px;
+  margin:20vh auto;
+}
+
+.login-form .card{
+  margin:0 !important;
+
+}
+
+/* Sidebar */
+.sidebar ul{
+  margin: 0 !important;
+  padding: 0 !important;
+  border:0;
+  zoom:95%;
+}
+
+
+.sidebar{
+  height: 100vh;
+  overflow-y: hidden;
+  width: 230px;
+  float: left;
+  background: $dark_sidebar_background;
+}
+
+.sidebar a{
+  color:$dark_primary_color;
+}
+
+.contentMain{
+  width: calc(100% - 230px);
+  float: left;
+}
+
+.smallContent{
+  max-width: 700px;
+  margin: 10px 0 0 20px;
+}
+
+.sidebar li:hover{
+  background: $dark_sidebar_link_hover !important;
+}
+
+.sidebar li{
+  font-size:12px;
+  white-space: normal;
+  padding-left: 0px;
+}
+
+.sidebar a:active{
+  border:1px solid black;
+}
+
+.header-drag{
+  position: fixed;
+  -webkit-app-region: drag;
+  width: 100%;
+  -webkit-user-select: none;
+  height: 30px;
+  z-index: 9999;
+  top: 0;
+
+}
+
+.logo{
+  background-image: url("../images/logo.png");
+  background-size: contain;
+  object-fit: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height:130px;
+  margin-bottom: 50px;
+}
+
+
+
+
+/* Widgets */
+
+.filter-icon{
+  color: $dark_filter_bar_icon_color;
+}
+
+.filter-icon:hover{
+  color: $dark_filter_bar_icon_color_hover;
+}
+
+.btn{
+  margin-top:10px;
+}
+
+.card-content{
+  overflow:hidden;
+  background: $card_content_background;
+}
+
+.center-progress{
+  margin:0 auto;
+  width: 70%;
+  text-align: center;
+  color: $dark_primary_color;
+  margin-top:40vh;
+}
+
+.material-icons{
+  display: inline-flex;
+  vertical-align: top;
+}
+
+.card{
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.issueview .divider{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.avatar-comments{
+  border-radius: 100px;
+  padding:10px;
+  height: 75px;
+}
+
+.fixed-bottom{
+  position: relative;
+  bottom:100px;
+}

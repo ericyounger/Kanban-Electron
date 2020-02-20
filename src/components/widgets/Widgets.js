@@ -72,7 +72,7 @@ const onLoad = useEffect(() => {
  * @function Chip
  * Chip is the component used for showing assignees on a issue
  */
-export function Chip({image, type, color}){
+export function Chip({image, type, color, unassignMe}){
     const [labelColor, setLabelColor] = useState("");
 
     const onLoad = useEffect(() => {
@@ -89,7 +89,7 @@ export function Chip({image, type, color}){
                 <div className="chip black-text" id={type}>
                     <img src={image} alt=""/>
                         {type}
-                    <i className="close material-icons">close</i>
+                    <i className="close material-icons" onClick={unassignMe}>close</i>
                 </div>
             )
 

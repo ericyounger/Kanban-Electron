@@ -77,8 +77,6 @@ export function Add({title, addHandler}){
  * IssueView is for display all information about a specific issue
  */
 export function IssueView({issue, removeHandler, updateIssues}){
-    /* <IssueView title={issue.title} body={issue.body} assign={issue.assignees} label={issue.labels} issue={issue} removeHandler={this.removeHandler} issueNumber={issue.number} */
-
     const [createdDate, setCreatedDate] = useState("");
     const [updatedDate, setUpdatedDate] = useState("");
     const [labels, setLabels] = useState([issue.label]);
@@ -86,7 +84,7 @@ export function IssueView({issue, removeHandler, updateIssues}){
     console.log(issue);
     const onLoad = useEffect(() => {
         //TODO: Restructure into smaller components.
-
+        console.log("Refresh issue");
     }, [issue]);
 
     function closeIssue(){
@@ -101,8 +99,37 @@ export function IssueView({issue, removeHandler, updateIssues}){
         issueService.addAssignees(issue.number, [issueService.user])
             .then(res => {
                 issue.assignees = issue.assignees.concat(res.data.assignees);
+                let newIssue = issue;
+                issueService.allIssues = issueService.allIssues.filter(e => e.number !== issue.number);
+                issueService.allIssues.push(newIssue);
                 updateIssues();
             });
+    }
+
+    function unassignMe(){
+        let index = issue.assignees.indexOf(issueService.user);
+        issue.assignees.splice(index,1);
+        let newIssue = issue;
+        issueService.allIssues = issueService.allIssues.filter(e => e.number !== issue.number);
+        issueService.allIssues.push(newIssue);
+        updateIssues();
+
+
+
+        issueService.removeAssignes(issue.number, issue.assignees).then(res => {
+
+        }).catch(reject => console.log(reject));
+    }
+
+    function removeLabel(labelToRemove, issue){
+        let index = issue.labels.indexOf(labelToRemove);
+        issue.labels.splice(index, 1);
+        let newIssue = issue;
+        issueService.allIssues = issueService.allIssues.filter(e => e.number !== issue.number);
+        issueService.allIssues.push(newIssue);
+        updateIssues();
+
+        issueService.removeLabel(issue.number, issue.labels).then(res => console.log(res)).catch(rej => console.log(rej));
     }
 
         return(
@@ -115,7 +142,7 @@ export function IssueView({issue, removeHandler, updateIssues}){
                             <br/>
                             </div>
                             <div className="col l3">
-                              <IssueControlPanel issue={issue} assignMe={assignMe} closeIssue={closeIssue}/>
+                              <IssueControlPanel issue={issue} assignMe={assignMe} closeIssue={closeIssue} unassignMe={unassignMe} removeLabel={removeLabel}/>
                             </div>
                         </div>
                         <div className="">
@@ -131,16 +158,15 @@ export function IssueView({issue, removeHandler, updateIssues}){
         )
 }
 
-function IssueControlPanel({issue, assignMe, closeIssue}){
+function IssueControlPanel({issue, assignMe, closeIssue, unassignMe, removeLabel}){
+
     return(
         <div className="card-panel teal lighten-5 ">
             <span className="bold">Labels:</span>
             <p>
                 {issue.labels.map(label =>
-                    <Label type={label.name} color={label.color} close={true} removeLabel={() => {
-                        let labelsRemaining = [];
-                        label.filter(e => e.name !== label.name).map(label => labelsRemaining.push(label.name));
-                        issueService.removeLabel(issue.issueId, labelsRemaining);
+                    <Label type={label.name} color={label.color} close={true} removeLabel={(type) => {
+                        removeLabel(type, issue);
                     }}/>
                 )}
                 <input type="button" className="btn btn-small" value="Add label"/>
@@ -151,7 +177,7 @@ function IssueControlPanel({issue, assignMe, closeIssue}){
 
                 {issue.assignees.length !== 0 ? issue.assignees.map(issue =>
                     <div className="addForm">
-                        <Chip type={issue.login} image={issue.avatar_url}/>
+                        <Chip type={issue.login} image={issue.avatar_url} unassignMe={unassignMe}/>
                     </div>
                 ):<div className="addForm">{"No one assigned"}</div>}
 
@@ -163,10 +189,10 @@ function IssueControlPanel({issue, assignMe, closeIssue}){
             </div>
 
             <p><b>Date created:</b><br/>
-                {issue.created_at}
+                {issue.created_at.replace("T", " / ").replace("Z", " ")}
             </p><br/>
             <p><b>Last updated:</b><br/>
-                {issue.updated_at}
+                {issue.updated_at.replace("T", " / ").replace("Z", " ")}
             </p>
             <br/>
             <input type="button" className="btn btn-small red" value="Close issue" onClick={closeIssue}/>

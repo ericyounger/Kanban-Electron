@@ -41,6 +41,7 @@ class IssueService {
 
 
 
+
 	storeAuthenticatedUser(callback) {
 
 		Axios.get('https://api.github.com/user?access_token=' + this.token)
@@ -107,7 +108,7 @@ class IssueService {
 		);
 	}
 
-	closeIssue(issueID) {
+	closeIssue(issueNumber) {
 		const headers = {
 			"Content-Type": "application/json",
 			Accept: "application/vnd.github.v3.raw",
@@ -119,13 +120,13 @@ class IssueService {
 		};
 
 		return Axios.patch(
-			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`,
+			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueNumber}`,
 			json,
 			{ headers: headers }
 		);
 	}
 
-	removeLabel(issueID, list) {
+	removeLabel(issueNumber, list) {
 		let json = {
 			labels: list
 		};
@@ -136,32 +137,14 @@ class IssueService {
 			Authorization: `bearer ${this.token}`
 		};
 
-		Axios.patch(
-			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`,
+		return Axios.patch(
+			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueNumber}`,
 			json,
 			{ headers: headers }
-		).then(res => console.log(res));
+		);
 	}
 
-	removeAssignes(issueID, list) {
-		let json = {
-			assignees: list
-		};
-
-		const headers = {
-			"Content-Type": "application/json",
-			Accept: "application/vnd.github.v3.raw",
-			Authorization: `bearer ${this.token}`
-		};
-
-		Axios.patch(
-			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`,
-			json,
-			{ headers: headers }
-		).then(res => console.log(res));
-	}
-
-	addAssignees(issueID, list) {
+	removeAssignes(issueNumber, list) {
 		let json = {
 			assignees: list
 		};
@@ -173,13 +156,31 @@ class IssueService {
 		};
 
 		return Axios.patch(
-			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}`,
+			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueNumber}`,
 			json,
 			{ headers: headers }
 		);
 	}
 
-	postComment(json, issueID) {
+	addAssignees(issueNumber, list) {
+		let json = {
+			assignees: list
+		};
+
+		const headers = {
+			"Content-Type": "application/json",
+			Accept: "application/vnd.github.v3.raw",
+			Authorization: `bearer ${this.token}`
+		};
+
+		return Axios.patch(
+			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueNumber}`,
+			json,
+			{ headers: headers }
+		);
+	}
+
+	postComment(json, issueNumber) {
 		const headers = {
 			"Content-Type": "application/json",
 			Accept: "application/vnd.github.v3.raw",
@@ -187,7 +188,7 @@ class IssueService {
 		};
 
 		return Axios.post(
-			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueID}/comments`,
+			`https://api.github.com/repos/${this.user}/${this.repo}/issues/${issueNumber}/comments`,
 			json,
 			{ headers: headers }
 		);
