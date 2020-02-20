@@ -1,5 +1,5 @@
-/* Variables */
 
+/* Variables */
 //Dark mode colors
 $dark_primary_color: white;
 $dark_secondary_color: #00b8d4;
@@ -26,7 +26,6 @@ $card_content_background : white;
 .row .col{
   padding: 0 !important;
 }
-
 
 .text-left {
   text-align: left;
@@ -97,12 +96,9 @@ a {
 }
 
 /* Content */
-
-
 .content{
   width: 100%;
   height: 100vh;
-
   padding: 0 2px 50px 15px;
   overflow: scroll;
 }
@@ -125,7 +121,6 @@ a {
   width: fit-content;
 }
 
-
 .label-width{
   width: 200px;
   -webkit-user-select: none;
@@ -143,12 +138,8 @@ a {
 
 }
 
-.user {
-
-}
-
 .user:hover{
-  color: #00b8d4;
+  color: $dark_secondary_color;
   cursor: pointer;
 }
 
@@ -199,7 +190,6 @@ a {
 
 .addForm textarea:focus{
   outline:2px solid $dark_tertiary_color;
-
 }
 
 .login-form{
@@ -219,7 +209,6 @@ a {
   border:0;
   zoom:95%;
 }
-
 
 .sidebar{
   height: 100vh;
@@ -278,11 +267,7 @@ a {
   margin-bottom: 50px;
 }
 
-
-
-
 /* Widgets */
-
 .filter-icon{
   color: $dark_filter_bar_icon_color;
 }
